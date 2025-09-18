@@ -1,5 +1,3 @@
-[CONTRIBUTING.md](https://github.com/user-attachments/files/22415303/CONTRIBUTING.md)
-<!-- omit in toc -->
 # Contributing to arc - autonomous robotics carleton
 
 First off, thanks for taking the time to contribute! ❤️
