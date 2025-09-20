@@ -19,6 +19,13 @@ All types of contributions are encouraged and valued. See the [Table of Contents
   - [Reporting Bugs](#reporting-bugs)
   - [Suggesting Enhancements](#suggesting-enhancements)
   - [Your First Code Contribution](#your-first-code-contribution)
+    - [Prerequisites](#prerequisites)
+    - [Fork and clone the repository](#fork-and-clone-the-repository)
+    - [Install the docs site and run it locally](#install-the-docs-site-and-run-it-locally)
+    - [Create a branch and make changes](#create-a-branch-and-make-changes)
+    - [Test and format your work](#test-and-format-your-work)
+    - [Commit and push your changes](#commit-and-push-your-changes)
+    - [Open a pull request](#open-a-pull-request)
   - [Improving The Documentation](#improving-the-documentation)
 - [Styleguides](#styleguides)
   - [Commit Messages](#commit-messages)
@@ -133,22 +140,128 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/Autono
 <!-- You might want to create an issue template for enhancement suggestions that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->
 
 ### Your First Code Contribution
-<!-- TODO
-include Setup of env, IDE and typical getting started instructions?
 
--->
+Getting your first change into an open-source project can feel intimidating, so we broke the process down into friendly, bite-sized steps. Follow them in order and you will go from zero to opening a pull request in no time.
+
+#### Prerequisites
+
+- Install [Git](https://git-scm.com/downloads). The installer on each platform gives you everything you need.
+- Install [Node.js](https://nodejs.org/en/download) **LTS (20.x)**, which also installs `npm`. This version works with the Next.js docs site that lives in the `2025/` folder.
+- Create a free [GitHub account](https://github.com/signup) if you do not already have one.
+
+> 💡 Tip: You can confirm the installations with `git --version` and `node --version` in a terminal.
+
+#### Fork and clone the repository
+
+1. Visit the [arc-docs repository](https://github.com/Autonomous-Robotics-Carleton/arc-docs) and click **Fork** in the top-right corner. GitHub creates a personal copy under your account.
+2. On your fork, click the green **Code** button, copy the HTTPS URL, then open a terminal on your computer and run:
+   ```bash
+   git clone https://github.com/<your-username>/arc-docs.git
+   cd arc-docs
+   ```
+3. Add the original repository as a new remote named `upstream` so you can pull future updates:
+   ```bash
+   git remote add upstream https://github.com/Autonomous-Robotics-Carleton/arc-docs.git
+   ```
+4. Whenever you start new work, sync your fork by running:
+   ```bash
+   git checkout main
+   git fetch upstream
+   git merge upstream/main
+   git push origin main
+   ```
+
+#### Install the docs site and run it locally
+
+The documentation site is a Next.js project stored in the `2025/` directory. npm manages its dependencies and build commands.
+
+1. Move into the project folder and install the packages once:
+   ```bash
+   cd 2025
+   npm install
+   ```
+2. Start the development server so you can preview your edits live:
+   ```bash
+   npm run dev
+   ```
+   Open http://localhost:3000 in your browser. The page reloads automatically when you save changes. Stop the server with <kbd>Ctrl</kbd>+<kbd>C</kbd> when you are done.
+3. To create a production build (the same output that is deployed), run:
+   ```bash
+   npm run build
+   npm run start
+   ```
+   `npm run build` checks that the project can be deployed successfully, and `npm run start` serves the built site for a final manual review.
+
+> 📦 If you only want to update Markdown files, you still need to run `npm install` the first time so linting and preview commands work.
+
+#### Create a branch and make changes
+
+1. Return to the repository root (`cd ..` if you are inside `2025/`).
+2. Create a descriptive branch based on `main`:
+   ```bash
+   git switch -c docs/update-beginner-guide
+   ```
+   Choose a name that describes your change (for example `fix/typo-in-readme`).
+3. Edit the files you want to improve. Use your favorite editor, keep commits focused, and run the dev server while you work so you can see your updates instantly.
+
+#### Test and format your work
+
+- From inside `2025/`, run `npm run lint` to catch basic formatting issues and `npm run build` to ensure the site can compile.
+- Check `git status` often so you know which files changed.
+- Remove temporary files (editor backups, compiled output) before committing.
+
+#### Commit and push your changes
+
+1. Stage the files you edited from the repository root:
+   ```bash
+   git add path/to/file.md another/file.tsx
+   ```
+2. Create a meaningful commit message that explains **what** you changed:
+   ```bash
+   git commit -m "docs: add beginner-friendly contributing guide"
+   ```
+3. Push the branch to your fork:
+   ```bash
+   git push -u origin docs/update-beginner-guide
+   ```
+
+#### Open a pull request
+
+1. After pushing, GitHub shows a banner on your fork with a **Compare & pull request** button. Click it.
+2. Fill in the pull request form. Describe the problem you solved, how you tested it, and include screenshots when the change affects the UI.
+3. Submit the pull request. A maintainer will review it and may request adjustments. Update your branch locally, push again, and the pull request will refresh automatically.
+
+Celebrate — you just contributed to open source! 🎉
 
 ### Improving The Documentation
-<!-- TODO
-Updating, improving and correcting the documentation
 
--->
+Documentation fixes are always welcome. Here is the quickest path to shipping them:
+
+1. Follow the setup steps above to fork, clone, and install dependencies.
+2. Most docs live inside `2025/content/`. Look for the folder that matches the topic you want to edit. Use Markdown (`.mdx`) syntax for headings, lists, and code blocks.
+3. Run `npm run dev` so you can preview your edits as you write. Keep the browser open to confirm formatting and links.
+4. When you are happy with the result, run `npm run lint` and `npm run build` to ensure the docs compile.
+5. Commit only the files you changed (plus any generated metadata that Next.js requires), then open a pull request describing the update. Mention related issues or conversations so reviewers understand the context.
+
+If you are unsure where a document belongs, open an issue first and we will help you find the best spot.
 
 ## Styleguides
 ### Commit Messages
-<!-- TODO
 
--->
+Clear commit messages help reviewers understand your changes quickly:
+
+- **Use the imperative mood** ("add", "fix", "update") as if you are giving an instruction.
+- **Keep the subject line under 72 characters** so it displays well in tools.
+- **Explain the what and why** in the body if the change is not obvious. Wrap long lines at 80 characters.
+- Optionally use a short prefix such as `docs:` or `fix:` to give instant context.
+
+Example:
+
+```
+docs: add npm deployment steps to contributing guide
+
+Explain what changed and link to any related issues or discussions.
+```
 
 ## Join The Project Team
 <!-- TODO -->
