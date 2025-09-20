@@ -2,6 +2,7 @@
   "title": "Getting Started",
   "pages": [
     "index",
+    "beginner-contributing",
     "test",
     "jetson_discord_notifier",
     "StartVNC_mdx_fixed"
