@@ -1,0 +1,141 @@
+---
+title: Jetson Discord Notifier
+description: This system sends Discord webhook notifications when your NVIDIA Jetson Orin Nano comes online and when someone connects via SSH or VNC (noVNC + X11).
+---
+
+> **⚠️ Warning**  
+> The Discord webhook is **not configured** yet. Set it as soon as possible (see **Maintenance → Edit webhook URL**).
+
+---
+
+## File Locations on the Jetson
+
+- **Main script**  
+  `/opt/jetson-notify/jetson_discord_notify.py`  
+  Monitors events and posts JSON payloads to a Discord webhook.
+
+- **Systemd service file**  
+  `/etc/systemd/system/jetson-discord.service`  
+  Controls auto-start and restart behavior.
+
+---
+
+## How It Works
+
+### Boot Notification
+
+On startup, the script posts:
+
+```
+✅ arc-mobile is online
+```
+
+### SSH Detection
+
+- Tails `/var/log/auth.log` for lines like:
+  ```
+  sshd[1234]: Accepted password for arc from 172.17.xx.xx
+  ```
+- Extracts the client IP and attempts to resolve it to a device name via:
+  - Manual override (`hosts.json`)
+  - mDNS (`avahi-resolve-address`)
+  - `getent hosts`
+  - Reverse DNS (`socket.gethostbyaddr`)
+- Posts to Discord, e.g.:
+  ```
+  🔑 SSH login on arc-mobile from unknown
+  ```
+
+### VNC Detection
+
+- Follows `novnc` journal logs for connection entries like:
+  ```
+  172.17.xx.xx - - [...] Plain non-SSL (ws://) WebSocket connection
+  ```
+- Extracts the client IP and resolves it (same methods as SSH).
+- Posts to Discord when **connected**/**disconnected**:
+  ```
+  🖥️ VNC connected on arc-mobile from unknown
+  🔌 VNC disconnected on arc-mobile
+  ```
+
+---
+
+## Current Limitations
+
+- **Unknown hostnames**  
+  Many clients appear as `unknown` if:
+  - Your LAN/DHCP does not advertise hostnames, or
+  - mDNS / reverse DNS resolution fails.
+
+- **No IP broadcast on boot**  
+  At boot the script only posts “✅ is online”, not the Jetson’s IP.  
+  _Fix idea_: run `hostname -I` and include it in the message.
+
+- **Autostart quirks**  
+  The notifier is controlled by `systemd`. Enable and start it with:
+  ```bash
+  sudo systemctl enable jetson-discord
+  sudo systemctl start jetson-discord
+  ```
+
+---
+
+## Maintenance
+
+Check service status
+```bash
+systemctl status jetson-discord
+```
+
+View live logs
+```bash
+journalctl -u jetson-discord -f
+```
+
+**Edit webhook URL** in the service file:
+
+```bash
+sudo nano /etc/systemd/system/jetson-discord.service
+```
+
+Set the environment line:
+
+```ini
+Environment=DISCORD_WEBHOOK=https://discord.com/api/webhooks/...
+```
+
+Then reload and restart:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart jetson-discord
+```
+
+---
+
+## Example Notifications
+
+### Boot
+```
+✅ arc-mobile is online
+```
+
+### SSH
+```
+🔑 SSH login on arc-mobile from unknown
+```
+
+### VNC
+```
+🖥️ VNC connected on arc-mobile from my-computer
+🔌 VNC disconnected on arc-mobile
+```
+
+---
+
+## Future Improvements
+
+-  Include **Jetson IP address** in the boot notification.
+-  Improve device-name resolution with `/etc/hosts` or a central **`hosts.json`** mapping.
+-  Tie `jetson-discord.service` startup to your **noVNC/X11 stack** so uptime matches VNC availability.
