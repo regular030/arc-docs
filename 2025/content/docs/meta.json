@@ -7,7 +7,4 @@
     "jetson_discord_notifier",
     "StartVNC_mdx_fixed"
   ]
-
-  // ARC: To add a new page, create a .mdx file in content/docs/
-  // and list its name here (without the .mdx extension).
 }
