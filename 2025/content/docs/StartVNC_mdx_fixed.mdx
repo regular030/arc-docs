@@ -1,0 +1,94 @@
+---
+title: Auto-start VNC
+---
+
+This script ensures that whenever a Jetson Orin Nano boots, it automatically brings up:
+
+- **x11vnc** (to mirror the desktop session `:0`)
+- **noVNC** (to expose that session over HTTP so we can connect in a browser)
+
+It waits for **network connectivity** and **Xorg display readiness** before launching, to avoid race conditions during boot.
+
+---
+
+## Location
+
+- **Script file:** `/home/arc/bin/wait_net_start_vnc.sh`  
+- **Logs:** `/home/arc/.local/state/vnc/`  
+- **User context:** Runs as `arc` (hardcoded inside script)
+
+---
+
+
+## How to Run (Manual)
+
+```bash
+/home/arc/bin/wait_net_start_vnc.sh
+```
+
+Check logs:
+```bash
+tail -n 50 /home/arc/.local/state/vnc/*.log
+```
+
+---
+
+## Auto-start on Boot (Crontab Method)
+
+We currently rely on **cron** to launch this script at startup.
+
+1. Edit crontab as `arc`:
+   ```bash
+   crontab -e
+   ```
+
+2. Add:
+   ```
+   @reboot /home/arc/bin/wait_net_start_vnc.sh >>/home/arc/.local/state/vnc/boot.log 2>&1 &
+   ```
+
+3. Reboot and confirm:
+   ```bash
+   ps aux | grep -E 'x11vnc|novnc_proxy'
+   ss -lntp | egrep '(:5900|:6081)'
+   ```
+
+---
+
+## Notes
+
+- **Auto-login:** Ensure `/etc/gdm3/custom.conf` has:
+  ```ini
+  [daemon]
+  AutomaticLoginEnable=true
+  AutomaticLogin=arc
+  WaylandEnable=false
+  ```
+
+---
+
+## Troubleshooting
+
+- Boot log: `/home/arc/.local/state/vnc/boot.log`
+- x11vnc log: `/home/arc/.local/state/vnc/x11vnc.log`
+- noVNC log: `/home/arc/.local/state/vnc/novnc.log`
+
+Check running processes:
+```bash
+ps aux | grep -E 'x11vnc|novnc_proxy'
+```
+
+Check listening ports:
+```bash
+ss -lntp | egrep '(:5900|:6081)'
+```
+
+---
+
+## Issues
+
+- Script works, although program doesn't auto start on startup
+    - Potentially because:
+        - Script doesn't wait properly for the wifi to connect 
+        - Doesn't even attempt to run durring startup
+        - Cron doesn't work properly 
