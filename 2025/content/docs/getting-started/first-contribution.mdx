@@ -1,89 +1,24 @@
 ---
-title: Getting Started
-description: Learn how to fork a repository, work locally with pnpm, and open your first pull request.
+title: First Contribution
+description: Create a branch, run the docs locally, make changes, and commit.
 ---
 
-Contributing to open source can feel intimidating at first. This walkthrough shows every step you need to take to get a project running locally, make a change, and share it back with the community.
-
-## 1. Gather the prerequisites
-
-Before you start, install these tools:
-
-- [Git](https://git-scm.com/downloads) for cloning repositories and tracking your work.
-- [Node.js](https://nodejs.org/) (version 18 or newer is recommended) which includes [pnpm](https://pnpm.io/), the package manager used for JavaScript projects.
-- A code editor you are comfortable with, such as [VS Code](https://code.visualstudio.com/).
-
-After installing Node.js you can verify the tools are available:
-
-```bash
-node --version
-pnpm --version
-git --version
-```
-<Callout>
-We are going to be using `pnpm` for this project instead of `npm` as its faster  
-</Callout>
-
-Seeing version numbers means everything is installed correctly.
-
-## 2. Fork the project on GitHub
-
-1. Open the project repository in your browser.
-2. Select **Fork** in the top-right corner and choose your personal GitHub account.
-3. Wait for GitHub to finish copying the project into your account.
-
-You now have your own copy where you can experiment safely.
-
-## 3. Clone your fork and connect the original project
-
-In your terminal:
-
-```bash
-# Replace <your-username> with your GitHub handle
-git clone https://github.com/<your-username>/arc-docs.git
-cd arc-docs
-```
-
-Next, point your local copy back to the original repository (often called the *upstream* remote):
-
-```bash
-git remote add upstream https://github.com/ArcInstitute/arc-docs.git
-git remote -v
-```
-
-The final command should list both `origin` (your fork) and `upstream` (the main project).
-
-## 4. Install dependencies with pnpm
-
-From inside the project folder, install everything the docs site needs:
-
-```bash
-pnpm install
-```
-
-This downloads packages into a local `node_modules` directory.
-
-If the project stores its docs in a subdirectory (for example, this repository keeps its site in `2025/`), change into that folder and install packages there as well:
-
-```bash
-cd 2025
-pnpm install
-```
-
-> 💡 Some projects prefer `ppnpm` or `yarn`. Always check the repository README or package scripts to confirm which tool to use.
-
-## 5. Create a feature branch
+### Create a feature branch
 
 Keep your changes organized by working on a dedicated branch:
 
 ```bash
-# from the repository root
 git checkout -b docs/beginner-contributing-guide
 ```
-
 Use a short, descriptive name that matches the task you are completing.
 
-## 6. Run the docs locally
+<Callout type="warning">
+  Please name your branch according to the 
+  [branching conventions](/docs/need-to-know/conventional-branch)
+</Callout>
+
+
+### Run the docs locally
 
 Most documentation sites built with Next.js expose a development server script. In this project you can run:
 
@@ -93,7 +28,7 @@ pnpm run dev
 
 The command starts a local server (commonly at `http://localhost:3000`) and automatically reloads when you save files. Explore the site to find the page you want to edit or add.
 
-## 7. Make your changes
+### Make your changes
 
 Now you are ready to update content:
 
@@ -103,7 +38,7 @@ Now you are ready to update content:
 
 For broader changes, remember to update navigation files like `meta.json` so your new page appears in the sidebar.
 
-## 8. Preview and test
+### Preview and test
 
 Before committing, make sure automated checks pass. Documentation-only updates usually need linting:
 
@@ -113,7 +48,7 @@ pnpm run lint
 
 Follow the instructions in the terminal if any issues appear. Some projects also include formatting or unit test commands—run whatever the repository documents in its contributing guide.
 
-## 9. Commit your work
+### Commit your work
 
 Stage the files you changed and create a commit message that explains *why* you made the update:
 
@@ -128,12 +63,12 @@ git commit -m "docs: add beginner contribution guide"
 
 Good commit messages use the imperative voice ("add", "fix", "update") and keep the first line under 72 characters.
 
-<Callout type="error" title="Follow the conventional commit">
+<Callout type="warning" title="Follow the conventional commit">
  Please checkout and follow the correct way to name your commits on the [conventional commit](need-to-know/conventional-commits) page to avoid errors in CI/CD pipelines and keep our git history clean and consistent.  
 </Callout>
 
 
-## 10. Push the branch to your fork
+### Push the branch to your fork
 
 Send your branch to GitHub so you can open a pull request:
 
@@ -143,14 +78,14 @@ git push -u origin docs/beginner-contributing-guide
 
 The `-u` flag tells Git to remember the branch, making future pushes simpler.
 
-## 11. Open a pull request
+### Open a pull request
 
 1. Visit your fork on GitHub.
 2. Click **Compare & pull request** next to your branch.
 3. Fill in the pull request template, summarize your changes, and include screenshots if the docs site changed visually.
 4. Submit the pull request for review.
 
-## 12. Keep your branch up to date
+### Keep your branch up to date
 
 While you wait for feedback, the main project may change. Keep your work current by syncing the latest commits:
 
@@ -164,11 +99,11 @@ git merge main
 
 Resolve any merge conflicts, rerun tests, and push again.
 
-## 13. Respond to review feedback
+### Respond to review feedback
 
 Maintainers may request edits before merging. Address each comment, commit the updates, and push to the same branch. The pull request automatically refreshes.
 
-## 14. Celebrate and continue contributing
+### Celebrate and continue contributing
 
 Once your pull request is merged, GitHub marks the branch as merged and the documentation site will include your changes. You can delete the branch locally and on GitHub:
 
@@ -193,3 +128,7 @@ Keep your fork by running `git pull upstream main` occasionally so you are ready
 - [ ] Sync with upstream if new commits land.
 
 You're now set to grow from your first change to regular contributions. Happy documenting!
+
+<Callout>
+Our code base  is constantly changing and evolving, Keep your fork up-to-date with the main repository with `gh repo sync arc-docs/2025`
+</Callout>
