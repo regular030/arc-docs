@@ -1,6 +1,6 @@
 ---
-title: Beginner Contribution Guide
-description: Learn how to fork a repository, work locally with npm, and open your first pull request.
+title: Getting Started
+description: Learn how to fork a repository, work locally with pnpm, and open your first pull request.
 ---
 
 Contributing to open source can feel intimidating at first. This walkthrough shows every step you need to take to get a project running locally, make a change, and share it back with the community.
@@ -10,16 +10,19 @@ Contributing to open source can feel intimidating at first. This walkthrough sho
 Before you start, install these tools:
 
 - [Git](https://git-scm.com/downloads) for cloning repositories and tracking your work.
-- [Node.js](https://nodejs.org/) (version 18 or newer is recommended) which includes `npm`, the package manager used for JavaScript projects.
+- [Node.js](https://nodejs.org/) (version 18 or newer is recommended) which includes [pnpm](https://pnpm.io/), the package manager used for JavaScript projects.
 - A code editor you are comfortable with, such as [VS Code](https://code.visualstudio.com/).
 
 After installing Node.js you can verify the tools are available:
 
 ```bash
 node --version
-npm --version
+pnpm --version
 git --version
 ```
+<Callout>
+We are going to be using `pnpm` for this project instead of `npm` as its faster  
+</Callout>
 
 Seeing version numbers means everything is installed correctly.
 
@@ -50,12 +53,12 @@ git remote -v
 
 The final command should list both `origin` (your fork) and `upstream` (the main project).
 
-## 4. Install dependencies with npm
+## 4. Install dependencies with pnpm
 
 From inside the project folder, install everything the docs site needs:
 
 ```bash
-npm install
+pnpm install
 ```
 
 This downloads packages into a local `node_modules` directory.
@@ -64,10 +67,10 @@ If the project stores its docs in a subdirectory (for example, this repository k
 
 ```bash
 cd 2025
-npm install
+pnpm install
 ```
 
-> 💡 Some projects prefer `pnpm` or `yarn`. Always check the repository README or package scripts to confirm which tool to use.
+> 💡 Some projects prefer `ppnpm` or `yarn`. Always check the repository README or package scripts to confirm which tool to use.
 
 ## 5. Create a feature branch
 
@@ -85,7 +88,7 @@ Use a short, descriptive name that matches the task you are completing.
 Most documentation sites built with Next.js expose a development server script. In this project you can run:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 The command starts a local server (commonly at `http://localhost:3000`) and automatically reloads when you save files. Explore the site to find the page you want to edit or add.
@@ -105,7 +108,7 @@ For broader changes, remember to update navigation files like `meta.json` so you
 Before committing, make sure automated checks pass. Documentation-only updates usually need linting:
 
 ```bash
-npm run lint
+pnpm run lint
 ```
 
 Follow the instructions in the terminal if any issues appear. Some projects also include formatting or unit test commands—run whatever the repository documents in its contributing guide.
@@ -124,6 +127,11 @@ git commit -m "docs: add beginner contribution guide"
 ```
 
 Good commit messages use the imperative voice ("add", "fix", "update") and keep the first line under 72 characters.
+
+<Callout type="error" title="Follow the conventional commit">
+ Please checkout and follow the correct way to name your commits on the [conventional commit](need-to-know/conventional-commits) page to avoid errors in CI/CD pipelines and keep our git history clean and consistent.  
+</Callout>
+
 
 ## 10. Push the branch to your fork
 

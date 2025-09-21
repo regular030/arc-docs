@@ -1,14 +1,15 @@
 {
+  "root": true,
   "pages": [
     "--- Showcase ---",
     "index",
 
     "--- Contribution Guidelines ---",
     "beginner-contributing",
+    "need-to-know",
     
     "--- Scripts ---",
     "jetson_discord_notifier",
     "StartVNC_mdx_fixed"
-  ],
-  "root": true
+  ]
 }
