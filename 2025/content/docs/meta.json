@@ -1,10 +1,14 @@
 {
-  "title": "Getting Started",
   "pages": [
+    "--- Showcase ---",
     "index",
+
+    "--- Contribution Guidelines ---",
     "beginner-contributing",
-    "test",
+    
+    "--- Scripts ---",
     "jetson_discord_notifier",
     "StartVNC_mdx_fixed"
-  ]
+  ],
+  "root": true
 }
