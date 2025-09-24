@@ -7,6 +7,15 @@
     "--- Contribution Guidelines ---",
     "getting-started",
     "need-to-know",
+
+    "--- Mech Onboarding ---",
+    "fusion-setup",
+
+    "--- ROS tutorials ---",
+    "tutorial-1",
+    "tutorial-2",
+    "tutorial-3",
+
     
     "--- Scripts ---",
     "jetson_discord_notifier",
