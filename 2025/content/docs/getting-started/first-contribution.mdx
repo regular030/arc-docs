@@ -1,0 +1,134 @@
+---
+title: First Contribution
+description: Create a branch, run the docs locally, make changes, and commit.
+---
+
+### Create a feature branch
+
+Keep your changes organized by working on a dedicated branch:
+
+```bash
+git checkout -b docs/beginner-contributing-guide
+```
+Use a short, descriptive name that matches the task you are completing.
+
+<Callout type="warning">
+  Please name your branch according to the 
+  [branching conventions](/docs/need-to-know/conventional-branch)
+</Callout>
+
+
+### Run the docs locally
+
+Most documentation sites built with Next.js expose a development server script. In this project you can run:
+
+```bash
+pnpm run dev
+```
+
+The command starts a local server (commonly at `http://localhost:3000`) and automatically reloads when you save files. Explore the site to find the page you want to edit or add.
+
+### Make your changes
+
+Now you are ready to update content:
+
+1. Create or edit `.mdx` files in `2025/content/docs/`.
+2. Use Markdown headings (`##`) to structure the page and keep paragraphs short.
+3. Save the file and refresh the browser tab to confirm the docs render correctly.
+
+For broader changes, remember to update navigation files like `meta.json` so your new page appears in the sidebar.
+
+### Preview and test
+
+Before committing, make sure automated checks pass. Documentation-only updates usually need linting:
+
+```bash
+pnpm run lint
+```
+
+Follow the instructions in the terminal if any issues appear. Some projects also include formatting or unit test commands—run whatever the repository documents in its contributing guide.
+
+### Commit your work
+
+Stage the files you changed and create a commit message that explains *why* you made the update:
+
+```bash
+git status
+# review the list of files
+
+git add 2025/content/docs/beginner-contributing.mdx 2025/content/docs/meta.json
+
+git commit -m "docs: add beginner contribution guide"
+```
+
+Good commit messages use the imperative voice ("add", "fix", "update") and keep the first line under 72 characters.
+
+<Callout type="warning" title="Follow the conventional commit">
+ Please checkout and follow the correct way to name your commits on the [conventional commit](need-to-know/conventional-commits) page to avoid errors in CI/CD pipelines and keep our git history clean and consistent.  
+</Callout>
+
+
+### Push the branch to your fork
+
+Send your branch to GitHub so you can open a pull request:
+
+```bash
+git push -u origin docs/beginner-contributing-guide
+```
+
+The `-u` flag tells Git to remember the branch, making future pushes simpler.
+
+### Open a pull request
+
+1. Visit your fork on GitHub.
+2. Click **Compare & pull request** next to your branch.
+3. Fill in the pull request template, summarize your changes, and include screenshots if the docs site changed visually.
+4. Submit the pull request for review.
+
+### Keep your branch up to date
+
+While you wait for feedback, the main project may change. Keep your work current by syncing the latest commits:
+
+```bash
+git fetch upstream
+git checkout main
+git pull upstream main
+git checkout docs/beginner-contributing-guide
+git merge main
+```
+
+Resolve any merge conflicts, rerun tests, and push again.
+
+### Respond to review feedback
+
+Maintainers may request edits before merging. Address each comment, commit the updates, and push to the same branch. The pull request automatically refreshes.
+
+### Celebrate and continue contributing
+
+Once your pull request is merged, GitHub marks the branch as merged and the documentation site will include your changes. You can delete the branch locally and on GitHub:
+
+```bash
+git checkout main
+git branch -d docs/beginner-contributing-guide
+git push origin --delete docs/beginner-contributing-guide
+```
+
+Keep your fork by running `git pull upstream main` occasionally so you are ready for your next contribution.
+
+---
+
+### Quick reference checklist
+
+- [ ] Fork the repository and clone your fork.
+- [ ] Add the upstream remote.
+- [ ] Install dependencies with the documented package manager.
+- [ ] Create a branch and run the docs locally.
+- [ ] Make, test, and commit your changes.
+- [ ] Push to your fork and open a pull request.
+- [ ] Sync with upstream if new commits land.
+
+You're now set to grow from your first change to regular contributions. Happy documenting!
+
+<Callout>
+Our code base  is constantly changing and evolving, Keep your fork up-to-date with the main repository with `gh repo sync arc-docs/2025`
+</Callout>

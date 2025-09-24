@@ -1,0 +1,70 @@
+---
+title: Setup & Installation
+description: Install prerequisites, fork the repo, and run the project locally.
+---
+
+## 1. Gather the prerequisites
+
+Install these tools:
+
+- [Git](https://git-scm.com/downloads)
+- [Node.js](https://nodejs.org/) (version 18+ recommended, includes [pnpm](https://pnpm.io/))
+- A code editor like [VS Code](https://code.visualstudio.com/)
+
+Verify installation:
+
+```bash
+node --version
+pnpm --version
+git --version
+```
+
+<Callout> We use `pnpm` instead of `npm` because it is faster and more efficient. </Callout>
+
+Seeing version numbers means everything is installed correctly.
+
+## 2. Fork the project on GitHub
+
+1. Open the project repository in your browser.
+2. Select **Fork** in the top-right corner and choose your personal GitHub account.
+3. Wait for GitHub to finish copying the project into your account.
+
+You now have your own copy where you can experiment safely.
+
+## 3. Clone your fork and connect the original project
+
+In your terminal:
+
+```bash
+# Replace <your-username> with your GitHub handle
+git clone https://github.com/<your-username>/arc-docs.git
+cd arc-docs
+```
+
+Next, point your local copy back to the original repository (often called the *upstream* remote):
+
+```bash
+git remote add upstream https://github.com/ArcInstitute/arc-docs.git
+git remote -v
+```
+
+The final command should list both `origin` (your fork) and `upstream` (the main project).
+
+## 4. Install dependencies with pnpm
+
+From inside the project folder, install everything the docs site needs:
+
+```bash
+pnpm install
+```
+
+This downloads packages into a local `node_modules` directory.
+
+If the project stores its docs in a subdirectory (for example, this repository keeps its site in `2025/`), change into that folder and install packages there as well:
+
+```bash
+cd 2025
+pnpm install
+```
+
+<Callout> Some projects prefer `ppnpm` or `yarn`. Always check the repository README or package scripts to confirm which tool to use. </Callout>
