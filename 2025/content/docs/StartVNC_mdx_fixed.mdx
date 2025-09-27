@@ -82,13 +82,3 @@ Check listening ports:
 ```bash
 ss -lntp | egrep '(:5900|:6081)'
 ```
-
----
-
-## Issues
-
-- Script works, although program doesn't auto start on startup
-    - Potentially because:
-        - Script doesn't wait properly for the wifi to connect 
-        - Doesn't even attempt to run durring startup
-        - Cron doesn't work properly 

@@ -1,141 +1,170 @@
 ---
 title: Jetson Discord Notifier
-description: This system sends Discord webhook notifications when your NVIDIA Jetson Orin Nano comes online and when someone connects via SSH or VNC (noVNC + X11).
 ---
 
-> **⚠️ Warning**  
-> The Discord webhook is **not configured** yet. Set it as soon as possible (see **Maintenance → Edit webhook URL**).
+This system sends Discord webhook notifications when your NVIDIA **Jetson Orin Nano** comes online and when someone connects or disconnects via **SSH** or **VNC** (noVNC + x11vnc).  
+It now runs via **cron @reboot**, tails your local VNC log files, and includes the Jetson's **172.17.x.x IP** at boot.
 
----
-
-## File Locations on the Jetson
+## File locations on the Jetson
 
 - **Main script**  
   `/opt/jetson-notify/jetson_discord_notify.py`  
-  Monitors events and posts JSON payloads to a Discord webhook.
+  Handles event monitoring and posts JSON payloads to the Discord webhook.
 
-- **Systemd service file**  
-  `/etc/systemd/system/jetson-discord.service`  
-  Controls auto-start and restart behavior.
+- **Cron wrapper (loads env, then runs the script)**  
+  `/opt/jetson-notify/run-notifier.sh`
 
----
+- **Environment file (secrets & paths)**  
+  `/etc/jetson-discord.env`  
+  Contains `DISCORD_WEBHOOK`, `NOVNC_LOG`, `X11VNC_LOG`, `AUTH_LOG`, `HOST_MAP_PATH`.
 
-## How It Works
+- **VNC logs produced by your startup script**  
+  - `/home/arc/.local/state/vnc/novnc.log`  
+  - `/home/arc/.local/state/vnc/x11vnc.log`  
+  - `/home/arc/.local/state/vnc/boot.log`
 
-### Boot Notification
+- **Notifier logs (from cron)**  
+  - `/home/arc/.local/state/vnc/notifier.log`
 
-On startup, the script posts:
-
-```
-✅ arc-mobile is online
-```
-
-### SSH Detection
-
-- Tails `/var/log/auth.log` for lines like:
-  ```
-  sshd[1234]: Accepted password for arc from 172.17.xx.xx
-  ```
-- Extracts the client IP and attempts to resolve it to a device name via:
-  - Manual override (`hosts.json`)
-  - mDNS (`avahi-resolve-address`)
-  - `getent hosts`
-  - Reverse DNS (`socket.gethostbyaddr`)
-- Posts to Discord, e.g.:
-  ```
-  🔑 SSH login on arc-mobile from unknown
-  ```
-
-### VNC Detection
-
-- Follows `novnc` journal logs for connection entries like:
-  ```
-  172.17.xx.xx - - [...] Plain non-SSL (ws://) WebSocket connection
-  ```
-- Extracts the client IP and resolves it (same methods as SSH).
-- Posts to Discord when **connected**/**disconnected**:
-  ```
-  🖥️ VNC connected on arc-mobile from unknown
-  🔌 VNC disconnected on arc-mobile
-  ```
+> If you previously used the systemd unit at `/etc/systemd/system/jetson-discord.service`, disable it to avoid duplicate notifications:
+> ```bash
+> sudo systemctl disable --now jetson-discord.service
+> ```
 
 ---
 
-## Current Limitations
+## How it works
 
-- **Unknown hostnames**  
-  Many clients appear as `unknown` if:
-  - Your LAN/DHCP does not advertise hostnames, or
-  - mDNS / reverse DNS resolution fails.
+### Boot notification
+On startup (via cron), the script posts:
+```
+✅ arc-mobile is online • IP: 172.17.xx.yy
+```
 
-- **No IP broadcast on boot**  
-  At boot the script only posts “✅ is online”, not the Jetson’s IP.  
-  _Fix idea_: run `hostname -I` and include it in the message.
-
-- **Autostart quirks**  
-  The notifier is controlled by `systemd`. Enable and start it with:
-  ```bash
-  sudo systemctl enable jetson-discord
-  sudo systemctl start jetson-discord
+### SSH detection (login + disconnect)
+- Follows `/var/log/auth.log` (user `arc` must be in group `adm`).
+- On **login**, extracts client IP, resolves a label (name or IP), and posts:
   ```
+  🔑 SSH login: DESKTOP-XYZ (172.17.xx.yy)
+  ```
+- On **disconnect**, matches by `sshd[PID]` and posts:
+  ```
+  🔒 SSH disconnected: DESKTOP-XYZ (172.17.xx.yy)
+  ```
+
+**Name resolution order:**  
+1) NetBIOS workstation name via `nmblookup -A <ip>`  
+2) `getent hosts <ip>`  
+3) `avahi-resolve-address <ip>`  
+4) fallback to **IP**
+
+### VNC detection (noVNC + x11vnc)
+- **Connect** events: parse `/home/arc/.local/state/vnc/novnc.log` lines like:  
+  `172.17.xx.xx - - [...] Plain non-SSL (ws://) WebSocket connection`  
+  → resolve name/IP and post:
+  ```
+  🖥️ VNC connected: DESKTOP-XYZ (172.17.xx.yy)
+  ```
+- **Disconnect** events: watch `/home/arc/.local/state/vnc/x11vnc.log` for “gone/closed/disconnect” and post:
+  ```
+  🔌 VNC disconnected
+  ```
+  (x11vnc sees localhost due to the proxy, so it’s used only for disconnect signals.)
+
+---
+
+## Setup (one-time)
+
+Install tools and permissions:
+```bash
+sudo apt-get update
+sudo apt-get install -y samba-common-bin avahi-utils
+sudo usermod -aG adm arc   # allow reading /var/log/auth.log
+```
+
+Create an env file with your webhook and paths (example):
+```bash
+sudo tee /etc/jetson-discord.env >/dev/null <<'EOF'
+DISCORD_WEBHOOK=https://discord.com/api/webhooks/REPLACE_ME
+NOVNC_LOG=/home/arc/.local/state/vnc/novnc.log
+X11VNC_LOG=/home/arc/.local/state/vnc/x11vnc.log
+AUTH_LOG=/var/log/auth.log
+HOST_MAP_PATH=/opt/jetson-notify/hosts.json
+EOF
+sudo chmod 600 /etc/jetson-discord.env
+```
+
+Cron wrapper:
+```bash
+sudo tee /opt/jetson-notify/run-notifier.sh >/dev/null <<'EOF'
+#!/bin/bash
+set -euo pipefail
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+if [[ -f /etc/jetson-discord.env ]]; then
+  set -o allexport
+  . /etc/jetson-discord.env
+  set +o allexport
+fi
+exec /usr/bin/python3 /opt/jetson-notify/jetson_discord_notify.py
+EOF
+sudo chmod +x /opt/jetson-notify/run-notifier.sh
+```
+
+**User crontab** (shown as bash for Shiki compatibility):
+```bash
+crontab -e
+# Add the following lines:
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+@reboot /home/arc/bin/wait_net_start_vnc.sh >>/home/arc/.local/state/vnc/boot.log 2>&1 &
+@reboot /opt/jetson-notify/run-notifier.sh   >>/home/arc/.local/state/vnc/notifier.log 2>&1 &
+```
 
 ---
 
 ## Maintenance
 
-Check service status
-```bash
-systemctl status jetson-discord
-```
+- **Tail notifier output**
+  ```bash
+  tail -f /home/arc/.local/state/vnc/notifier.log
+  ```
 
-View live logs
-```bash
-journalctl -u jetson-discord -f
-```
+- **Tail VNC stack logs**
+  ```bash
+  tail -f /home/arc/.local/state/vnc/novnc.log
+  tail -f /home/arc/.local/state/vnc/x11vnc.log
+  ```
 
-**Edit webhook URL** in the service file:
-
-```bash
-sudo nano /etc/systemd/system/jetson-discord.service
-```
-
-Set the environment line:
-
-```ini
-Environment=DISCORD_WEBHOOK=https://discord.com/api/webhooks/...
-```
-
-Then reload and restart:
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl restart jetson-discord
-```
+- **Pin stubborn device names** (manual map)
+  ```bash
+  sudo mkdir -p /opt/jetson-notify
+  sudo nano /opt/jetson-notify/hosts.json   # {"172.17.xx.yy":"DESKTOP-XYZ"}
+  ```
 
 ---
 
-## Example Notifications
+## Example notifications
 
 ### Boot
-```
-✅ arc-mobile is online
+```text
+✅ arc-mobile is online • IP: 172.17.xx.yy
 ```
 
 ### SSH
-```
-🔑 SSH login on arc-mobile from unknown
+```text
+🔑 SSH login: DESKTOP-XYZ (172.17.xx.yy)
+🔒 SSH disconnected: DESKTOP-XYZ (172.17.xx.yy)
 ```
 
 ### VNC
-```
-🖥️ VNC connected on arc-mobile from my-computer
-🔌 VNC disconnected on arc-mobile
+```text
+🖥️ VNC connected: DESKTOP-XYZ (172.17.xx.yy)
+🔌 VNC disconnected
 ```
 
 ---
 
-## Future Improvements
+## Notes
 
--  Include **Jetson IP address** in the boot notification.
--  Improve device-name resolution with `/etc/hosts` or a central **`hosts.json`** mapping.
--  Tie `jetson-discord.service` startup to your **noVNC/X11 stack** so uptime matches VNC availability.
+- Using **cron** keeps the notifier in the same lifecycle as your VNC starter script and log files.  
+- If you ever switch back to **systemd**, remove the cron entry and re-enable the `jetson-discord.service` unit, then manage it with `journalctl`.
