@@ -12,7 +12,7 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0004](0004-corner-connectors.md) | Separate power and signal connectors at each corner; XT30(2+2) rejected | Superseded by 0034 |
 | [0005](0005-wifi-only-link.md) | Wi-Fi to the laptop is the only wireless link; no RC radio | Accepted (backfilled) |
 | [0006](0006-no-corner-module.md) | No corner module in v1; VESC is the only corner board | Accepted, amended by 0034 |
-| [0007](0007-ride-height-sensors.md) | Four corner ride-height sensors in v1, plus one at the optical flow sensor | Accepted |
+| [0007](0007-ride-height-sensors.md) | Four corner ride-height sensors in v1, plus one at the optical flow sensor | Superseded by 0052 |
 | [0008](0008-corner-sensors-to-sync-board.md) | Wheel encoders and suspension pots wire directly to the sync board | Accepted |
 | [0009](0009-single-classic-can-bus.md) | One classic CAN bus to the four corner VESCs | Accepted, amended by 0011 and 0034 |
 | [0010](0010-compute-orin-nx.md) | Orin NX 16GB for v1, all inference onboard | Accepted |
@@ -54,6 +54,7 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0046](0046-built-in-motor-temperature.md) | Buy motors with compatible built-in temperature sensors; remove separate can-mounted thermistors | Accepted (owner procurement requirement; exact motor TBD) |
 | [0047](0047-estop-full-stop-with-controller-fault.md) | E-stop reaches physical standstill with halted A50S firmware; independent brake remains open | Accepted (user requirement) |
 | [0048](0048-ee-sizing-after-custom-corners.md) | Align EE review with 100 mm wheels, 18:1 gearing and the revised current/regen estimates; resistor sizing reopened | Proposed (ratings and parts review pending) |
-| [0049](0049-a50s-uart-telemetry.md) | Four 2 Mbit/s A50S telemetry UARTs; remove drive FD adapters/trunks; steering FD retained | Accepted (owner transport decision; qualification pending) |
-| [0050](0050-common-imus-and-in-house-angle-boards.md) | ISM330DHCXTR at both IMU sites; separate AS5047P boards assembled in house; CAD funding basis | Accepted, amended by 0051; qualification pending |
-| [0051](0051-custom-imu-and-height-sensor-pcbs.md) | ARC-designed remote IMU and ground/ride-height PCBs; existing sensor quantities and assembly cost assumptions retained | Accepted (owner PCB ownership choice; capture/layout pending) |
+| [0049](0049-a50s-uart-telemetry.md) | Four 2 Mbit/s A50S telemetry UARTs; remove drive FD adapters/trunks; steering FD retained | Accepted; sensor inventory amended by 0052; UART qualification pending |
+| [0050](0050-common-imus-and-in-house-angle-boards.md) | ISM330DHCXTR at both IMU sites; separate AS5047P boards assembled in house; CAD funding basis | Superseded by 0052; selected parts retained |
+| [0051](0051-custom-imu-and-height-sensor-pcbs.md) | ARC-designed remote IMU and ground/ride-height PCBs; existing sensor quantities and assembly cost assumptions retained | Superseded by 0052; ARC PCB ownership retained |
+| [0052](0052-one-car-sensor-counts-and-in-house-assembly.md) | One-car funding scope; ten angle, two IMU and four corner-height boards, all sensors assembled in house | Accepted (owner quantities/locations/process; design and ground-camera scale qualification pending) |

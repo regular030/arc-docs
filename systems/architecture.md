@@ -1,6 +1,9 @@
 # ARC 4WD Car: Architecture Overview (v1)
 
-Rewritten 2026-10-03 from the original interface spec (Sep 23, 2026, @shrikar vempati). This is the narrative overview. The decisions and numbers live in `requirements/`, `adr/`, `icd/`, `bom/` and `budgets/`; where this page and those disagree, those win. Current EE parts, board ownership and wiring are in the [parts list](bom/pcb-parts-selection.md) and [wiring plan](bom/motherboard-wiring.md). The existing topology page (`topology.html`) is retained at its upstream revision; newer EE decisions are recorded in these Markdown documents.
+Rewritten 2026-10-03 from the original interface spec (Sep 23, 2026, @shrikar vempati). This is the narrative overview. The decisions and numbers live in `requirements/`, `adr/`, `icd/`, `bom/` and `budgets/`; where this page and those disagree, those win. Current EE parts, board ownership and wiring are in the [parts list](bom/pcb-parts-selection.md) and [wiring plan](bom/motherboard-wiring.md). The existing topology page (`topology.html`) is retained at its upstream revision; newer EE decisions, including the single-car sensor inventory in ADR-0052, are recorded in these Markdown documents.
+
+- **Last editor:** Kunshpreet Baweja
+- **Last edited:** 2026-10-12
 
 ## What the car is
 
@@ -22,7 +25,7 @@ v1 is tightly integrated; modular hardware is a v2 goal. The car runs on an indo
 
 ## Drive
 
-**Corners.** Each corner is a motor and gearbox; we design its knuckle or upright, arms and mounts, and buy the shocks, CVDs and wheels (ADR-0040). Its motor controller sits on the lower deck (ADR-0034), and there's no corner module or corner sensor MCU (ADR-0006). ADR-0050 selects separate AS5047P sensor PCBs assembled in house and ISM330DHCXTR for both IMUs. ADR-0051 selects our own remote IMU and ground/ride-height PCBs; outlines, connectors and 2-layer implementations remain TBC. Sensor acquisition still connects directly to the sync MCU (ADR-0008).
+**Corners.** Each corner is a motor and gearbox; we design its knuckle or upright, arms and mounts, and buy the shocks, CVDs and wheels (ADR-0040). Its motor controller sits on the lower deck (ADR-0034), and there's no corner module or corner sensor MCU (ADR-0006). ADR-0050 selects separate AS5047P sensor PCBs assembled in house and ISM330DHCXTR for both IMUs. ADR-0051 selects our own remote IMU and corner-height PCBs. ADR-0052 fixes one car's sensor count at ten angle (four wheel, four suspension, two front knuckle), two IMU and four corner-height boards, all assembled in house; the fifth ground-camera ToF is removed. Outlines, connectors and 2-layer implementations remain TBC. Sensor acquisition still connects directly to the sync MCU (ADR-0008).
 
 **Motor:** buy motors with built-in temperature sensors compatible with the A50S input (ADR-0046). The exact compliant model is TBD; Castle 1010-4400kV remains a historical candidate pending documented sensing. Preserve the existing Hall, 2S–4S, speed and mechanical constraints; the gearing/envelope below are the inherited Castle baseline and must be rechecked for a replacement before purchase.
 
@@ -107,13 +110,13 @@ The sync MCU (STM32H723, Zephyr) owns the car's time base. It timestamps sensors
 | Wheel encoders ×4 | AS5047 on the wheel output shaft | 2 kHz | Sync SPI |
 | Suspension angle ×4 | AS5047-family, contactless | 2 kHz | Sync SPI |
 | Steering knuckle ×2 | AS5047 | 2 kHz | Sync SPI |
-| Ride height ×5 | Our custom ToF PCB (4 corners + 1 for ground-speed scale; ADR-0051) | Native | Sync I2C + mux |
+| Ride height ×4 | Our custom in-house assembled ToF PCB, one per corner (ADR-0051, ADR-0052) | Native | Sync I2C + mux |
 | Cell voltages ×4 | Motherboard cell monitor | ≥ 100 Hz | Internal power/sync signals (ADR-0044) |
 | Motor/FET temperature, currents | Controller telemetry | ≥ 1 kHz | Four 2 Mbit/s UARTs (ADR-0049) |
 
 Latency from sample to the Orin is ≤ 2 ms for sync-board sensors and VESC telemetry (SYS-29, `budgets/latency.csv`).
 
-ADR-0050 selects ISM330DHCXTR for both IMU sites and separate AS5047P angle boards assembled in house. [Sensor qualification](bom/sensor-candidate-review.md) still needs installed timing, calibration, vibration and slip-estimation evidence. ELPM remains an unselected suspension alternative. [Funding estimate](bom/jlc-pcba-cost-estimate.md) is in CAD with the 30% allowance.
+ADR-0050 selects ISM330DHCXTR for both IMU sites and separate AS5047P angle boards; ADR-0052 selects in-house assembly for all sixteen sensor boards on one car. [Sensor qualification](bom/sensor-candidate-review.md) still needs installed timing, calibration, vibration and slip-estimation evidence. ELPM remains an unselected suspension alternative. Deriving the downward camera's scale from the four corner-height ToFs requires a reviewed mounting/geometry model (TBD); corner ride height alone does not establish the camera's local scale. [Funding estimate](bom/jlc-pcba-cost-estimate.md) is for one car in CAD with the 30% allowance.
 
 ## Communication
 
@@ -133,7 +136,7 @@ Wi-Fi is the only wireless link (ADR-0005). The car joins the team's Flint 3 rou
 
 ## Harness
 
-The [proposed wiring diagram and cable budget](bom/motherboard-wiring.md) separates remote sensor looms, power, bought A50S controllers and the Jetson carrier. Custom ARC IMU and height/scale boards are selected (ADR-0051); their 2-layer implementations, connector contacts and the complete motherboard wire total remain TBC/TBD.
+The [proposed wiring diagram and cable budget](bom/motherboard-wiring.md) separates remote sensor looms, power, bought A50S controllers and the Jetson carrier. Custom ARC angle, IMU and corner-height boards total sixteen remote sensor runs / 106 minimum conductors, including sixteen spare conductors (TBC wiring proposal, ADR-0052). All sixteen boards are assembled in house; their 2-layer implementations, connector contacts and the complete motherboard wire total remain TBC/TBD.
 
 Every connection locks; every run carries a spare conductor; every wire is labelled with its schematic net name; strain relief at every board entry. JST-GH for signal; the controllers' own connectors (XT30, MR30, Pico-Clasp) on the deck. Twisted pairs for CAN buses; four A50S UART signal/reference cable runs, routed away from motor phase leads (ADR-0049); Hall cables too. Command-bus terminators sit at the sync board and the far end of the trunk.
 

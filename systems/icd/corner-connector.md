@@ -2,11 +2,13 @@
 
 - **Revision:** H (2026-10-09). Restores operating A50S UART under ADR-0049; rev G drive-FD proposal withdrawn. Motor phases and Hall/built-in-temperature wiring still run from each corner to its controller on the deck; actual contacts and motor sensor mapping remain TBD. Earlier corner-board connector revisions remain superseded.
 - **Status:** Draft. Needs Molex pin numbering against Triforce's pinout layout, and sign-off from both owners.
+- **Last editor:** Kunshpreet Baweja
+- **Last edited:** 2026-10-12
 - **Side A:** corner assembly: motor (E-51), gearbox (owner kunshpreet)
 - **Side B:** chassis harness, the motor controllers on the deck (E-50), sync board, power board e-stop circuit (owner kunshpreet)
-- **Traces to:** ADR-0042, SYS-05, SYS-13, SYS-19, SYS-25, ADR-0008, ADR-0009, ADR-0012, ADR-0034, ADR-0047, ADR-0049, ADR-0046, RSK-11
+- **Traces to:** ADR-0042, SYS-05, SYS-13, SYS-19, SYS-25, ADR-0008, ADR-0009, ADR-0012, ADR-0034, ADR-0047, ADR-0049, ADR-0046, ADR-0052, RSK-11
 
-The wheel encoder and suspension angle sensor don't pass through this interface; they wire directly to the sync board (ADR-0008).
+The wheel, suspension and front knuckle angle boards and four corner-height ToF boards do not pass through the motor interface below; they wire directly to the motherboard's sync section (ADR-0008, ADR-0052). The [wiring schedule](../bom/motherboard-wiring.md) budgets four sensor runs / 26 conductors per front corner and three runs / 19 conductors per rear corner, including spares (TBC). All sixteen remote sensor boards, including both IMUs, are assembled in house.
 
 ## At the corner boundary
 

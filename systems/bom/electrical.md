@@ -3,8 +3,12 @@
 - **Status:** Draft. This is a functional BOM: what each item is, what it must achieve, and what it connects to. Part numbers come later. Rows where a part is already decided name it.
 - **Selection:** `Decided` (ADR or spec), `Planned` (named in the spec, not confirmed), `Custom` (our own board, designed by the EE) or `TBD`. A dropped item keeps its ID and row, marked *Deleted*.
 - `TBC` values are engineering proposals for the owner to confirm. `TBD` values wait on a SYS requirement.
+- **Last editor:** Kunshpreet Baweja
+- **Last edited:** 2026-10-12
 
 **PCB packaging (ADR-0044, 2026-10-09):** E-30 sync circuitry and E-41 / E-46 power circuitry share one [motherboard PCB](../../hardware/motherboard/README.md). Their rows remain functional BOM entries, not two physical boards. E-02 Jetson carrier remains separate. Power/sync signals are internal PCB connections; a stacking header is not required in this plan.
+
+**Single-car sensor scope (ADR-0052, 2026-10-12):** one motherboard and one separate Jetson carrier serve ten angle boards (four wheel, four suspension, two front knuckle), two IMU boards and four corner-height ToF boards. All sixteen sensor boards are assembled in house. The fifth ground-camera ToF is removed; ground-speed scale coverage remains subject to the open review below.
 
 ## Compute and communication
 
@@ -33,18 +37,20 @@
 
 | ID | Item | Qty | Selection | Requirements | Connects to | Rail | Traces to |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| E-20 | IMU, at CG | 1 | Decided: ST ISM330DHCXTR on our custom ARC IMU PCB (ADR-0050, ADR-0051); CG performance qualification pending | Low bias instability and vibration sensitivity (it carries velocity through slip); SPI; ≥ 4 kHz output; gyro ≥ ±2000 °/s, accel ≥ ±16 g (TBC); data-ready interrupt timestamped at the pin; vibration-isolated mount | E-30 (SPI + interrupt) | 3.3 V | SYS-06, SYS-07, SYS-10 |
-| E-21 | IMU, front axle | 1 | Decided: ST ISM330DHCXTR; same custom ARC IMU PCB as E-20 (ADR-0050, ADR-0051) | SPI; ≥ 4 kHz; data-ready interrupt; vibration-isolated mount | E-30 (SPI + interrupt) | 3.3 V | SYS-06, mission 4 |
+| E-20 | IMU, at CG | 1 | Decided: ST ISM330DHCXTR on our custom ARC IMU PCB, assembled in house (ADR-0050, ADR-0051, ADR-0052); CG performance qualification pending | Low bias instability and vibration sensitivity (it carries velocity through slip); SPI; ≥ 4 kHz output; gyro ≥ ±2000 °/s, accel ≥ ±16 g (TBC); data-ready interrupt timestamped at the pin; vibration-isolated mount | E-30 (SPI + interrupt) | 3.3 V | SYS-06, SYS-07, SYS-10 |
+| E-21 | IMU, front axle | 1 | Decided: ST ISM330DHCXTR; same custom ARC IMU PCB as E-20, assembled in house (ADR-0050, ADR-0051, ADR-0052) | SPI; ≥ 4 kHz; data-ready interrupt; vibration-isolated mount | E-30 (SPI + interrupt) | 3.3 V | SYS-06, mission 4 |
 | E-22 | Wheel encoder | 4 | Decided: AS5047P-ATSM on a separate remote PCB, assembled in house (ADR-0008, ADR-0050) | Read over SPI as absolute angle; qualify speed margin against the selected motor and current wheel/gearing scenario (ADR-0048). The former 13.5:1 / 2,800–3,700 rpm sizing basis is historical; final motor qualification remains TBD | E-30 (SPI, one chip-select each) | 3.3 V | SYS-06, SYS-10 |
 | E-23 | Suspension angle sensor | 4 | Decided: AS5047P-ATSM at each suspension pivot on a separate PCB assembled in house (ADR-0050), replacing potentiometers | Covers full suspension travel; no wiper noise or wear; ≥ 2 kHz | E-30 (SPI, one chip-select each) | 3.3 V | SYS-06, SYS-18 |
 | E-24 | Steering knuckle encoders | 2 (front left + front right) | Decided: AS5047P-ATSM, 14-bit absolute, on separate PCBs assembled in house (ADR-0050) | One on each front knuckle (no homing): both wheel steer angles measured directly, toe change under load, real Ackermann geometry; absolute reference for the steering actuator at startup and a continuous cross-check against the actuator's own angle (ADR-0019) | E-30 (SPI, one chip-select each) | 3.3 V | SYS-06, SYS-19, SYS-24 |
-| E-25 | Ground-speed sensor: downward event camera | 1 | Decided: Prophesee GenX320 (ADR-0014) | Forward and sideways ground velocity at 0–12 m/s on the school floor (margin over SYS-01's 9 m/s); ~90° M12 lens, aperture ~f/8 for speckle; mounted inside the chassis looking through a floor window with a light shroud; scale from E-26 | Carrier CSI port 4; Trigger In from E-30 (ADR-0021) | 3.3 V / 5 V | SYS-10, RSK-07 |
+| E-25 | Ground-speed sensor: downward event camera | 1 | Decided: Prophesee GenX320 (ADR-0014) | Forward and sideways ground velocity at 0–12 m/s on the school floor (margin over SYS-01's 9 m/s); ~90° M12 lens, aperture ~f/8 for speckle; mounted inside the chassis looking through a floor window with a light shroud; scale mapping from the four E-26 corner-height ToFs and mounting geometry remains TBD (ADR-0052) | Carrier CSI port 4; Trigger In from E-30 (ADR-0021) | 3.3 V / 5 V | SYS-10, RSK-07 |
 | E-29 | Ground-speed illumination | 1 set | Decided (ADR-0014) | Three switchable modes: (1) cross-polarized LED ring, constant-current DC (no PWM); (2) grazing-angle LEDs; (3) off-the-shelf **certified IEC 60825-1 Class 1** IR VCSEL module with a hardware current limit, for laser speckle | E-30 GPIO (mode select) | 5 V via current-limited drivers | SYS-10, RSK-07 |
-| E-26 | Ride-height ToF sensor | 5 (4 corners + 1 beside E-25 for scale) | Decided: our custom ARC ToF PCB (ADR-0051); preferred VL53L4CDV0DH/1 IC remains TBC (ADR-0007); laser triangulation considered and rejected on cost | Minimum range ≤ sensor-to-floor distance at full compression (recess the sensor if needed); works on glossy tile; individually addressable (I2C mux or one XSHUT line each) | E-30 (I2C) | 3.3 V | SYS-10, SYS-15, RSK-07 |
+| E-26 | Ride-height ToF sensor | 4 (one per corner) | Decided: our custom ARC ToF PCB, assembled in house (ADR-0051, ADR-0052); preferred VL53L4CDV0DH/1 IC remains TBC (ADR-0007); laser triangulation considered and rejected on cost | Minimum range ≤ sensor-to-floor distance at full compression (recess the sensor if needed); works on glossy tile; individually addressable (I2C mux or one XSHUT line each) | E-30 (I2C) | 3.3 V | SYS-10, SYS-15, RSK-07 |
 | E-27 | *Deleted:* steering servo current sense. Steering torque comes from the steering controller's current (ADR-0019) | — | — | — | — | — | — |
 | E-28 | *Deleted:* external motor-can temperature NTC | — | Removed by ADR-0046; buy motors with compatible built-in sensors | Motor temperature remains in E-50 telemetry; no separate sensor purchase | — | — | SYS-19, ADR-0046 |
 
 **E-25 selection** is recorded in ADR-0014, including the rejected candidates (PMW3901 0.58 m/s, PAA5100JE 1.14 m/s, SparkFun OTOS 2.5 m/s, mouse chips, radar, Correvit). Fallback: the dead-wheel pod design in ADR-0014, with its underfloor space and sync-board channels reserved.
+
+**Ground-camera scale coverage after ADR-0052:** the separate ToF beside E-25 is removed. Scale derivation from the four corner-height ToFs requires a reviewed mounting/geometry model (TBD); corner ride height alone does not establish the downward camera's local scale. SYS-10 remains in force.
 
 ## Sync and control
 
@@ -97,7 +103,7 @@ The sync board's channel counts, from the BOM above, plus the one-spare-per-type
 | SPI devices (chip-selects) | 2 IMUs, 4 wheel encoders, 4 suspension angle sensors, 2 steering knuckle encoders | 12 | ≥ 1 |
 | Interrupt inputs (data-ready) | 2 IMUs | 2 | ≥ 1 |
 | Power-section data (internal PCB connections) | Battery V/I, per-rail currents and faults, 4 cell voltages (E-46) | **Open.** Recommended (ADR-0022, Proposed): 1 dedicated I2C bus + an interrupt input per alert/fault source (`TBD`), with analog battery V/I as a rework fallback | ≥ 1 |
-| I2C | 5 ride-height ToF (via mux or XSHUT) | 1 bus + mux, or 5 XSHUT GPIO | ≥ 1 |
+| I2C | 4 corner-height ToF (ADR-0052; mux proposal retained) | 1 bus + 4 used mux channels; alternative XSHUT interface TBC | ≥ 1 spare mux channel |
 | Camera trigger outputs | Stereo kit, quad kit, forward event camera, downward event camera | 4 | ≥ 1 |
 | PPS / time-sync output | To Orin | 1 | — |
 | PWM output | None (steering moved to CAN, ADR-0019) | 0 | ≥ 1 |

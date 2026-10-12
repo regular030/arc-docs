@@ -1,6 +1,8 @@
 # Mechanical layout brief (v1)
 
 - **Status:** Draft; mechanical design starting 2026-10-03
+- **Last editor:** Kunshpreet Baweja
+- **Last edited:** 2026-10-12
 - **How the work is done:** [`cad-workflow.md`](cad-workflow.md) (Fusion hub structure, parameters, releases). Parts: [`bom/mechanical.md`](../bom/mechanical.md). Mass: [`budgets/mass.csv`](../budgets/mass.csv)
 - **Goal of the first pass:** a **CAD block layout**: every component as a simple envelope box, placed in the car. It settles wheelbase, track and length (RSK-16), front-corner fit (RSK-04), the battery and compute bays, deck heights, and a first CG estimate, before any part is designed in detail.
 
@@ -16,7 +18,7 @@
 | SYS-15 aero reserve | Flat underfloor volume kept for the suction fan (size TBD with the capstone) |
 | SYS-16 mass/CG | Not limited, but tracked; heavy parts low |
 | SYS-24, sensors | Clear fields of view, rigid camera mounts, vibration-isolated IMUs |
-| ADR-0014 ground speed | A floor window + light shroud for the downward camera, with the ToF beside it |
+| ADR-0014 / ADR-0052 ground speed | A floor window + light shroud for the downward camera; the separate scale ToF is removed. Scale derivation from the four corner-height ToFs and mounting geometry remains TBD |
 | ADR-0015 ground link | Wi-Fi antennas high, clear of carbon; hotspot button and service Ethernet port on the chassis |
 | ADR-0019 steering | Belt actuator + moteus-c1 at the front; AS5047 on both knuckles |
 | ADR-0008 / BOM | AS5047 on each wheel output shaft (in the gearbox) and at each suspension pivot |
@@ -24,6 +26,8 @@
 ## Component envelopes
 
 Model every component as a box first. TBD: needs a datasheet or drawing. TBC: from a vendor listing, or standing in for a part not yet chosen; check it against the vendor's CAD. Sources are below the table.
+
+**Single-car sensor layout (ADR-0052):** ten angle (four wheel, four suspension, two front knuckle), two IMU and four corner-height ToF boards, all assembled in house. Their assembled outlines, connectors and mounts remain TBD.
 
 **Motor procurement update (ADR-0046):** motors must have compatible built-in temperature sensors; the exact model remains TBD. The Castle row below is an inherited envelope/mass allowance, not an approved purchase. Recheck it, the mounts and gearing when the compliant motor is selected.
 
@@ -44,7 +48,7 @@ Model every component as a box first. TBD: needs a datasheet or drawing. TBC: fr
 | Quad OV9281 cameras | 4 | 40 × 40 board each (TBC) | TBD | Sides and rear on the deck grid |
 | Arducam Camarray HAT (one per kit; the cameras need it) | 2 | 65 × 56 (TBC) | TBD | Near a carrier CSI port, within ribbon reach of its cameras |
 | Forward GenX320 | 1 | TBD: no Jetson module drawing found; ask Prophesee | TBD | Front, forward view |
-| Downward GenX320 + lighting + shroud + ToF | 1 | TBD | TBD | Under the chassis, floor window; outside the aero-sealed area or sealed itself |
+| Downward GenX320 + lighting + shroud | 1 | TBD | TBD | Under the chassis, floor window; outside the aero-sealed area or sealed itself |
 | IMU at CG (ISM330DHCXTR, ADR-0050) | 1 | IC: 2.5 × 3.0 × 0.83 typical; carrier/mount envelope TBD | TBD | At the CG, vibration-isolated |
 | IMU front axle (ISM330DHCXTR, ADR-0050) | 1 | Same IC/carrier design; carrier/mount envelope TBD | TBD | Near the front axle, vibration-isolated |
 | Ride-height ToF | 4 | small | — | Underside at each corner; minimum range ≤ distance to floor at full compression |
@@ -76,7 +80,7 @@ Sources for the envelopes (checked 2026-10-09):
 1. **Size box and wheels:** pick a wheelbase and track that give ≥ 454 mm overall length and fit the width box.
 2. **Battery bay:** low and central.
 3. **Corners:** staggered motors, gearboxes, CVDs, wheel encoders. Check the front at full steering lock and full bump with the steering actuator in place.
-4. **Lower deck:** the four motor controllers, power and sync stack, bus clamp.
+4. **Lower deck:** the four motor controllers, one combined power/sync motherboard, bus clamp.
 5. **Underfloor:** aero volume, ground-speed window and shroud, ToF sensors, the dead-wheel pod's reserved space.
 6. **Upper deck:** hole grid; compute bay with airflow; IMU at the CG.
 7. **Sensor mounts:** LiDAR height and crash guard, stereo bar, side/rear cameras, forward event camera, antennas.
@@ -112,3 +116,4 @@ Sources for the envelopes (checked 2026-10-09):
 | MQ-4 | Crash speed (SYS-12) and corner swap time (SYS-13) | Crash guard and corner design |
 | MQ-5 | **Which off-the-shelf suspension family?** **Closed by ADR-0040:** we design the corners; ADR-0027's bought-corner recommendation was never accepted | — |
 | MQ-6 | **Tyre rolling diameter:** the speed figures in `architecture.md` assume 100 mm (ADR-0040). The chosen tyre's rolling diameter, new and worn, is TBD | SYS-01's margin, RSK-18, RSK-21, the eRPM cap |
+| MQ-7 | Ground-camera scale coverage after ADR-0052: the separate scale ToF is removed; scale mapping from four corner-height ToFs and mounting geometry remains TBD | Ground-speed sensor qualification under SYS-10 |

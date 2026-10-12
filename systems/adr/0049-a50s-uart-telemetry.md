@@ -6,6 +6,7 @@
 - **Traces to:** SYS-07, SYS-19, SYS-24, SYS-25, SYS-29, E-30, E-50, RSK-03, RSK-12
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-12
+- **Amended by:** ADR-0052 (sensor inventory and 106-conductor sensor harness only; UART decision retained)
 - **Supersedes:** ADR-0041 (drive FD requirement and local adapter proposal; the existing steering link is retained below), ADR-0043 (withdrawn A50S SPI/FD proposal)
 - **Amends:** ADR-0034 (current UART baseline), ADR-0044 (motherboard interface scope)
 - **Related:** ADR-0019 (moteus steering), ADR-0042 (grounding proposal), ADR-0047 (independent full stop)

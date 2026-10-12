@@ -1,5 +1,8 @@
 # Electrical handoff
 
+- **Last editor:** Kunshpreet Baweja
+- **Last edited:** 2026-10-12
+
 The starting point for the electrical engineer. It collects, per board, what's decided, where the details live, and what's still open. Circuit-level choices (regulators, fuse values, layout, part selection within the stated requirements) are yours.
 
 ## How this repo works
@@ -18,7 +21,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
 | System requirements | `requirements/system.md` |
 | Decisions (ADRs) | `adr/README.md` |
 | Coloured parts options + board map | [pcb-parts-selection.md](../bom/pcb-parts-selection.md) |
-| CAD funding budget with 30% contingency, including in-house angle assembly | [Two-set PCB estimate](../bom/jlc-pcba-cost-estimate.md), [cost model](../budgets/jlc-pcba-cost.csv); quantity, final BOM/process and shipment remain TBC |
+| CAD funding budget with 30% contingency, including in-house assembly of all sixteen sensor boards | [One-car PCB estimate](../bom/jlc-pcba-cost-estimate.md), [cost model](../budgets/jlc-pcba-cost.csv); final BOM/process and shipment remain TBC (ADR-0052) |
 | A50S UART transport / operating rate | [controller-telemetry.md](../icd/controller-telemetry.md) |
 | UART firmware gaps / pin and ground review | [UART source review](../reviews/a50s-uart-readiness.md) |
 | Functional BOM + sync MCU I/O tally | `bom/electrical.md` |
@@ -33,6 +36,8 @@ The starting point for the electrical engineer. It collects, per board, what's d
 **Updated sizing:** [ADR-0048](../adr/0048-ee-sizing-after-custom-corners.md) aligns this handoff with upstream custom corners, TBC 100 mm wheels / 18:1 / 4–5 kg, revised current/regen and LiDAR startup demand. Resistor value/count and the final motor remain TBD; review the current [power scenarios](../budgets/power-scenarios.md) before rating parts.
 
 **Current packaging, 2026-10-09 (ADR-0044):** power and sync MCU are two functional sections of one [motherboard PCB](../../hardware/motherboard/README.md); the [Jetson carrier](../../hardware/orin-carrier/README.md) remains separate. Sections 1 and 2 retain their circuit responsibilities. Internal monitor/control signals replace the power/sync stacking header. A later two-PCB split remains possible after a recorded change and physical-interface review.
+
+**Build scope, 2026-10-12 (ADR-0052):** one car, one combined motherboard and one Jetson carrier. The final custom sensor inventory is ten angle (four wheel, four suspension, two front knuckle), two IMU and four corner-height ToF PCBs, all assembled in house. Removal of the fifth ground-camera ToF does not waive SYS-10.
 
 ### 1. Power board (+ e-stop circuit) and bus clamp board
 
@@ -71,14 +76,14 @@ The starting point for the electrical engineer. It collects, per board, what's d
   - SO-8 CAN transceivers with SIC drop-in; unpopulated split termination, common-mode choke and TVS footprints on the steering bus (ADR-0019 / ADR-0049).
   - I/O per the tally in `bom/electrical.md`:
     - 12 SPI devices (2 IMUs, 4 wheel encoders, 4 suspension angle sensors, 2 knuckle encoders), each with a data-ready or chip-select line as needed
-    - I2C + mux for 5 ToF sensors
+    - I2C + mux for 4 corner-height ToF sensors, plus at least one spare mux channel (ADR-0052)
     - 4 camera triggers + spare
     - ground-speed lighting: 3 mode outputs with current-limited drivers, including the Class 1 VCSEL with a hardware current limit
     - e-stop status input
     - status LEDs
 - **Requirements:** SYS-04, -07, -19, -22, -24, -25, -29.
 - **Open:**
-  - ~~Package and pin-mux check~~ **Checked (2026-10-07): it fits.** Against Zephyr's pin data for the STM32H723ZG (LQFP144), with SWD, HSE and LSE reserved, everything gets its own pin with 37 to spare: Ethernet RMII, 3 FDCAN, 5 UARTs, 4 SPI buses, 2 I2C, 6 timer outputs (4 triggers, a spare, PPS) and 22 plain GPIO (12 chip-selects, 4 interrupts, e-stop in, 2 LEDs, 3 lighting). One example assignment, to show feasibility only (the pin choice is yours):
+  - **Deprecated historical feasibility tally (2026-10-07):** the following example predates ADR-0049 / ADR-0052. It is retained as a feasibility reference and requires a fresh clock/pin/DMA review for four operating UARTs and four corner-height ToFs; it does not establish the current spare-pin count. Against Zephyr's pin data for the STM32H723ZG (LQFP144), with SWD, HSE and LSE reserved, everything gets its own pin with 37 to spare: Ethernet RMII, 3 FDCAN, 5 UARTs, 4 SPI buses, 2 I2C, 6 timer outputs (4 triggers, a spare, PPS) and 22 plain GPIO (12 chip-selects, 4 interrupts, e-stop in, 2 LEDs, 3 lighting). One example assignment, to show feasibility only (the pin choice is yours):
     - Ethernet: REF_CLK PA1, MDIO PA2, MDC PC1, CRS_DV PA7, RXD0 PC4, RXD1 PC5, TX_EN PB11, TXD0 PB12, TXD1 PB13
     - FDCAN1 PA11/PA12, FDCAN2 PB5/PB6, FDCAN3 PD12/PD13
     - UARTs: USART1 PA9/PA10, USART2 PD5/PA3, USART3 PB10/PC11, USART6 PC6/PC7, USART10 PE3/PE2
@@ -88,7 +93,8 @@ The starting point for the electrical engineer. It collects, per board, what's d
   - Connector map and pinouts for every sensor run
   - Four operating UARTs: verify A50S PB10 TX / PB11 RX contacts, assign H723 RX/TX and DMA resources, qualify 3.3 V logic and ground/reference/protection behavior. Both telemetry endpoints remain stubs; see [readiness review](../reviews/a50s-uart-readiness.md) and [UART ICD](../icd/controller-telemetry.md). No A50S-local FD circuits or SPI harness remain.
   - Recheck the earlier 37-spare-pin feasibility example against four operating UARTs + debug, steering SPI, cell-monitor SPI, all interrupts and final clocks. It is not a released pin/DMA map; the `arc_sync` board definition is still a skeleton.
-  - ISM330DHCXTR selected for both IMUs; separate AS5047P angle PCBs assembled in house (ADR-0050). Our custom [IMU](../../hardware/sensor-boards/imu/README.md) and [height/scale](../../hardware/sensor-boards/tof/README.md) PCBs are selected under ADR-0051; capture/layout and exact ToF variant remain pending. [Qualification review](../bom/sensor-candidate-review.md); ELPM remains an unselected analog alternative
+  - ISM330DHCXTR selected for both IMUs; separate AS5047P angle PCBs assembled in house (ADR-0050). Our custom [IMU](../../hardware/sensor-boards/imu/README.md) and [corner-height](../../hardware/sensor-boards/tof/README.md) PCBs are selected under ADR-0051. ADR-0052 selects ten angle + two IMU + four ToF boards, all assembled in house; capture/layout, exact ToF variant and [qualification](../bom/sensor-candidate-review.md) remain pending. ELPM remains an unselected analog alternative
+  - Ground-camera scale coverage (ADR-0052): the fifth ToF is removed. Scale derivation from four corner-height ToFs requires a mounting/geometry model (TBD); SYS-10 remains in force
   - Camera-trigger connector to the carrier ([carrier-sync draft](../icd/carrier-sync.md)); GPIO/module map and contact numbering remain open
   - Isolated vs non-isolated transceivers (follows the grounding decision)
   - Ethernet path if the optional i210/i226 is fitted: point-to-point to the Orin instead of through the switch (ADR-0021). **Recommendation in ADR-0023 (Proposed):** don't fit it in v1; the sync MCU stays on the switch
@@ -136,7 +142,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
 
 ### 5. Harness
 
-The [wiring diagram and count schedule](../bom/motherboard-wiring.md) propose 17 separate sensor runs / 111 minimum conductors including spares. The [remote sensor carrier workspace](../../hardware/sensor-boards/README.md) records selected separate AS5047P boards assembled in house and our own common IMU and height/scale PCBs (ADR-0050 / ADR-0051); 2-layer layouts remain TBC, without corner MCUs; complete connector counts and non-sensor interfaces remain TBD.
+The [wiring diagram and count schedule](../bom/motherboard-wiring.md) propose 16 separate sensor runs / 106 minimum conductors including spares (90 used + 16 spares, TBC). The [remote sensor carrier workspace](../../hardware/sensor-boards/README.md) records ten angle, two IMU and four corner-height PCBs assembled in house (ADR-0050 / ADR-0051 / ADR-0052); 2-layer layouts remain TBC, without corner MCUs; complete connector counts and non-sensor interfaces remain TBD.
 
 - **Decided:**
   - JST-GH for signal; the controllers' own XT30, MR30 and Pico-Clasp on the deck; everything locking. The Pico-Clasp housing (Molex 501189-2010) has an inner positive lock.

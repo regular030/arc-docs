@@ -1,6 +1,6 @@
 # ADR-0051: ARC designs its own IMU and height-sensor PCBs
 
-- **Status:** Accepted (owner PCB ownership/packaging choice; schematics and layouts pending)
+- **Status:** Superseded by ADR-0052 (one-car quantities and in-house assembly; ARC sensor PCB ownership retained)
 - **Date:** 2026-10-12
 - **Deciders:** Kunshpreet Baweja, through the instruction to use our own IMU PCB and our own ground-height sensor PCBs
 - **Traces to:** E-20, E-21, E-26, SYS-06, SYS-07, SYS-10, SYS-15, SYS-24, SYS-29, RSK-07

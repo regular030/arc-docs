@@ -2,13 +2,15 @@
 
 - **Status:** Draft. Qualification review; owner selections are recorded in the ADRs.
 - **Updated:** 2026-10-12
+- **Last editor:** Kunshpreet Baweja
+- **Last edited:** 2026-10-12
 - **Traces to:** E-20, E-21, E-23, SYS-06, SYS-07, SYS-10, SYS-18, SYS-19, SYS-24, SYS-29
 
-ADR-0050 selects ISM330DHCXTR for both IMUs and in-house AS5047P sensor boards. Qualification remains pending; ELPM remains an evaluation option.
+ADR-0052 selects ISM330DHCXTR at both IMU sites and in-house assembly for all 16 remote sensor PCBs: ten angle, two IMU and four corner-height ToF boards. ELPM remains an unselected evaluation option; qualification is pending.
 
 ## ISM330DHCXTR — selected for both IMU sites
 
-The genuine ST part is **ISM330DHCXTR**, JLCPCB **C2655101**. The live JLC page checked **2026-10-12** showed **USD $5.7037 at 1+ / $4.9154 at 10+**, with stock available when checked. Budget **$5.70 each** before assembly/setup, tax and shipping. This is not the similarly named Tokmas ISM330DHCXTR-C.
+The genuine ST part is **ISM330DHCXTR**, JLCPCB **C2655101**. The live JLC page checked **2026-10-12** showed **USD $5.7037 at 1+ / $4.9154 at 10+**, with stock available when checked. That JLC catalog price is a factory-service reference. Current in-house procurement uses [loose LCSC C2655101](https://www.lcsc.com/product-detail/C2655101.html), **USD $5.7392 each at 1+**, inspected 2026-10-12; buy two. Support parts, consumables, shipping and tax are separate. This is not the similarly named Tokmas ISM330DHCXTR-C.
 
 | ARC need | Manufacturer evidence | Assessment |
 | --- | --- | --- |
@@ -18,11 +20,11 @@ The genuine ST part is **ISM330DHCXTR**, JLCPCB **C2655101**. The live JLC page 
 | Bias and vibration for velocity-through-slip | Rev 7 lists typical gyro bias instability 3 °/h, typical high-performance gyro noise 5 mdps/√Hz and accel noise 60 µg/√Hz | Useful industrial-IMU specifications; typical values are not guaranteed navigation performance on a vibrating car |
 | Packaging | LGA-14, 2.5 × 3 × 0.83 mm typical; −40 to +105 °C | Suitable for a small sensor PCB; check exact pin assignment / land pattern and vibration-isolated mounting |
 
-**Owner selection (ADR-0050):** use ISM330DHCXTR for E-20 at the body/CG and E-21 at the front axle. One common carrier replaces the two prior footprints. Calibration, thermal/vibration testing and measured velocity-through-slip performance still need qualification; this selection does not establish equivalence to SCH16T.
+**Owner selection (ADR-0052):** use ISM330DHCXTR for E-20 at the body/CG and E-21 at the front axle. One common carrier replaces the two prior footprints. Calibration, thermal/vibration testing and measured velocity-through-slip performance still need qualification; this selection does not establish equivalence to SCH16T.
 
-Before release, test the real SPI harness, sustained full-rate acquisition without FIFO loss, clipping, stationary bias / Allan behavior, warm-up / temperature drift, motor-on vibration and the estimator's slip intervals. Record actual filter bandwidth/delay; output data rate is not measurement bandwidth. The selected installed state-sensor ICs cost **USD $69.56 / CAD $99.27 per car**: two ISM330DHCXTR at $5.70, ten loose AS5047P at LCSC's $4.231 tier and five ToFs at $3.17. This excludes spare chips, support parts, sensor PCBs and assembly; see the [CAD funding estimate](jlc-pcba-cost-estimate.md).
+Before release, test the real SPI harness, sustained full-rate acquisition without FIFO loss, clipping, stationary bias / Allan behavior, warm-up / temperature drift, motor-on vibration and the estimator's slip intervals. Record actual filter bandwidth/delay; output data rate is not measurement bandwidth. The selected 16 installed state-sensor ICs cost **USD $66.5836 / CAD $95.02 per car**: two loose ISM330DHCXTR at $5.7392, ten loose AS5047P at the $4.231 tier and four loose ToFs at $3.1988. This excludes support parts, bare sensor PCBs, shared in-house consumables and shipping; see the [CAD funding estimate](jlc-pcba-cost-estimate.md).
 
-Sources: [ST datasheet, Rev 7](https://www.st.com/resource/en/datasheet/ism330dhcx.pdf), [ST product page](https://www.st.com/en/mems-and-sensors/ism330dhcx.html), [genuine ST JLCPCB entry](https://jlcpcb.com/partdetail/Stmicroelectronics-ISM330DHCXTR/C2655101). Typical / characterized performance must be distinguished from guaranteed limits.
+Sources: [loose AS5047P](https://www.lcsc.com/product-detail/C962063.html), [loose ToF](https://www.lcsc.com/product-detail/C3178291.html), [ST datasheet, Rev 7](https://www.st.com/resource/en/datasheet/ism330dhcx.pdf), [ST product page](https://www.st.com/en/mems-and-sensors/ism330dhcx.html), [genuine ST JLCPCB entry](https://jlcpcb.com/partdetail/Stmicroelectronics-ISM330DHCXTR/C2655101). Typical / characterized performance must be distinguished from guaranteed limits.
 
 ## ELPM — rugged linear suspension option, with interface and packaging changes
 

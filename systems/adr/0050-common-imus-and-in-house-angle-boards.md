@@ -1,6 +1,6 @@
 # ADR-0050: Common ISM330DHCX IMUs and in-house AS5047P boards
 
-- **Status:** Accepted (owner sensor and assembly choices; schematic and performance qualification pending)
+- **Status:** Superseded by ADR-0052 (ten angle, two IMU and four corner-height boards; all sensors assembled in house)
 - **Date:** 2026-10-12
 - **Deciders:** Kunshpreet Baweja, through the instructions to use ISM330DHCXTR for both IMUs and assemble separate AS5047P PCBs in house
 - **Traces to:** E-20, E-21, E-22, E-23, E-24, SYS-06, SYS-07, SYS-10, SYS-18, SYS-24, SYS-29

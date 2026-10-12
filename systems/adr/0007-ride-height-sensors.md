@@ -1,9 +1,11 @@
 # ADR-0007: Four corner ride-height sensors in v1, plus one paired with the optical flow sensor
 
-- **Status:** Accepted
+- **Status:** Superseded by ADR-0052 (four corner-height sensors; dedicated camera-scale sensor removed)
 - **Date:** 2026-10-02
 - **Deciders:** Shrikar Vempati
 - **Traces to:** SYS-10, SYS-15, RSK-07, ADR-0014 (the fifth sensor scales the downward event camera)
+- **Last editor:** Kunshpreet Baweja
+- **Last edited:** 2026-10-12
 
 ## Context
 
