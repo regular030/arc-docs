@@ -25,6 +25,8 @@
 
 Model every component as a box first. TBD: needs a datasheet or drawing. TBC: from a vendor listing, or standing in for a part not yet chosen; check it against the vendor's CAD. Sources are below the table.
 
+**Motor procurement update (ADR-0046):** motors must have compatible built-in temperature sensors; the exact model remains TBD. The Castle row below is an inherited envelope/mass allowance, not an approved purchase. Recheck it, the mounts and gearing when the compliant motor is selected.
+
 | Component | Qty | Envelope (mm) | Mass (g) | Placement constraint |
 | --- | --- | --- | --- | --- |
 | 4S LiPo hardcase (~5,000 mAh; E-40 not chosen) | 1 | 138 × 47 × 40–50 (TBC, two makers' packs) | 495–589 (TBC) | **Placed first:** low, central, quick swap; bay sized for the 50 mm pack |
@@ -33,8 +35,9 @@ Model every component as a box first. TBD: needs a datasheet or drawing. TBC: fr
 | Motor controller, A50S V2.3c with heatsink (ADR-0034) | 4 | Board 35.5 × 21 × 13.8; heatsink case from Triforce's 3D models | 30 with the heatsink | On the lower deck, with airflow (sized once the deck is modelled); XT30, MR30, Pico-Clasp and micro-USB accessible |
 | Steering actuator (gimbal motor + belt + moteus-c1 38 × 38 × 9) | 1 | TBD | TBD | Front, near the steering linkage; fits beside the staggered front motors |
 | Orin NX + heatsink/fan (E-03) on the carrier | 1 | Carrier 120 × 60 × 36 with the module; the heatsink adds 17–30 (TBC, E-03 not chosen) | TBD | Real airflow path; NVMe reachable for swapping |
-| Sync board + power board (stacked) | 1 | TBD | TBD | Close to the motor controllers on the deck (CAN and UART runs) and the battery; e-stop and service connectors reachable |
+| Combined power/sync motherboard — one PCB (ADR-0044) | 1 | TBD | TBD | Close to the motor controllers on the deck (classic commands, four UART runs and separate steering FD; mapping TBC) and the battery; e-stop and service connectors reachable |
 | Bus clamp board + resistor | 1 | TBD | TBD | On the motor bus; resistor needs airflow or a heatsink |
+| Independent full-stop brake E-34 | 1 system; actuator count TBD | TBD | TBD | Mechanism not selected (ADR-0047); reserve interfaces / envelope after joint EE and mechanical review. Qualify stopping energy, reaction torque, wear, heat and all-travel clearance |
 | Ethernet switch | 1 | TBD | TBD | Near the Orin and sync board |
 | Hokuyo UST-10LX | 1 | 50 × 50 × 70 | 130 without cable | High, clear 270°+ view, crash guard |
 | Stereo AR0234 bar | 1 | Two 40 × 40 boards (TBC); bar length = baseline, TBD | TBD | Front, rigid, forward view |
@@ -42,8 +45,8 @@ Model every component as a box first. TBD: needs a datasheet or drawing. TBC: fr
 | Arducam Camarray HAT (one per kit; the cameras need it) | 2 | 65 × 56 (TBC) | TBD | Near a carrier CSI port, within ribbon reach of its cameras |
 | Forward GenX320 | 1 | TBD: no Jetson module drawing found; ask Prophesee | TBD | Front, forward view |
 | Downward GenX320 + lighting + shroud + ToF | 1 | TBD | TBD | Under the chassis, floor window; outside the aero-sealed area or sealed itself |
-| IMU at CG (navigation grade) | 1 | TBD (part not chosen; an ADIS1650x is 15 × 15 × 6) | TBD | At the CG, vibration-isolated |
-| IMU front axle | 1 | small | — | Near the front axle, vibration-isolated |
+| IMU at CG (ISM330DHCXTR, ADR-0050) | 1 | IC: 2.5 × 3.0 × 0.83 typical; carrier/mount envelope TBD | TBD | At the CG, vibration-isolated |
+| IMU front axle (ISM330DHCXTR, ADR-0050) | 1 | Same IC/carrier design; carrier/mount envelope TBD | TBD | Near the front axle, vibration-isolated |
 | Ride-height ToF | 4 | small | — | Underside at each corner; minimum range ≤ distance to floor at full compression |
 | Suspension angle sensors (AS5047) | 4 | small | — | At each suspension pivot |
 | Knuckle encoders (AS5047) | 2 | small | — | On both front knuckles |
@@ -66,7 +69,7 @@ Sources for the envelopes (checked 2026-10-09):
 - **Battery examples:**
   - [Spektrum SPMX50004S100H5](https://store.hobbyetc.com/parts/view/128215)
   - [Gens Ace GEA50004S50D](https://horizonhobby.com/product/14.8v-5000mah-4s-50c-lipo-battery-deans/GEA50004S50D.html)
-- **ADIS1650x:** [ADI product page](https://analog.com/en/products/ADIS16505-1.html) (package), [ADIS16505 breakout](https://it.farnell.com/en-IT/analog-devices/adis16505-2-pcbz/breakout-board-mems-imu/dp/4030173)
+- **Both IMUs — ISM330DHCXTR:** [ST datasheet](https://www.st.com/resource/en/datasheet/ism330dhcx.pdf); bare IC dimensions are not the assembled carrier/mount envelope (ADR-0050).
 
 ## Layout order
 

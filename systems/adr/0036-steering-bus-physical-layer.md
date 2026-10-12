@@ -1,10 +1,13 @@
 # ADR-0036: Steering CAN-FD bus physical layer: discrete transceiver, rework-only fallbacks
 
-- **Status:** Accepted
+- **Status:** Superseded by ADR-0041 (mandatory 5 Mbit/s; physical-layer rework options retained); current transport scope is recorded in ADR-0049 (A50S UART; steering FD retained)
 - **Date:** 2026-10-08
 - **Deciders:** Shrikar Vempati
 - **Traces to:** SYS-19, SYS-24, ADR-0019, ADR-0034, RSK-03
 - **Supersedes:** ADR-0013. Its rules for the two drive telemetry buses no longer apply (ADR-0034); the parts that still matter carry over here for the steering bus.
+
+> [!NOTE]
+> **Historical steering record:** ADR-0041 superseded the lower-data-rate fallback. ADR-0049 retains the separate steering CAN-FD link at 5 Mbit/s and its applicable physical-layer provisions; A50S drive telemetry uses UART. The decision body below is preserved for traceability.
 
 ## Context
 

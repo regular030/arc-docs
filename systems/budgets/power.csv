@@ -8,14 +8,14 @@ compute,Carrier board (Antmicro fork),E-02,1,carrier input,3,5,sustained,,estima
 compute,NVMe SSD 4 TB,E-04,1,3.3 (via carrier),3,8,sustained while logging,,estimate,EE
 compute,Wi-Fi MT7922,E-05,1,3.3 (via carrier),1,3,bursts,,estimate,EE
 compute,Compute fan,E-03,1,5 or 12,1,2,sustained,,estimate,EE
-sensor,Hokuyo UST-10LX,E-10,1,12 or 24,3,5,startup,check datasheet supply current,estimate,EE
+sensor,Hokuyo UST-10LX,E-10,1,12 proposed / 24 allowed,TBD,5.4 at 12 V,startup,"10–30 V allowed; up to 150 mA running / 450 mA startup. 5.4 W startup at proposed 12 V; 10.8 W if 24 V selected; switch demand additional",UST-10LX datasheet (E-10),EE
 lv_5v_3v3,Arducam AR0234 stereo kit,E-11,1,via carrier/5 V,1.5,2.5,sustained,,estimate,EE
 lv_5v_3v3,Arducam quad OV9281 kit,E-12,1,via carrier/5 V,2,3,sustained,,estimate,EE
 lv_5v_3v3,Prophesee GenX320 (forward + ground speed),E-13/E-25,2,1.8-3.3 (via module),0.05,0.1,sustained,< 50 mW each per Prophesee,datasheet,EE
 lv_5v_3v3,Ground-speed lighting (LED rings + grazing LEDs),E-29,1,5,1.5,4,sustained in use,constant-current DC drive (no PWM),estimate,EE
 lv_5v_3v3,Class 1 IR VCSEL module,E-29,1,5,0.3,0.5,sustained in use,hardware current limit (Class 1),estimate,EE
 lv_5v_3v3,Sync MCU board (STM32H723 + PHY + CAN transceivers + MCP2518FD if fitted),E-30,1,3.3/5,1.5,2.5,sustained,,estimate,EE
-lv_5v_3v3,IMUs (navigation-grade + consumer),E-20/E-21,2,3.3,0.2,0.4,sustained,,estimate,EE
+lv_5v_3v3,Two ISM330DHCXTR IMUs (ADR-0050; retained board allowance),E-20/E-21,2,3.3,0.2,0.4,sustained,,estimate,EE
 lv_5v_3v3,AS5047 encoders (4 wheel + 4 suspension + 2 knuckle),E-22/E-23/E-24,10,3.3,0.05,0.06,sustained,,datasheet class,EE
 lv_5v_3v3,Ride-height ToF + I2C mux,E-26,5,3.3,0.05,0.1,sustained,,estimate,EE
 lv_5v_3v3,Ethernet switch (>= 5 ports),E-06,1,5 or 12,2,4,sustained,,estimate,EE

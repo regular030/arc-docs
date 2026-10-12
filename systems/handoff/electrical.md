@@ -11,18 +11,28 @@ The starting point for the electrical engineer. It collects, per board, what's d
 
 ## Read first
 
+**Owner deferral, 2026-10-09:** grounding/isolation and power-stage component/sizing decisions remain **TBD for later review**. Existing candidate tables and ADR-0042 are retained as proposals; no approval or layout release is inferred. ADR-0043 is withdrawn. ADR-0049 selects four 2 Mbit/s A50S UARTs; implementation and harness qualification are tracked in the [UART readiness review](../reviews/a50s-uart-readiness.md). Carrier CAD source and conversion status are in [hardware/orin-carrier](../../hardware/orin-carrier/README.md).
+
 | What | Where |
 | --- | --- |
 | System requirements | `requirements/system.md` |
 | Decisions (ADRs) | `adr/README.md` |
+| Coloured parts options + board map | [pcb-parts-selection.md](../bom/pcb-parts-selection.md) |
+| CAD funding budget with 30% contingency, including in-house angle assembly | [Two-set PCB estimate](../bom/jlc-pcba-cost-estimate.md), [cost model](../budgets/jlc-pcba-cost.csv); quantity, final BOM/process and shipment remain TBC |
+| A50S UART transport / operating rate | [controller-telemetry.md](../icd/controller-telemetry.md) |
+| UART firmware gaps / pin and ground review | [UART source review](../reviews/a50s-uart-readiness.md) |
 | Functional BOM + sync MCU I/O tally | `bom/electrical.md` |
-| Corner connector (rev E: motor phases and Hall cable to the deck) | `icd/corner-connector.md` |
+| Corner connector (rev H: motor phases and Hall cable to the deck) | `icd/corner-connector.md` |
 | Power loads and scenarios | `budgets/power.csv`, `budgets/power-scenarios.md` |
 | Bus load, latency, cost | `budgets/bus-load.csv`, `budgets/latency.csv`, `budgets/cost.csv` |
 | Risks | `risks.md` |
 | Verification plan (rigs R1–R8, pre-order S0 checklist) | `verification/plan.md` |
 
 ## Boards
+
+**Updated sizing:** [ADR-0048](../adr/0048-ee-sizing-after-custom-corners.md) aligns this handoff with upstream custom corners, TBC 100 mm wheels / 18:1 / 4–5 kg, revised current/regen and LiDAR startup demand. Resistor value/count and the final motor remain TBD; review the current [power scenarios](../budgets/power-scenarios.md) before rating parts.
+
+**Current packaging, 2026-10-09 (ADR-0044):** power and sync MCU are two functional sections of one [motherboard PCB](../../hardware/motherboard/README.md); the [Jetson carrier](../../hardware/orin-carrier/README.md) remains separate. Sections 1 and 2 retain their circuit responsibilities. Internal monitor/control signals replace the power/sync stacking header. A later two-PCB split remains possible after a recorded change and physical-interface review.
 
 ### 1. Power board (+ e-stop circuit) and bus clamp board
 
@@ -31,7 +41,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
   - Per-rail fuse, switch and current sense; battery V/I monitoring.
   - Wall (19 V) / battery ideal-diode OR-ing with no reboot.
   - Regulators rated ≥ 30 V with TVS.
-  - E-stop circuit sourcing ESTOP to the four motor controllers (ADR-0012).
+  - E-stop circuit sourcing ESTOP to the four A50S; independent braking E-34 must reach chassis standstill with halted controller firmware (ADR-0047). Drive inhibition must override retained PWM; cut alone is insufficient.
   - **Switched motor bus to the four drive controllers, cut by the delayed e-stop line at T (TBC 2.4 s: after the ~1.9 s stop from 9 m/s, with margin), rated for peak pack current (`budgets/power-scenarios.md`).** This is the hardware torque cut (ADR-0034). **It opens when unpowered**, so a dead e-stop circuit also cuts the bus. A broken ESTOP wire to one controller brakes that corner, which reports it in its telemetry, and the sync MCU stops the car (SYS-25, ADR-0035) without the cut; accepted, so no per-line wire detection is needed.
   - Switched, fused motor-bus output for steering, cut at T + ~1 s (ADR-0019).
   - Bus clamp on the motor distribution bus.
@@ -40,12 +50,13 @@ The starting point for the electrical engineer. It collects, per board, what's d
 - **Open:**
   - Rail current ratings and regulator choices (yours, from `power.csv`)
   - ESTOP logic level, driver and current per controller; the motor-bus switch part
+  - E-34 independent brake, supply / interlocks, standstill detection and fault-stop sequence. Inherited TBC 2.4 s normal cut must be coordinated; no coasting fallback (ADR-0047)
   - Bus clamp threshold and resistor sizing (energy and peak power in `budgets/power-scenarios.md`)
-  - **Bus clamp position relative to the motor-bus switch.** The topology draws the clamp on the battery side of the switch, but it's sized for braking with the pack disconnected. If the switch opens while the controllers are still braking (the switch opens when unpowered, or T comes early) and it blocks reverse current (back-to-back FETs, a relay), the braking energy goes only into the controllers' input capacitors: they reach overvoltage, fault, and those corners coast. Options: the clamp on the controllers' side of the switch; a switch that conducts in reverse (a single high-side FET's body diode); or accept it. Yours to decide
+  - **Bus clamp position relative to the motor-bus switch.** The topology draws the clamp on the battery side of the switch, but it's sized for braking with the pack disconnected. If the switch opens while the controllers are still braking (the switch opens when unpowered, or T comes early) and it blocks reverse current (back-to-back FETs, a relay), the braking energy goes only into the controllers' input capacitors: they reach overvoltage, fault, and those corners coast. Options: the clamp on the controllers' side of the switch; a switch that conducts in reverse (a single high-side FET's body diode); or another qualified protection arrangement. Accepting uncontrolled coasting cannot meet ADR-0047; placement remains an EE decision
   - **Inrush when the motor-bus switch closes again** after an e-stop: the anti-spark loop key (E-42) is upstream of it, so the four controllers' bulk capacitors charge through the switch. A controlled turn-on, or a switch rated for the surge
   - Low-battery thresholds (on the lowest cell) and the clean-shutdown signal to the Orin (SYS-30)
   - Cell-monitor part and balance-lead connection while the pack is installed (E-46)
-  - Stacking-header pinout with the sync board (ICD power-sync-stack, not written yet)
+  - Internal power/sync signal and MCU pin map ([power-sync-stack draft](../icd/power-sync-stack.md)); monitor topology / levels / approval remain open. No stacking header in the current motherboard plan (ADR-0044)
   - Whether battery V/I, rail currents and cell voltages are digitised here and sent to the sync MCU over a bus, or read as analogue by the sync MCU's ADC (`bom/electrical.md` I/O tally). **Recommendation in ADR-0022 (Proposed):** monitor ICs on this board, one dedicated I2C bus, fault pins as sync MCU interrupts, analog battery V/I as a rework fallback
   - Whether this board or the sync MCU drives the clean-shutdown signal to the Orin (SYS-30). **Recommendation in ADR-0022 (Proposed):** two tiers. The sync MCU warns and requests the Orin shutdown; this board cuts the compute rail once the Orin has halted, plus an independent hardware undervoltage cutoff that protects the pack if software fails
   - Anti-spark / loop key and motor distribution parts (E-42, E-45)
@@ -56,8 +67,8 @@ The starting point for the electrical engineer. It collects, per board, what's d
 - **Decided:**
   - STM32H723 + Ethernet PHY (ADR-0011); firmware on Zephyr (ADR-0017).
   - Time sync: µs-critical sensors timestamped in the sync MCU's clock; camera triggers and periodic pulses to each GenX320's Trigger In; Orin synced in software, PPS to an Orin GPIO as cross-check (ADR-0021).
-  - Buses: one classic command CAN bus and a CAN-FD steering bus (ADR-0019); one UART per motor controller for telemetry (ADR-0034). The steering bus can move from the MCP2518FD to a freed internal FDCAN: your call.
-  - SO-8 CAN transceivers with SIC drop-in; unpopulated split termination, common-mode choke and TVS footprints on the steering bus (ADR-0036).
+  - Active transport under ADR-0049: classic command CAN at 1 Mbit/s; four independent A50S UARTs at 2 Mbit/s 8N1, full ≥1 kHz status each; separate steering CAN-FD at its 1 / 5 Mbit/s baseline. One native FDCAN serves commands, the existing external MCP2518FD baseline serves steering; two native FDCAN are freed. Final pin/DMA map TBC.
+  - SO-8 CAN transceivers with SIC drop-in; unpopulated split termination, common-mode choke and TVS footprints on the steering bus (ADR-0019 / ADR-0049).
   - I/O per the tally in `bom/electrical.md`:
     - 12 SPI devices (2 IMUs, 4 wheel encoders, 4 suspension angle sensors, 2 knuckle encoders), each with a data-ready or chip-select line as needed
     - I2C + mux for 5 ToF sensors
@@ -75,7 +86,10 @@ The starting point for the electrical engineer. It collects, per board, what's d
     - I2C1 PB8/PB7, I2C2 PF1/PF0
     - Timer outputs: TIM2_CH1 PA0, TIM3_CH3 PB0, TIM3_CH4 PB1, TIM4_CH3 PD14, TIM4_CH4 PB9, TIM13_CH1 PF8
   - Connector map and pinouts for every sensor run
-  - Camera-trigger connector to the carrier (ICD carrier-sync, not written yet)
+  - Four operating UARTs: verify A50S PB10 TX / PB11 RX contacts, assign H723 RX/TX and DMA resources, qualify 3.3 V logic and ground/reference/protection behavior. Both telemetry endpoints remain stubs; see [readiness review](../reviews/a50s-uart-readiness.md) and [UART ICD](../icd/controller-telemetry.md). No A50S-local FD circuits or SPI harness remain.
+  - Recheck the earlier 37-spare-pin feasibility example against four operating UARTs + debug, steering SPI, cell-monitor SPI, all interrupts and final clocks. It is not a released pin/DMA map; the `arc_sync` board definition is still a skeleton.
+  - ISM330DHCXTR selected for both IMUs; separate AS5047P angle PCBs assembled in house (ADR-0050). Our custom [IMU](../../hardware/sensor-boards/imu/README.md) and [height/scale](../../hardware/sensor-boards/tof/README.md) PCBs are selected under ADR-0051; capture/layout and exact ToF variant remain pending. [Qualification review](../bom/sensor-candidate-review.md); ELPM remains an unselected analog alternative
+  - Camera-trigger connector to the carrier ([carrier-sync draft](../icd/carrier-sync.md)); GPIO/module map and contact numbering remain open
   - Isolated vs non-isolated transceivers (follows the grounding decision)
   - Ethernet path if the optional i210/i226 is fitted: point-to-point to the Orin instead of through the switch (ADR-0021). **Recommendation in ADR-0023 (Proposed):** don't fit it in v1; the sync MCU stays on the switch
   - Lighting driver design
@@ -85,17 +99,18 @@ The starting point for the electrical engineer. It collects, per board, what's d
 - **Decided** (ADR-0034):
   - Team Triforce A50S V2.3c, 12S version, bought, not designed. Mounted on the lower deck, not on the motors.
   - Runs our build of the vendored VESC firmware (ADR-0033); per-unit current calibration stays in the board's EEPROM.
-  - Commands on the classic CAN command bus (ADR-0009); telemetry over one UART per controller to the sync MCU, 2 Mbit/s (ICD-controller-telemetry).
+  - Commands remain on classic CAN (ADR-0009); full ≥1 kHz drive telemetry uses one 2 Mbit/s UART per controller (ADR-0049). Firmware transmit/receive and clock mapping remain unimplemented.
+  - PB10/PB11 retain USART3 TX/RX. The withdrawn FD IRQ/CS proposal no longer conflicts with them. The calculated status-stream load is 29.5% per UART; installed harness/DMA/timestamp/fault qualification is still required.
   - E-stop: our firmware reads ESTOP on a spare input (PPM, TBC) and ramps the brake; the power board's switched motor bus provides the hardware cut (section 1).
-  - Motor phases (MR30) and the motor's Hall sensor cable come from each corner to the deck (ICD-corner-connector rev E).
+  - Motor phases (MR30) and the motor's Hall sensor cable come from each corner to the deck (ICD-corner-connector rev H).
 - **Requirements:** SYS-05, -13, -19, -24, -25; RSK-11, -12, -18, -19, -20.
 - **Open (integration, not design):**
   - Circuit numbers for the 20-pin Pico-Clasp are in ICD-corner-connector, provisional until checked on the first unit (ESTOP goes on Servo/PPM, which takes 3.3 or 5 V; SWD is on the connector)
   - Whether to feed each controller's Aux power input (12–48 V) from an always-on rail, so telemetry survives the e-stop's motor-bus cut. If it isn't, every e-stop silences all four controllers at T and the sync MCU logs four lost corners (SYS-25) per e-stop, which buries real faults in the failure records (SYS-18). The alternative is in software: the sync MCU ignores corner loss while its e-stop status input is active. Not decided
   - Use Triforce's supplied bulk capacitor on each XT30 cable; never tie the controllers' 5 V outputs together
   - Deck mounting and airflow: waits on the CAD model. The heatsink option is bought (decided 2026-10-07), giving 40 A continuous against the per-corner current in `budgets/power-scenarios.md`
-  - Hall cable extensions and phase-lead routing across the suspension, away from CAN and UART lines
-  - Motor temperature: Castle doesn't document a thermistor on the 1010's sensor cable, so E-28 is bought as a fallback; meter the sensor port when the motors arrive
+  - Hall cable extensions and phase-lead routing across the suspension, away from command CAN, steering FD and UART pairs
+  - Motor temperature: buy motors with compatible built-in sensing (ADR-0046); no separate E-28 purchase. Exact motor/type/curve and Hall/temp pinout TBD; verify before buying and calibrate on arrival
   - No datasheet exists: ratings come from Triforce's product page, the electrical design from the upstream hardware config (`hwconf/teamtriforceuk/a50s_v23c/`)
 
 ### 4. Orin carrier (fork of Antmicro's baseboard)
@@ -112,7 +127,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
   - JetPack 7.2.1.
 - **Requirements:** SYS-08, -26, -27, -29; RSK-01, -08, -13.
 - **Open:**
-  - CSI lane mapping for the Arducam kits and both GenX320s
+  - [CSI feasibility checked](../../hardware/orin-carrier/README.md#four-port-csi-feasibility): Orin NX supports four 2-lane ports; the reference uses two 50-pin connectors and needs adaptation. Exact Arducam kit SKUs / 2-lane output modes, both GenX320 interfaces, bandwidth, control pins and released 22-pin pinouts remain open
   - ~~Whether the Orin NX has a spare PCIe x1 lane~~ **Yes (checked 2026-10-07):** the module has 1 × x4 + 3 × x1 PCIe Gen4; NVMe takes the x4 and the Wi-Fi card one x1, leaving at least one x1 for an optional i210/i226. Whether Antmicro's baseboard routes it is for the carrier fork's layout. Only matters if ADR-0023 (Proposed: don't fit it) is rejected
   - Trigger connector pinout
   - Device tree on JetPack 7.2
@@ -121,20 +136,29 @@ The starting point for the electrical engineer. It collects, per board, what's d
 
 ### 5. Harness
 
+The [wiring diagram and count schedule](../bom/motherboard-wiring.md) propose 17 separate sensor runs / 111 minimum conductors including spares. The [remote sensor carrier workspace](../../hardware/sensor-boards/README.md) records selected separate AS5047P boards assembled in house and our own common IMU and height/scale PCBs (ADR-0050 / ADR-0051); 2-layer layouts remain TBC, without corner MCUs; complete connector counts and non-sensor interfaces remain TBD.
+
 - **Decided:**
   - JST-GH for signal; the controllers' own XT30, MR30 and Pico-Clasp on the deck; everything locking. The Pico-Clasp housing (Molex 501189-2010) has an inner positive lock.
-  - Corner connector rev E: motor phases and the Hall cable from each corner to the deck.
-  - Command-bus trunk terminated at the sync board and the far end in the harness; UART links point to point, twisted with ground.
+  - Corner connector rev H: motor phases and the Hall cable from each corner to the deck.
+  - Command CAN is terminated at the sync board and the far trunk end; steering FD is a separate point-to-point link. Four UART runs carry drive telemetry; proposed TX/reference + RX/reference + spare budgets total 20 conductors, TBC. No CAN termination on UART signals.
   - One spare conductor per run; labels match schematic net names; strain relief at every entry.
   - Chassis service Ethernet port (E-09).
 - **Open:** run lengths (from CAD), connector part numbers, terminator construction.
+
+## Review packages prepared for the selected EE issues
+
+- **Owner:** kunshpreet, as identified for the electrical, firmware/Orin and mechanical/harness interfaces. [Interface review matrix](../icd/signoff.md) records pending approvals; a separate safety reviewer remains TBD.
+- **A50S integration (#100):** [UART readiness review](../reviews/a50s-uart-readiness.md), [active UART ICD](../icd/controller-telemetry.md) and [arrival/qualification procedure](../tests/a50s-arrival-and-fd.md). ADR-0049 removes the local-FD pin/clock blockers. Controller streaming, clock alignment, DMA/pins and loaded signal margins remain open; ground design is deferred TBD.
+- **Grounding (#94 / #115):** proposed ADR-0042 plus [return-path bench checks](../tests/grounding-and-signal-integrity.md). Non-isolated star proposal / complete isolation alternative require approval and measured margins; FD does not eliminate ground shift.
+- **Missing interfaces (#102):** [power-rails](../icd/power-rails.md), [power-sync-stack](../icd/power-sync-stack.md), [carrier-sync](../icd/carrier-sync.md). Logical contracts exist; ratings, physical pins and technical sign-off remain open.
 
 ## Cross-cutting open questions
 
 | Question | Who decides | Blocks |
 | --- | --- | --- |
-| **Grounding strategy:** motor ground vs logic ground vs CAN/FD returns; isolated transceivers or a single-point ground. Includes the four telemetry UARTs: single-ended 3.3 V at 2 Mbit/s from each controller's ground (the motor-bus negative) to the sync board's, with each ground wire forming a parallel return for motor current. Options: a digital isolator per link (its controller side powered from the A50S's 3.3 V output), RS-422 transceivers, or a single-point ground checked on rig R2 | EE, with the systems lead | Harness, transceiver choice, all boards |
+| **Grounding approval:** proposed ADR-0042 recommends a controlled power-return star with non-isolated communications, retaining a complete isolation alternative. Approve the return map / reference conductors and verify loaded ground offsets, CAN common-mode margins and UART logic/reference behavior using [bench checks](../tests/grounding-and-signal-integrity.md). Operating UART needs logic-level and parallel-return review; steering FD still needs common-mode qualification | kunshpreet; separate safety reviewer TBD | Harness, transceiver choice, all boards |
 | **Mass and CG** (SYS-16) | Mechanical | Power scenarios, bus clamp, pack choice |
 | Steering motor peak current | Mechanical (actuator design) | Steering switched output |
 | Aero fan power (SYS-15) | Capstone | Motor bus reserve |
-| ICD owners and sign-offs (corner connector, controller telemetry, can-command, sync link, corner mechanical, deck grid, and the unwritten power-rails, power-sync-stack and carrier-sync ICDs) | Team | Fab gate |
+| **ICD review:** power-rails, power-sync-stack and carrier-sync now have draft logical contracts. Named roles belong to kunshpreet; physical pins / ratings and both side-role approvals remain pending in the [review matrix](../icd/signoff.md). Operator / charging-station owners and separate safety reviewer remain TBD | kunshpreet / remaining interface owners | Fab gate |

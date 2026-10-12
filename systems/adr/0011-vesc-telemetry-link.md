@@ -1,10 +1,13 @@
 # ADR-0011: VESC telemetry on two CAN-FD buses; commands stay on one classic CAN bus
 
-- **Status:** Superseded by ADR-0034 (off-the-shelf controllers; telemetry over a UART per controller; no CAN-FD drive buses). Its choice of the STM32H723 for the sync MCU stands. Previously amended by ADR-0013 and ADR-0024
+- **Status:** Superseded by ADR-0034 (off-the-shelf controllers; telemetry over a UART per controller; no CAN-FD drive buses). Its choice of the STM32H723 for the sync MCU stands. Previously amended by ADR-0013 and ADR-0024; current transport scope is recorded in ADR-0049 (A50S UART; steering FD retained)
 - **Date:** 2026-10-02
 - **Deciders:** Shrikar Vempati
 - **Traces to:** SYS-05, SYS-06, SYS-19, SYS-24, SYS-25, RSK-02, RSK-03, RSK-12
 - **Amends:** ADR-0009 (the classic bus now carries commands and health status only)
+
+> [!WARNING]
+> **Deprecated:** Historical drive-FD design or supersession record; active A50S telemetry follows ADR-0049. Applicable steering requirements remain under ADR-0019 / ADR-0049. Historical decision text is preserved.
 
 ## Context
 

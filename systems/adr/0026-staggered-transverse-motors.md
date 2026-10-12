@@ -1,6 +1,6 @@
 # ADR-0026: One motor per wheel, mounted transverse, inboard and staggered fore and aft
 
-- **Status:** Accepted (backfilled)
+- **Status:** Superseded by ADR-0046 (motor procurement changes; the accepted layout is carried forward)
 - **Date:** before 2026-09-23 (original spec); recorded 2026-10-03
 - **Deciders:** Shrikar Vempati (original spec)
 - **Traces to:** SYS-01, SYS-02, SYS-10, SYS-13, SYS-16, ADR-0006, ADR-0019, RSK-04, RSK-16, E-51

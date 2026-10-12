@@ -1,6 +1,6 @@
 group,item,qty,low_usd,high_usd,source,notes
 compute,Jetson Orin NX 16GB module,1,950,1100,"NVIDIA 1KU list $899 (Jul 2026); single units cost more",ADR-0010
-compute,Carrier board (Antmicro fork) fab + assembly + parts,1 build (several boards),500,1200,estimate,high-speed CSI layout; small-batch assembly
+compute,Carrier board (Antmicro fork) fab + assembly + parts,2 assembled + 5 bare total,447.65,617.65,jlc-pcba-cost.csv; base estimate 2026-10-12,Two-set prototype batch; 30% added separately in bom/jlc-pcba-cost-estimate.md; excludes Jetson module and cooling
 compute,NVMe SSD 4 TB swappable,1,250,450,estimate,
 compute,Wi-Fi card MT7922 + antennas,1,25,50,estimate,ADR-0015
 compute,Cooling (heatsink + fan),1,30,60,estimate,
@@ -10,18 +10,18 @@ perception,Arducam quad OV9281 kit,1,300,450,estimate,
 perception,Prophesee GenX320 (forward + ground speed),2,600,800,"OpenMV module $300-400 each; Jetson-ready version needs a quote",ADR-0014
 perception,Hokuyo UST-10LX 2D LiDAR,1,1600,2200,estimate,largest single item; sourcing is RSK-10
 perception,Ground-speed lighting (LED rings + Class 1 VCSEL module + polarizers + lens),1,50,100,estimate,ADR-0014
-state,IMUs (consumer grade),2,20,40,estimate,baseline
-state,AS5047 encoders + magnets + breakouts (4 wheel + 2 steering knuckles),6,120,180,estimate,
-state,Suspension potentiometers,4,40,80,estimate,baseline
-state,Ride-height ToF sensors,5,50,125,estimate,baseline
-drive,Castle 1010-4400kV sensored motors,4,400,520,estimate,
+state,IMUs (consumer grade),2,0,0,Sensor ICs/PCBs included in remote PCBA row,Custom ARC IMU/height PCBs under ADR-0051 are included in remote sensor batch; no bought breakout charge; mechanical mounting remains TBD outside PCB estimate
+state,AS5047 encoders + magnets + breakouts (4 wheel + 2 steering knuckles),6,0,0,Sensor ICs/PCBs included in remote PCBA row,Legacy standalone chip/breakout allowance not added again; magnets/mechanics and supplier-module substitutions remain TBD outside PCBA estimate
+state,Suspension potentiometers,4,0,0,Sensor ICs/PCBs included in remote PCBA row,Legacy standalone chip/breakout allowance not added again; magnets/mechanics and supplier-module substitutions remain TBD outside PCBA estimate
+state,Ride-height ToF sensors,5,0,0,Sensor ICs/PCBs included in remote PCBA row,Custom ARC IMU/height PCBs under ADR-0051 are included in remote sensor batch; no bought breakout charge; mechanical mounting remains TBD outside PCB estimate
+drive,Drive motors with built-in temperature sensors,4,400,520,estimate,Historical Castle allowance only; exact compliant motor and price TBD under ADR-0046; not an approved purchase quote
 drive,A50S V2.3c motor controllers with heatsinks (4 corners + 2 spares),6,810,1000,estimate,"£70 each + £30 heatsink (Triforce product page, 2026-10-07); ~1.35 USD/GBP TBC; plus UK shipping and import duty (ADR-0034)"
 drive,Gearboxes (steel gears) + bearings + CVDs,4 corners,400,700,estimate,
 steering,moteus-c1 controller,1,69,69,"mjbots list $69",ADR-0019
 steering,Steering actuator mechanics (gimbal motor + belt + pulleys + mount),1,80,200,estimate,ADR-0019
-power,Central power board,1 build,200,500,estimate,
-sync,Sync MCU board (STM32H723 + PHY + transceivers),1 build,200,500,estimate,
-power,Bus clamp board,1,50,100,estimate,
+power,Combined power/sync motherboard fab + assembly + parts,2 assembled + 5 bare total,541.85,791.85,jlc-pcba-cost.csv; base estimate 2026-10-12,ADR-0044 one PCB; power and sync component populations included once; before 30%; E-34 brake hardware excluded
+sync,Sync MCU board (STM32H723 + PHY + transceivers),included in motherboard,0,0,Included; ADR-0044,"Functional E-30 scope, not another PCB/build charge"
+power,Optional separate bus-clamp PCB batch,2 assembled + 5 bare total,65,115,jlc-pcba-cost.csv; base estimate 2026-10-12,Omit if integrated; external resistors/heatsink remain TBD and excluded; before 30%
 power,4S LiPo hardcase packs,3-4,250,450,estimate,charging station is a separate system
 power,"Harness (JST-GH, XT30, MR30 and Pico-Clasp connectors, wire, crimp tools)",1,150,350,estimate,
 power,E-stop button + loop key + misc,1,50,100,estimate,
@@ -33,5 +33,8 @@ chassis,Fasteners + hardware,1,50,100,estimate,
 ground,Team router GL.iNet Flint 3 + cables,1,240,260,"GL.iNet list $209.99",ADR-0015
 ground,NUCLEO-H723ZG sync MCU development boards (G-04),2,60,70,"Future Electronics $30.45 each (2026-10-08); stock varies",SQ-5
 ground,3.3 V CAN transceiver breakouts + 120 ohm terminators (G-05),2,5,15,estimate,SQ-5
-state,Navigation-grade CG IMU (ADIS1650x / Murata SCHA63T class) - delta over consumer,1,100,600,estimate,decided 2026-10-03
-state,Magnetic suspension angle sensors instead of pots - delta,4,0,100,estimate,decided 2026-10-03
+state,Deleted precision-CG IMU upgrade; both IMUs now ISM330DHCXTR,1,0,0,Sensor ICs/PCBs included in remote PCBA row,ADR-0050; no precision-IMU purchase in current build; selected IMUs already included in remote sensor board row
+state,Magnetic suspension angle sensors instead of pots - delta,4,0,0,Sensor ICs/PCBs included in remote PCBA row,Legacy standalone chip/breakout allowance not added again; magnets/mechanics and supplier-module substitutions remain TBD outside PCBA estimate
+state,Remote sensor PCB batch: in-house angle + common ISM IMU + ToF,2 assembled 17-site sets,454.58,748.58,jlc-pcba-cost.csv; USD base 2026-10-12,Three designs; 20 angle boards assembled in house + 4 custom ARC IMU + 10 custom ARC height/scale ToF boards by JLC (ADR-0051) across two PCB sets; loose chips/support/consumables included once; CAD with 30% in bom/jlc-pcba-cost-estimate.md; magnets/mechanics excluded
+power,JLC PCB/PCBA shipping allowance,1 batch,80,150,Planning allowance 2026-10-12,JLC shipment only; loose-parts shipping is separate; USD before 30%; CAD funding slice in bom/jlc-pcba-cost-estimate.md
+state,Loose sensor component shipping allowance,1 shipment,20,40,Planning allowance 2026-10-12,Separate loose AS5047P/support-part order for in-house assembly; USD before 30%; tax/import/brokerage excluded

@@ -17,7 +17,7 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0009](0009-single-classic-can-bus.md) | One classic CAN bus to the four corner VESCs | Accepted, amended by 0011 and 0034 |
 | [0010](0010-compute-orin-nx.md) | Orin NX 16GB for v1, all inference onboard | Accepted |
 | [0011](0011-vesc-telemetry-link.md) | VESC 6.4 fork; telemetry on two CAN-FD buses, commands on the classic bus | Superseded by 0034 |
-| [0012](0012-estop-controlled-braking.md) | E-stop: controlled braked stop, then hardware torque cut | Accepted, amended by 0019 and 0034 |
+| [0012](0012-estop-controlled-braking.md) | E-stop: controlled braked stop, then hardware torque cut | Superseded by 0047 |
 | [0013](0013-canfd-physical-layer.md) | CAN-FD physical layer: daisy-chain, discrete transceivers, rework-only fallbacks | Superseded by 0036 |
 | [0014](0014-ground-speed-event-camera.md) | Ground speed: downward event camera with three lighting modes; dead-wheel pod as fallback | Accepted |
 | [0015](0015-ground-link.md) | Ground link: team router (Flint 3), laptop gateway, button hotspot, wired service port | Accepted |
@@ -31,7 +31,7 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0023](0023-no-orin-i210-nic.md) | No i210/i226 network card on the Orin carrier in v1; sync MCU stays on the switch | Proposed (recommendation) |
 | [0024](0024-telemetry-latency.md) | Telemetry stamped at sampling, forwarded within 0.25 ms; SYS-29 measured at the driver process, p99 | Accepted, amended by 0034 |
 | [0025](0025-orin-carrier-antmicro-fork.md) | Orin carrier is a fork of Antmicro's open Jetson baseboard | Accepted (backfilled) |
-| [0026](0026-staggered-transverse-motors.md) | One motor per wheel; transverse, inboard, staggered fore and aft | Accepted (backfilled) |
+| [0026](0026-staggered-transverse-motors.md) | One motor per wheel; transverse, inboard, staggered fore and aft | Superseded by 0046; layout carried forward |
 | [0027](0027-suspension-family.md) | Suspension, steering and wheel parts from a competition touring car (XRAY X4 family) | Superseded by 0040 (never accepted) |
 | [0028](0028-software-targets.md) | Every software component builds for simulation, development hardware and the car, from one source | Accepted, amended by 0034 |
 | [0029](0029-dev-environment.md) | One dev container for every toolchain; boards flashed from the host | Accepted |
@@ -39,10 +39,21 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0031](0031-sync-link-encoding.md) | Sync link encoded as MAVLink 2 with our own message set | Accepted |
 | [0032](0032-simulator.md) | Simulators as pluggable backends: Gazebo Harmonic, Webots, F1TENTH gym | Accepted |
 | [0033](0033-vesc-firmware-vendored.md) | VESC firmware vendored as an upstream snapshot, updated by script (GPL-3.0 subdirectory) | Accepted, amended by 0034 and 0037 |
-| [0034](0034-off-the-shelf-motor-controllers.md) | Off-the-shelf motor controllers (A50S) on the deck; telemetry over UART; top speed 9 m/s | Accepted, amended by 0035 |
+| [0034](0034-off-the-shelf-motor-controllers.md) | Off-the-shelf motor controllers (A50S) on the deck; telemetry over UART; top speed 9 m/s | Accepted, amended by 0035, 0047 and 0049; sizing review in 0048 |
 | [0035](0035-corner-state-and-command-timeout.md) | Each corner reports its state in its telemetry; the controllers brake on command loss | Accepted, amended by 0039 |
-| [0036](0036-steering-bus-physical-layer.md) | Steering CAN-FD bus physical layer: discrete transceiver, rework-only fallbacks | Accepted |
+| [0036](0036-steering-bus-physical-layer.md) | Steering CAN-FD bus physical layer: discrete transceiver, rework-only fallbacks | Superseded by 0041; steering physical-layer provisions carried forward by 0049 at 5 Mbit/s |
 | [0037](0037-vesc-modules-in-arc.md) | Our VESC firmware code lives in `firmware/vesc/arc/`, joined to upstream by small hooks | Accepted |
 | [0038](0038-steering-loss-stops-the-car.md) | Losing steering stops the car, and the car doesn't drive without it | Accepted |
 | [0039](0039-fault-stop-reset.md) | A fault stop latches, and only an e-stop cycle on the car resets it | Accepted |
 | [0040](0040-custom-corners.md) | We design the corners; only generic parts are bought (Arrma 6S drivetrain and wheel parts, industrial bearings and rod ends) | Accepted |
+| [0041](0041-canfd-fixed-5mbit.md) | Historical mandatory drive FD and A50S adapter proposal | Superseded by 0049 |
+| [0042](0042-grounding-and-isolation.md) | Controlled return star / non-isolated review baseline; complete isolation alternative | Proposed (kunshpreet review) |
+| [0043](0043-a50s-spi-access-and-clock.md) | Historical A50S local SPI/FD proposal | Superseded by 0049 (withdrawn) |
+| [0044](0044-combined-power-sync-motherboard.md) | Power and sync MCU share one motherboard PCB; Jetson carrier stays separate | Accepted (owner working packaging plan) |
+| [0045](0045-board-size-estimates.md) | Preliminary motherboard and Jetson PCB / installed-envelope size estimates | Proposed (TBC; placement and thermal review pending) |
+| [0046](0046-built-in-motor-temperature.md) | Buy motors with compatible built-in temperature sensors; remove separate can-mounted thermistors | Accepted (owner procurement requirement; exact motor TBD) |
+| [0047](0047-estop-full-stop-with-controller-fault.md) | E-stop reaches physical standstill with halted A50S firmware; independent brake remains open | Accepted (user requirement) |
+| [0048](0048-ee-sizing-after-custom-corners.md) | Align EE review with 100 mm wheels, 18:1 gearing and the revised current/regen estimates; resistor sizing reopened | Proposed (ratings and parts review pending) |
+| [0049](0049-a50s-uart-telemetry.md) | Four 2 Mbit/s A50S telemetry UARTs; remove drive FD adapters/trunks; steering FD retained | Accepted (owner transport decision; qualification pending) |
+| [0050](0050-common-imus-and-in-house-angle-boards.md) | ISM330DHCXTR at both IMU sites; separate AS5047P boards assembled in house; CAD funding basis | Accepted, amended by 0051; qualification pending |
+| [0051](0051-custom-imu-and-height-sensor-pcbs.md) | ARC-designed remote IMU and ground/ride-height PCBs; existing sensor quantities and assembly cost assumptions retained | Accepted (owner PCB ownership choice; capture/layout pending) |
