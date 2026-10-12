@@ -1,0 +1,6 @@
+# Owner-approved regular-Git exception for this fork's imported Altium assets.
+altium/**/*.PcbDoc -filter binary
+altium/**/*.SchDoc -filter binary
+altium/**/*.SchLib -filter binary
+altium/**/*.SCHDOT -filter binary
+altium/**/*.png -filter binary
