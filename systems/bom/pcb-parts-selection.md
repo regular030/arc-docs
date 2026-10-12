@@ -26,7 +26,7 @@ This is the main-component selection list for schematic capture. It supplements 
 
 ## JLC PCBA cost estimate
 
-**KEFC PCB funding budget, 2026-10-12: CAD $4,600 before tax**, for **one car + one spare PCB set**. Base **CAD $2,296.32–3,515.06**; with the owner's 30% allowance, **CAD $2,985.21–4,569.58**. Includes remote sensor boards/loose angle chips, in-house consumables, optional separate clamp PCB and both shipment allowances. Bought Jetson/A50S/moteus equipment, cameras, LiDAR, magnets/mechanics, external dump load and unresolved E-34 brake are excluded. See [CAD funding estimate with dated exchange rate](jlc-pcba-cost-estimate.md) and [auditable USD/CAD model](../budgets/jlc-pcba-cost.csv); this remains a TBC planning estimate.
+**KEFC working PCB estimate, 2026-10-12: CAD $3,600 before tax, including 30% contingency**, for **one car + one spare PCB set**. Working base **CAD $2,770.12**; midpoint with contingency **CAD $3,601.15**, rounded to the nearest CAD $100. The planning range with 30% is **CAD $2,892.45–4,309.85**; the working figure is not a maximum or supplier quote. Includes remote sensor boards/loose angle chips, in-house consumables, optional separate clamp PCB and both shipment allowances. Bought Jetson/A50S/moteus equipment, cameras, LiDAR, magnets/mechanics, external dump load and unresolved E-34 brake are excluded. See the [CAD estimate and JLC pricing screenshots](jlc-pcba-cost-estimate.md#fabrication-evidence-and-design-assumptions) and [auditable USD/CAD model](../budgets/jlc-pcba-cost.csv); final BOM/CPL/panel quotes remain TBC.
 
 ## Board map
 
