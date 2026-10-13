@@ -16,7 +16,7 @@ This is the review package for [#102](https://github.com/Autonomous-Robotics-Car
 | [drive FD telemetry](drive-canfd-telemetry.md) | kunshpreet — A50S/FD firmware and hardware | kunshpreet — sync/harness/Orin | Deprecated after ADR-0049; local FD interfaces not installed | Pending | Pending |
 | [power-rails](power-rails.md) | kunshpreet — power | kunshpreet — load-board integration | Rev A draft; ratings, contacts, stop / inrush / shutdown hardware | Pending | Pending |
 | [power-sync-stack](power-sync-stack.md) | kunshpreet — power/monitors | kunshpreet — sync hardware/firmware | Rev B draft; internal motherboard signals, monitor transport / levels, clocks and GPIOs; ADR-0044 | Pending | Pending |
-| [carrier-sync](carrier-sync.md) | kunshpreet — carrier/platform | kunshpreet — sync hardware/firmware | Rev A draft; carrier/module map, trigger/handshake evidence | Pending | Pending |
+| [carrier-sync](carrier-sync.md) | kunshpreet — carrier/platform | kunshpreet — sync hardware/firmware | Rev B draft; B0223 frame triggers (ADR-0053), carrier/module map and handshake evidence | Pending | Pending |
 | [sync-link](sync-link.md) / [schema](sync-link.xml) | kunshpreet — sync firmware | kunshpreet — Orin backend | Draft; message review, ports/addresses/rates and UART forwarding | Pending | Pending |
 | ros2-msgs | kunshpreet — backend/Orin firmware | kunshpreet — ROS stack | ICD still TBD; source-message review needed | Pending | Pending |
 | steering-bus | kunshpreet — sync firmware/hardware | kunshpreet — steering integration | ICD still TBD; steering FD rate / timeout protocol / pins | Pending | Pending |

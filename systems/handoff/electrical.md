@@ -1,7 +1,7 @@
 # Electrical handoff
 
 - **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
+- **Last edited:** 2026-10-13
 
 The starting point for the electrical engineer. It collects, per board, what's decided, where the details live, and what's still open. Circuit-level choices (regulators, fuse values, layout, part selection within the stated requirements) are yours.
 
@@ -39,6 +39,8 @@ The starting point for the electrical engineer. It collects, per board, what's d
 
 **Build scope, 2026-10-12 (ADR-0052):** one car, one combined motherboard and one Jetson carrier. The final custom sensor inventory is ten angle (four wheel, four suspension, two front knuckle), two IMU and four corner-height ToF PCBs, all assembled in house. Removal of the fifth ground-camera ToF does not waive SYS-10.
 
+**Camera and storage selection (ADR-0053):** two B0223 MIPI frame cameras replace both GenX320 modules; retain the four side/rear OV9281s. Use one 500 GB swappable NVMe. Ground-speed, trigger/driver and full-run packed logging qualification remain open. The [total electrical estimate](../bom/total-electrical-cost.md) includes the selected cameras and estimated tax; the existing 19 V supply is already owned.
+
 ### 1. Power board (+ e-stop circuit) and bus clamp board
 
 - **Decided:**
@@ -71,7 +73,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
 
 - **Decided:**
   - STM32H723 + Ethernet PHY (ADR-0011); firmware on Zephyr (ADR-0017).
-  - Time sync: µs-critical sensors timestamped in the sync MCU's clock; camera triggers and periodic pulses to each GenX320's Trigger In; Orin synced in software, PPS to an Orin GPIO as cross-check (ADR-0021).
+  - Time sync: µs-critical sensors timestamped in the sync MCU's clock; frame triggers for all four camera groups, with trigger timestamps paired to frame sequences (ADR-0053); Orin synced in software, PPS to an Orin GPIO as cross-check (ADR-0021).
   - Active transport under ADR-0049: classic command CAN at 1 Mbit/s; four independent A50S UARTs at 2 Mbit/s 8N1, full ≥1 kHz status each; separate steering CAN-FD at its 1 / 5 Mbit/s baseline. One native FDCAN serves commands, the existing external MCP2518FD baseline serves steering; two native FDCAN are freed. Final pin/DMA map TBC.
   - SO-8 CAN transceivers with SIC drop-in; unpopulated split termination, common-mode choke and TVS footprints on the steering bus (ADR-0019 / ADR-0049).
   - I/O per the tally in `bom/electrical.md`:
@@ -100,9 +102,10 @@ The starting point for the electrical engineer. It collects, per board, what's d
   - Ethernet path if the optional i210/i226 is fitted: point-to-point to the Orin instead of through the switch (ADR-0021). **Recommendation in ADR-0023 (Proposed):** don't fit it in v1; the sync MCU stays on the switch
   - Lighting driver design
 
-### 3. Motor controllers: A50S V2.3c (×4 + 2 spares, off the shelf)
+### 3. Motor controllers: A50S V2.3c (×4, off the shelf)
 
 - **Decided** (ADR-0034):
+  - Purchase four drive controllers, one per motor; no purchased motor-controller spares under ADR-0054.
   - Team Triforce A50S V2.3c, 12S version, bought, not designed. Mounted on the lower deck, not on the motors.
   - Runs our build of the vendored VESC firmware (ADR-0033); per-unit current calibration stays in the board's EEPROM.
   - Commands remain on classic CAN (ADR-0009); full ≥1 kHz drive telemetry uses one 2 Mbit/s UART per controller (ADR-0049). Firmware transmit/receive and clock mapping remain unimplemented.
@@ -123,7 +126,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
 
 - **Decided** (ADR-0010, -0014, -0015, -0016):
   - Orin NX 16GB.
-  - Four 22-pin CSI ports (stereo, quad, forward event, downward event).
+  - Four 22-pin CSI ports: stereo, quad, forward B0223 and downward B0223 (ADR-0053).
   - Camera-trigger connector to the sync board.
   - Input from the fixed compute rail; PoE removed.
   - M.2 key M (NVMe, swappable) and key E (MT7922 Wi-Fi).
@@ -133,7 +136,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
   - JetPack 7.2.1.
 - **Requirements:** SYS-08, -26, -27, -29; RSK-01, -08, -13.
 - **Open:**
-  - [CSI feasibility checked](../../hardware/orin-carrier/README.md#four-port-csi-feasibility): Orin NX supports four 2-lane ports; the reference uses two 50-pin connectors and needs adaptation. Exact Arducam kit SKUs / 2-lane output modes, both GenX320 interfaces, bandwidth, control pins and released 22-pin pinouts remain open
+  - [CSI feasibility checked](../../hardware/orin-carrier/README.md#four-port-csi-feasibility): Orin NX supports four 2-lane ports; the reference uses two 50-pin connectors and needs adaptation. Exact Arducam kit SKUs / 2-lane output modes, both B0223 lane modes and external frame triggers, bandwidth, control pins and released 22-pin pinouts remain open
   - ~~Whether the Orin NX has a spare PCIe x1 lane~~ **Yes (checked 2026-10-07):** the module has 1 × x4 + 3 × x1 PCIe Gen4; NVMe takes the x4 and the Wi-Fi card one x1, leaving at least one x1 for an optional i210/i226. Whether Antmicro's baseboard routes it is for the carrier fork's layout. Only matters if ADR-0023 (Proposed: don't fit it) is rejected
   - Trigger connector pinout
   - Device tree on JetPack 7.2

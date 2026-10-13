@@ -1,9 +1,11 @@
 # ADR-0021: Time sync: µs-critical sensors timestamped in the sync MCU's clock; Orin synced in software
 
-- **Status:** Accepted
+- **Status:** Accepted; camera timing amended by ADR-0053
 - **Date:** 2026-10-03
 - **Deciders:** Shrikar Vempati
 - **Traces to:** SYS-07, SYS-23, SYS-29, RSK-01, RSK-15
+- **Last editor:** Kunshpreet Baweja
+- **Last edited:** 2026-10-13
 - **Supersedes:** ADR-0020
 
 ## Context

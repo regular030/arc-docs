@@ -2,6 +2,9 @@
 
 - **Status:** Accepted, amended by ADR-0035 (the telemetry reports each controller's state; the controllers brake on command loss). Set on 2026-10-08: telemetry link rate 2 Mbit/s, not 3 Mbit/s (ICD-controller-telemetry); T 2.4 s (TBC), since the ~1.8 s below is the stop time without the ramp and T must come after the stop (ICD-corner-connector). Amended by ADR-0047 (independent full-stop guarantee) and ADR-0049 (A50S UART at 2 Mbit/s; supersedes the intermediate ADR-0041 drive-FD requirement).
 - **Date:** 2026-10-07
+- **Purchase scope:** Amended by ADR-0054: four installed drive controllers, no purchased controller spares.
+- **Last editor:** Kunshpreet Baweja
+- **Last edited:** 2026-10-13
 - **Deciders:** Shrikar Vempati
 - **Traces to:** SYS-01, SYS-04, SYS-05, SYS-06, SYS-07, SYS-13, SYS-19, SYS-24, SYS-25, SYS-29, RSK-02, RSK-03, RSK-11, RSK-12, RSK-18, RSK-19, RSK-20
 - **Sizing review:** ADR-0048 records the revised 100 mm wheel / 18:1 / TBC 4–5 kg scenario from current main. Small-wheel current/gearing figures in the preserved body are historical; the bought A50S choice stands. Final motor remains TBD under ADR-0046.

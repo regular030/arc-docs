@@ -1,9 +1,11 @@
 # ADR-0014: Ground-speed sensor is a downward event camera with three lighting modes
 
-- **Status:** Accepted
+- **Status:** Superseded by ADR-0053
 - **Date:** 2026-10-02
 - **Deciders:** Shrikar Vempati
 - **Traces to:** SYS-07, SYS-10, SYS-24, ADR-0007, RSK-01, RSK-07
+- **Last editor:** Kunshpreet Baweja
+- **Last edited:** 2026-10-13
 
 ## Context
 

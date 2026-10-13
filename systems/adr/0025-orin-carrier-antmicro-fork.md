@@ -1,9 +1,11 @@
 # ADR-0025: The Orin carrier is a fork of Antmicro's open Jetson baseboard
 
-- **Status:** Accepted (backfilled)
+- **Status:** Accepted (backfilled); camera allocation amended by ADR-0053
 - **Date:** before 2026-09-23 (original spec); recorded 2026-10-03
 - **Deciders:** Shrikar Vempati (original spec)
 - **Traces to:** SYS-07, SYS-08, SYS-14, SYS-24, ADR-0010, ADR-0016, ADR-0021, ADR-0023, RSK-01, E-02
+- **Last editor:** Kunshpreet Baweja
+- **Last edited:** 2026-10-13
 
 > [!NOTE]
 > **Backfilled.** The decision was made in the original spec, before this ADR process existed. The context, decision and consequences come from the current docs. **The options and criteria below are drafted from those docs, not recorded from the original reasoning: confirm or correct them.**
