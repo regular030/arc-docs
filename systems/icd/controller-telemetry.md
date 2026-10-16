@@ -1,6 +1,6 @@
 # ICD-controller-telemetry
 
-- **Revision:** A (2026-10-09; active UART transport under ADR-0049)
+- **Revision:** draft (2026-10-09)
 - **Status:** Draft active UART interface; firmware implementation, clock alignment and installed-harness qualification pending.
 - **Side A:** motor controller firmware (`firmware/vesc/`, our VESC build on the A50S; E-50) (owner kunshpreet)
 - **Side B:** sync MCU firmware (`firmware/sync-mcu/`, the `controller_links` module; E-30) (owner kunshpreet)
@@ -9,7 +9,7 @@
 Each of the four motor controllers streams its full status to the sync MCU over its own UART (ADR-0034). Commands don't use this link: they stay on the classic CAN command bus (ADR-0009).
 
 > [!NOTE]
-> **UART is the active A50S telemetry transport under ADR-0049.** Each controller has a separate 2 Mbit/s link. The drive FD adapters and their PB10 IRQ/PB11 CS allocation are withdrawn, so PB10/PB11 retain USART3 TX/RX. Both telemetry endpoints remain stubs; see the [UART readiness review](../reviews/a50s-uart-readiness.md). Steering still uses its separate moteus CAN-FD link.
+> Both telemetry endpoints are stubs; see the [UART readiness review](../reviews/a50s-uart-readiness.md). Steering uses its own CAN-FD link (ADR-0019).
 
 ## Transport
 
@@ -18,6 +18,7 @@ Each of the four motor controllers streams its full status to the sync MCU over 
 | Link | One UART per controller, point to point: the A50S's TX/RX pins (ICD-corner-connector) to a sync MCU UART |
 | Electrical | 3.3 V logic, each line twisted with a reviewed reference return; voltage/ground margins, return-current partition and unpowered-node behavior TBD under ADR-0042 |
 | Rate | 2 Mbit/s, 8N1 (baseline, set 2026-10-08; installed-harness qualification pending). It divides exactly from the A50S's 42 MHz UART clock with upstream's 16× oversampling driver; 3 Mbit/s would need 8× oversampling set up outside that driver |
+| Harness | Five conductors per controller (TBC): TX and RX, each with a reference return, plus a spare; return and reference design per ADR-0042 |
 | Load ceiling | ≤ 50% (SYS-24, a data link) |
 | Encoding | MAVLink 2, the ARC message set in [`sync-link.xml`](sync-link.xml) (ADR-0031): one schema and one generated library for both links |
 
@@ -52,5 +53,5 @@ At 59 bytes per unsigned, full-length `ARC_MOTOR_STATUS` frame (47-byte payload 
 3. Owners assigned: kunshpreet; both side-role approvals remain pending in [review record](signoff.md).
 4. How a controller knows its corner for the `corner` field (presumably its VESC controller ID, 1–4 as in `can-command.dbc`): TBD.
 5. MAVLink system and component IDs on this link: TBD.
-6. Final H723 UART/DMA pin map, A50S connector-contact verification and reference/grounding design. Keep PB10/PB11 assigned to USART3; the withdrawn FD proposal does not reserve them.
+6. Final H723 UART/DMA pin map, A50S connector-contact verification and reference/grounding design. PB10/PB11 are the A50S's USART3 TX/RX.
 7. The schema's `corner` enum is 0–3, while VESC command-bus IDs are 1–4. The explicit mapping must be implemented and verified; these values are not interchangeable.

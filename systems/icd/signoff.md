@@ -13,7 +13,6 @@ This is the review package for [#102](https://github.com/Autonomous-Robotics-Car
 | [corner-mechanical](corner-mechanical.md) | kunshpreet — corner/mechanical | kunshpreet — chassis | Outline; CAD datums / fasteners / loads TBD | Pending | Pending |
 | [can-command](can-command.dbc) | kunshpreet — sync firmware | kunshpreet — drive firmware | Schema draft; rates, firmware behavior and actual hardware qualification | Pending | Pending |
 | [controller-telemetry](controller-telemetry.md) | kunshpreet — drive firmware | kunshpreet — sync firmware | Rev A active 2 Mbit/s UART; implementation, clock alignment and harness qualification pending | Pending | Pending |
-| [drive FD telemetry](drive-canfd-telemetry.md) | kunshpreet — A50S/FD firmware and hardware | kunshpreet — sync/harness/Orin | Deprecated after ADR-0049; local FD interfaces not installed | Pending | Pending |
 | [power-rails](power-rails.md) | kunshpreet — power | kunshpreet — load-board integration | Rev A draft; ratings, contacts, stop / inrush / shutdown hardware | Pending | Pending |
 | [power-sync-stack](power-sync-stack.md) | kunshpreet — power/monitors | kunshpreet — sync hardware/firmware | Rev B draft; internal motherboard signals, monitor transport / levels, clocks and GPIOs; ADR-0044 | Pending | Pending |
 | [carrier-sync](carrier-sync.md) | kunshpreet — carrier/platform | kunshpreet — sync hardware/firmware | Rev B draft; B0223 frame triggers (ADR-0053), carrier/module map and handshake evidence | Pending | Pending |

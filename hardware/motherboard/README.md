@@ -14,7 +14,7 @@ This folder is the working location for the combined motherboard design. Schemat
 | Internal power/sync interface | Monitor buses, alerts, logic supplies and shutdown signals connect within this PCB; no stacking header in the current plan | [Logical signal contract](../../systems/icd/power-sync-stack.md) |
 | Carrier connection | Compute supply, triggers/PPS, shutdown request and acknowledgement; Ethernet follows the recorded network plan | [Carrier/sync interface](../../systems/icd/carrier-sync.md) |
 
-The four bought A50S controllers stay separate and send telemetry over four 2 Mbit/s UARTs under ADR-0049. No local FD adapter circuits, PA7 breakout or SPI/IRQ harness are required. UART firmware, pin/DMA assignment, references and protection still need qualification. The bus clamp’s placement and E-34 independent full-stop brake remain open.
+The four bought A50S controllers stay separate and send telemetry over four 2 Mbit/s UARTs under ADR-0034. UART firmware, pin/DMA assignment, references and protection still need qualification. The bus clamp’s placement and E-34 independent full-stop brake remain open.
 
 Grounding/isolation, power-stage parts and sizing remain **TBD for later owner review**. Combining the circuits does not remove noise, return-current, power-loss or independent-stop requirements. Board envelope, copper stack, connectors, pin map, layout and verification remain TBD. Refer to the [parts list](../../systems/bom/pcb-parts-selection.md) for candidates; the sync and power component sections belong to this same PCB and must not be counted as two boards.
 

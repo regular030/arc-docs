@@ -8,7 +8,7 @@
 
 ## Unpowered inspection
 
-Verify the active UART assignment under ADR-0049: PB10 is USART3 TX and PB11 RX. Actual connector contact numbers remain TBD until measured. The PA7 breakout and local SPI/FD IRQ/CS proposal are withdrawn.
+Verify the active UART assignment under ADR-0034: PB10 is USART3 TX and PB11 RX. Actual connector contact numbers remain TBD until measured.
 
 1. Identify all six supplied units, hardware revision, serial and heatsink option; mark four installed / two spare candidates. Record photographs and supplied connector / capacitor part details.
 2. With power disconnected and capacitors discharged, establish connector mating face / latch orientation and GND contacts. Record the physical circuit map before connecting the UART harness; verify supplier evidence or continuity to the actual TX/RX pins.

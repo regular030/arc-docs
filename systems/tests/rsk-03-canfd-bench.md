@@ -1,7 +1,7 @@
 # RSK-03: Steering CAN-FD harness qualification
 
-- **Verifies:** RSK-03, SYS-19, SYS-24, SYS-25, ADR-0019, ADR-0038, ADR-0039, ADR-0049
-- **Status:** Not started; the former drive-FD procedure is retired by ADR-0049. Only steering remains on CAN-FD.
+- **Verifies:** RSK-03, SYS-19, SYS-24, SYS-25, ADR-0019, ADR-0038, ADR-0039, ADR-0034
+- **Status:** Not started; the former drive-FD procedure is retired by ADR-0034. Only steering remains on CAN-FD.
 - **Rig:** R2 motor bench with the final sync → moteus-c1 harness and loaded motors
 - **Owner:** kunshpreet; separate safety reviewer TBD
 
@@ -25,4 +25,4 @@ Zero error/lost frames over the loaded soak; CAN load ≤70%; correct operating 
 | --- | --- | --- | --- | --- | --- |
 | Final steering harness, loaded motors | TBD | TBD | TBD | Not run | TBD |
 
-Drive telemetry now follows [UART qualification](a50s-arrival-and-fd.md), not this procedure. The historical drive-FD architecture/audit is marked deprecated in [drive-canfd-telemetry](../icd/drive-canfd-telemetry.md).
+Drive telemetry now follows [UART qualification](a50s-arrival.md), not this procedure.

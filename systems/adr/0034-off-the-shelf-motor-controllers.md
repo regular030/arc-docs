@@ -1,6 +1,6 @@
 # ADR-0034: Off-the-shelf motor controllers (A50S) on the deck; telemetry over UART; top speed 9 m/s
 
-- **Status:** Accepted, amended by ADR-0035 (the telemetry reports each controller's state; the controllers brake on command loss). Set on 2026-10-08: telemetry link rate 2 Mbit/s, not 3 Mbit/s (ICD-controller-telemetry); T 2.4 s (TBC), since the ~1.8 s below is the stop time without the ramp and T must come after the stop (ICD-corner-connector). Amended by ADR-0047 (independent full-stop guarantee) and ADR-0049 (A50S UART at 2 Mbit/s; supersedes the intermediate ADR-0041 drive-FD requirement).
+- **Status:** Accepted, amended by ADR-0035 (the telemetry reports each controller's state; the controllers brake on command loss). Set on 2026-10-08: telemetry link rate 2 Mbit/s, not 3 Mbit/s (ICD-controller-telemetry); T 2.4 s (TBC), since the ~1.8 s below is the stop time without the ramp and T must come after the stop (ICD-corner-connector). Amended by ADR-0047 (independent full-stop guarantee).
 - **Date:** 2026-10-07
 - **Purchase scope:** Amended by ADR-0054: four installed drive controllers, no purchased controller spares.
 - **Last editor:** Kunshpreet Baweja
@@ -12,7 +12,7 @@
 - **Amends:** ADR-0006 (the controller leaves the corner), ADR-0009 (the command bus now runs on the deck), ADR-0012 (the hardware torque cut moves to the power board), ADR-0013 (now applies to the steering bus only), ADR-0024 (VESC telemetry path), ADR-0028 (VESC firmware targets), ADR-0019 (steering bus placement), ADR-0033 (our firmware changes)
 
 > [!NOTE]
-> ADR-0049 restores UART as the active A50S telemetry transport at the upstream 2 Mbit/s baseline. The historical 3 Mbit/s and small-wheel sizing text below is amended by the current ICD and ADR-0048; independent full-stop requirements follow ADR-0047.
+> The 3 Mbit/s and small-wheel sizing text below is historical: the link runs at 2 Mbit/s (ICD-controller-telemetry), and ADR-0048 reviews sizing for the custom corners; independent full-stop requirements follow ADR-0047.
 
 ## Context
 

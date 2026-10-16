@@ -59,9 +59,9 @@ Assumes 4S, about 50,000 rpm loaded and a 100 mm tyre (ADR-0040); a worn tyre is
 **Motor control:** four off-the-shelf A50S V2.3c controllers (35.5 × 21 × 13.8 mm, VESC firmware) on the lower deck, running our build of the vendored VESC firmware (ADR-0033, ADR-0034).
 
 - Commands arrive over one classic CAN bus (1 Mbit/s, ADR-0009) using the stock VESC path.
-- Full timestamped telemetry at ≥1 kHz uses four independent **2 Mbit/s 8N1 UARTs** from the A50S controllers to the H723 (ADR-0049). The drive-FD adapters and trunks are removed. Firmware endpoints, clock alignment and loaded harness margins remain unqualified; see the [UART ICD](icd/controller-telemetry.md) and [readiness review](reviews/a50s-uart-readiness.md).
+- Full timestamped telemetry at ≥1 kHz uses four independent **2 Mbit/s 8N1 UARTs** from the A50S controllers to the H723 (ADR-0034). Firmware endpoints, clock alignment and loaded harness margins remain unqualified; see the [UART ICD](icd/controller-telemetry.md) and [readiness review](reviews/a50s-uart-readiness.md).
 - A maximum-eRPM limit in each controller keeps the motors in the range where its control loop is stable.
-- Each corner sends its motor phases and Hall sensor cable to the deck (ICD-corner-connector rev H).
+- Each corner sends its motor phases and Hall sensor cable to the deck (ICD-corner-connector rev F).
 
 ## Steering
 
@@ -96,7 +96,7 @@ The [updated EE sizing review](adr/0048-ee-sizing-after-custom-corners.md) uses 
 
 ## Sync and sensing
 
-The sync MCU (STM32H723, Zephyr) owns the car's time base. It timestamps sensors at the pin, triggers the cameras, runs the heartbeat watchdog and safety envelope, and uses classic command CAN, four A50S telemetry UARTs and the separate moteus steering FD link (ADR-0049). µs-critical sensors are timestamped in its clock; the Orin follows in software to ≤ 1 ms (ADR-0021, SYS-07 ≤ 10 µs).
+The sync MCU (STM32H723, Zephyr) owns the car's time base. It timestamps sensors at the pin, triggers the cameras, runs the heartbeat watchdog and safety envelope, and uses classic command CAN, four A50S telemetry UARTs and the separate moteus steering FD link (ADR-0034). µs-critical sensors are timestamped in its clock; the Orin follows in software to ≤ 1 ms (ADR-0021, SYS-07 ≤ 10 µs).
 
 | Sensor | Part | Rate | Connects to |
 | --- | --- | --- | --- |
@@ -112,7 +112,7 @@ The sync MCU (STM32H723, Zephyr) owns the car's time base. It timestamps sensors
 | Steering knuckle ×2 | AS5047 | 2 kHz | Sync SPI |
 | Ride height ×4 | Our custom in-house assembled ToF PCB, one per corner (ADR-0051, ADR-0052) | Native | Sync I2C + mux |
 | Cell voltages ×4 | Motherboard cell monitor | ≥ 100 Hz | Internal power/sync signals (ADR-0044) |
-| Motor/FET temperature, currents | Controller telemetry | ≥ 1 kHz | Four 2 Mbit/s UARTs (ADR-0049) |
+| Motor/FET temperature, currents | Controller telemetry | ≥ 1 kHz | Four 2 Mbit/s UARTs (ADR-0034) |
 
 Latency from sample to the Orin is ≤ 2 ms for sync-board sensors and VESC telemetry (SYS-29, `budgets/latency.csv`).
 
@@ -138,7 +138,7 @@ Wi-Fi is the only wireless link (ADR-0005). The car joins the team's Flint 3 rou
 
 The [proposed wiring diagram and cable budget](bom/motherboard-wiring.md) separates remote sensor looms, power, bought A50S controllers and the Jetson carrier. Custom ARC angle, IMU and corner-height boards total sixteen remote sensor runs / 106 minimum conductors, including sixteen spare conductors (TBC wiring proposal, ADR-0052). All sixteen boards are assembled in house; their 2-layer implementations, connector contacts and the complete motherboard wire total remain TBC/TBD.
 
-Every connection locks; every run carries a spare conductor; every wire is labelled with its schematic net name; strain relief at every board entry. JST-GH for signal; the controllers' own connectors (XT30, MR30, Pico-Clasp) on the deck. Twisted pairs for CAN buses; four A50S UART signal/reference cable runs, routed away from motor phase leads (ADR-0049); Hall cables too. Command-bus terminators sit at the sync board and the far end of the trunk.
+Every connection locks; every run carries a spare conductor; every wire is labelled with its schematic net name; strain relief at every board entry. JST-GH for signal; the controllers' own connectors (XT30, MR30, Pico-Clasp) on the deck. Twisted pairs for CAN buses; four A50S UART signal/reference cable runs, routed away from motor phase leads (ADR-0034); Hall cables too. Command-bus terminators sit at the sync board and the far end of the trunk.
 
 ## Mechanical
 

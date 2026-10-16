@@ -28,4 +28,4 @@ Carry forward ADR-0026's accepted arrangement: one motor per wheel, transverse, 
 - If a candidate has no suitable built-in sensor, choose another motor through review. Do not quietly reinstate E-28 or assume that a Hall-sensored motor includes temperature sensing.
 - Motor price and any revised shaft, can, gearing or mounting implications remain open until a compliant motor is selected. The archived Castle price is not a quote for the new selection.
 
-The [corner interface](../icd/corner-connector.md), [arrival test](../tests/a50s-arrival-and-fd.md) and [wiring plan](../bom/motherboard-wiring.md) carry this procurement constraint into the harness and acceptance checks.
+The [corner interface](../icd/corner-connector.md), [arrival test](../tests/a50s-arrival.md) and [wiring plan](../bom/motherboard-wiring.md) carry this procurement constraint into the harness and acceptance checks.

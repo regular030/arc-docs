@@ -5,7 +5,7 @@
 - **Deciders:** Kunshpreet Baweja, through the instructions to fund one of each core PCB, retain all ten angle boards and fit two IMU and four corner-height boards, all sensors assembled in house
 - **Traces to:** E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-41, E-46, SYS-06, SYS-07, SYS-10, SYS-15, SYS-19, SYS-24, SYS-25, SYS-29, RSK-07
 - **Supersedes:** ADR-0007, ADR-0050, ADR-0051
-- **Related:** ADR-0008, ADR-0014, ADR-0019, ADR-0021, ADR-0044, ADR-0047, ADR-0049
+- **Related:** ADR-0008, ADR-0014, ADR-0019, ADR-0021, ADR-0044, ADR-0047, ADR-0034
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-12
 

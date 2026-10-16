@@ -3,7 +3,7 @@
 - **Status:** Draft (TBC planning estimate)
 - **Updated:** 2026-10-12
 - **Currency:** CAD funding figures; USD supplier evidence
-- **Traces to:** SYS-02, SYS-07, SYS-08, SYS-14, SYS-19, SYS-24, E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-41, E-43, E-46, ADR-0044, ADR-0045, ADR-0046, ADR-0047, ADR-0049, ADR-0050, ADR-0051, ADR-0052.
+- **Traces to:** SYS-02, SYS-07, SYS-08, SYS-14, SYS-19, SYS-24, E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-41, E-43, E-46, ADR-0044, ADR-0045, ADR-0046, ADR-0047, ADR-0034, ADR-0050, ADR-0051, ADR-0052.
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-12
 
@@ -27,7 +27,7 @@ Use **USD 1 = CAD 1.4271**, the [Bank of Canada daily rate for 2026-10-09](https
 - **ToF boards:** four installed [custom ARC corner-height PCBs](../../hardware/sensor-boards/tof/README.md), one at each corner. Fabricate five bare boards, buy four loose chips and populate four in house. One bare board remains unused. **VL53L4CDV0DH/1 remains preferred/TBC**, with installed optical qualification pending. The fifth dedicated ground-camera scale board is removed under ADR-0052; deriving camera height from the four corners remains TBD.
 - **Remote sensors:** three reusable design families, **16 installed and in-house-populated sensor boards**, with **20 bare sensor PCBs** fabricated. No sensor factory setup, placement, fixtures or X-ray fees apply to this model. In-house assembly instructions, inspection and electrical/optical qualification remain required.
 - **Optional separate clamp:** one installed if needed; retained minimum two JLC-populated and five bare total costing scenario. Omit this row and reprice motherboard population if integrated. The clamp is separate from the E-34 independent brake.
-- Across the optional-clamp scenario: **19 installed boards**, **35 bare PCBs fabricated**, **6 factory-populated core/clamp boards** and **16 in-house-populated sensors**. The **22 populated boards** include three factory-minimum surplus units. Drive telemetry remains four UARTs (ADR-0049); steering's existing MCP2518FD/transceiver baseline remains included.
+- Across the optional-clamp scenario: **19 installed boards**, **35 bare PCBs fabricated**, **6 factory-populated core/clamp boards** and **16 in-house-populated sensors**. The **22 populated boards** include three factory-minimum surplus units. Drive telemetry remains four UARTs (ADR-0034); steering's existing MCP2518FD/transceiver baseline remains included.
 
 ## KEFC cost table
 

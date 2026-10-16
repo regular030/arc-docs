@@ -39,22 +39,19 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0031](0031-sync-link-encoding.md) | Sync link encoded as MAVLink 2 with our own message set | Accepted |
 | [0032](0032-simulator.md) | Simulators as pluggable backends: Gazebo Harmonic, Webots, F1TENTH gym | Accepted |
 | [0033](0033-vesc-firmware-vendored.md) | VESC firmware vendored as an upstream snapshot, updated by script (GPL-3.0 subdirectory) | Accepted, amended by 0034 and 0037 |
-| [0034](0034-off-the-shelf-motor-controllers.md) | Off-the-shelf motor controllers (A50S) on the deck; telemetry over UART; top speed 9 m/s | Accepted, amended by 0035, 0047, 0049 and 0054; sizing review in 0048 |
+| [0034](0034-off-the-shelf-motor-controllers.md) | Off-the-shelf motor controllers (A50S) on the deck; telemetry over UART; top speed 9 m/s | Accepted, amended by 0035, 0047 and 0054; sizing review in 0048 |
 | [0035](0035-corner-state-and-command-timeout.md) | Each corner reports its state in its telemetry; the controllers brake on command loss | Accepted, amended by 0039 |
-| [0036](0036-steering-bus-physical-layer.md) | Steering CAN-FD bus physical layer: discrete transceiver, rework-only fallbacks | Superseded by 0041; steering physical-layer provisions carried forward by 0049 at 5 Mbit/s |
+| [0036](0036-steering-bus-physical-layer.md) | Steering CAN-FD bus physical layer: discrete transceiver, rework-only fallbacks | Accepted |
 | [0037](0037-vesc-modules-in-arc.md) | Our VESC firmware code lives in `firmware/vesc/arc/`, joined to upstream by small hooks | Accepted |
 | [0038](0038-steering-loss-stops-the-car.md) | Losing steering stops the car, and the car doesn't drive without it | Accepted |
 | [0039](0039-fault-stop-reset.md) | A fault stop latches, and only an e-stop cycle on the car resets it | Accepted |
 | [0040](0040-custom-corners.md) | We design the corners; only generic parts are bought (Arrma 6S drivetrain and wheel parts, industrial bearings and rod ends) | Accepted |
-| [0041](0041-canfd-fixed-5mbit.md) | Historical mandatory drive FD and A50S adapter proposal | Superseded by 0049 |
 | [0042](0042-grounding-and-isolation.md) | Controlled return star / non-isolated review baseline; complete isolation alternative | Proposed (kunshpreet review) |
-| [0043](0043-a50s-spi-access-and-clock.md) | Historical A50S local SPI/FD proposal | Superseded by 0049 (withdrawn) |
 | [0044](0044-combined-power-sync-motherboard.md) | Power and sync MCU share one motherboard PCB; Jetson carrier stays separate | Accepted (owner working packaging plan) |
 | [0045](0045-board-size-estimates.md) | Preliminary motherboard and Jetson PCB / installed-envelope size estimates | Proposed (TBC; placement and thermal review pending) |
 | [0046](0046-built-in-motor-temperature.md) | Buy motors with compatible built-in temperature sensors; remove separate can-mounted thermistors | Accepted (owner procurement requirement; exact motor TBD) |
 | [0047](0047-estop-full-stop-with-controller-fault.md) | E-stop reaches physical standstill with halted A50S firmware; independent brake remains open | Accepted (user requirement) |
 | [0048](0048-ee-sizing-after-custom-corners.md) | Align EE review with 100 mm wheels, 18:1 gearing and the revised current/regen estimates; resistor sizing reopened | Proposed (ratings and parts review pending) |
-| [0049](0049-a50s-uart-telemetry.md) | Four 2 Mbit/s A50S telemetry UARTs; remove drive FD adapters/trunks; steering FD retained | Accepted; sensor inventory amended by 0052; UART qualification pending |
 | [0050](0050-common-imus-and-in-house-angle-boards.md) | ISM330DHCXTR at both IMU sites; separate AS5047P boards assembled in house; CAD funding basis | Superseded by 0052; selected parts retained |
 | [0051](0051-custom-imu-and-height-sensor-pcbs.md) | ARC-designed remote IMU and ground/ride-height PCBs; existing sensor quantities and assembly cost assumptions retained | Superseded by 0052; ARC PCB ownership retained |
 | [0052](0052-one-car-sensor-counts-and-in-house-assembly.md) | One-car funding scope; ten angle, two IMU and four corner-height boards, all sensors assembled in house | Accepted (owner quantities/locations/process; design and ground-camera scale qualification pending) |

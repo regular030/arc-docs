@@ -3,7 +3,7 @@
 - **Status:** Draft estimate; final BOMs, quotes and qualification pending
 - **Date:** 2026-10-13
 - **Currency:** CAD totals; CAD, USD and GBP supplier prices
-- **Traces to:** SYS-01, SYS-03, SYS-05, SYS-06, SYS-07, SYS-08, SYS-09, SYS-10, SYS-13, SYS-14, SYS-19, SYS-23, SYS-24, SYS-29, SYS-30, SYS-32; ADR-0034, ADR-0044, ADR-0046, ADR-0047, ADR-0048, ADR-0049, ADR-0052, ADR-0053, ADR-0054
+- **Traces to:** SYS-01, SYS-03, SYS-05, SYS-06, SYS-07, SYS-08, SYS-09, SYS-10, SYS-13, SYS-14, SYS-19, SYS-23, SYS-24, SYS-29, SYS-30, SYS-32; ADR-0034, ADR-0044, ADR-0046, ADR-0047, ADR-0048, ADR-0034, ADR-0052, ADR-0053, ADR-0054
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-13
 

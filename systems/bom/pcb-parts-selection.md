@@ -11,11 +11,11 @@ Scope: one car with **one custom Jetson carrier, one combined power/sync motherb
 
 This is the main-component selection list for schematic capture. It supplements [electrical.md](electrical.md) and the [electrical handoff](../handoff/electrical.md). Exact passives, magnetics, protection ratings and reference designators are completed from the schematics before the [fab gate](../reviews/fab-gate.md). New recommendations here do not change an accepted ADR automatically.
 
-**Controller baseline:** four A50S V2.3c on the deck plus two spares under ADR-0034. [ADR-0049](../adr/0049-a50s-uart-telemetry.md) selects **four independent 2 Mbit/s UARTs**, full ≥1 kHz status per controller, with classic CAN commands kept separate. The four local FD circuits and front/rear drive-FD trunks are removed. The moteus steering FD link remains separate. Controller sourcing is the [retained 2026-10-07 snapshot](purchased-vesc-shortlist.md); landed quote TBD.
+**Controller baseline:** four A50S V2.3c on the deck plus two spares under ADR-0034, with **four independent 2 Mbit/s UARTs**, full ≥1 kHz status per controller, with classic CAN commands kept separate. The moteus steering FD link remains separate. Controllers are bought from Triforce (ADR-0034); landed quote TBD.
 
 **Latest main reconciled, 2026-10-12:** upstream `5a59c53` selects custom corners (ADR-0040), **100 mm wheels / 18:1 gearing / TBC 4–5 kg**. Review **TBC 36–43 A pack peak, 16–20 A phase current per corner, and 160–200 J / 185–230 W regen** in [ADR-0048](../adr/0048-ee-sizing-after-custom-corners.md). Dump-resistor sizing remains open. One power/sync motherboard, separate carrier, compatible built-in motor temperature and independent full-stop ADR-0047 remain required.
 
-**UART readiness:** calculated status-stream load is **29.5% per 2 Mbit/s link at 1 kHz**. Both firmware endpoints are still stubs; clock alignment, DMA ownership, fault handling, forwarding and loaded ground/reference margins need qualification. PB10/PB11 retain A50S USART3 TX/RX; the withdrawn FD proposal no longer reserves them for IRQ/CS. See [UART ICD](../icd/controller-telemetry.md), [source review](../reviews/a50s-uart-readiness.md) and [arrival checks](../tests/a50s-arrival-and-fd.md).
+**UART readiness:** calculated status-stream load is **29.5% per 2 Mbit/s link at 1 kHz**. Both firmware endpoints are still stubs; clock alignment, DMA ownership, fault handling, forwarding and loaded ground/reference margins need qualification. PB10/PB11 are the A50S's USART3 TX/RX. See [UART ICD](../icd/controller-telemetry.md), [source review](../reviews/a50s-uart-readiness.md) and [arrival checks](../tests/a50s-arrival.md).
 
 **Sensor decisions (ADR-0052):** one car uses **10 AS5047P angle boards (4 wheel + 4 suspension + 2 front knuckle), 2 ISM330DHCXTR IMU boards and 4 corner-height ToF boards**. All **16 custom sensor PCBs are assembled in house** from JLC bare boards and separately purchased loose chips/support parts. No populated spare sensor set or dedicated fifth ground-camera ToF is included. Ground-camera scale derivation remains TBD. See the [assembly purchase plan](../../hardware/sensor-boards/README.md#as5047p-in-house-purchase-and-assembly-plan) and [sensor review](sensor-candidate-review.md). Grounding/isolation and power-stage selections remain TBD for later owner review.
 
@@ -180,14 +180,14 @@ The Orin module already exposes Gigabit Ethernet: provide matching magnetics / R
 | Ethernet PHY — 🟢 **Recommend** | Microchip **LAN8742AI-CZ-TR** | [C621425](https://jlcpcb.com/partdetail/Microchip-LAN8742AI_CZTR/C621425) | 1 | **$1.64** | QFN-24 EP, 4 × 4 mm; industrial 10/100 RMII. Add PHY clock, straps, magnetics and connector. |
 | Steering CAN-FD controller — 🟢 **Existing family** | Microchip **MCP2518FDT-E/SL** | [C626758](https://jlcpcb.com/partdetail/MicrochipTech-MCP2518FDT_ESL/C626758) | 1 | **$1.50** | SOIC-14; SPI; dedicated steering bus baseline. Moving to a freed native H723 FDCAN remains an owner choice. |
 | External CAN controller clock — 🟢 **Recommend** | Yajingxin **TX322540M4FBCE2T** | [C5186937](https://jlcpcb.com/partdetail/5858100-TX322540M4FBCE2T/C5186937) | 1 | **$0.0763** | 40 MHz crystal, 3225-4, 12 pF load; calculate load capacitors and verify clock error over temperature. |
-| Steering FD transceiver — 🟢 **Recommend** | NXP **TJA1462AT/0Z** | [C3234095](https://jlcpcb.com/partdetail/NXPSemicon-TJA1462AT0Z/C3234095) | **1** | **$1.00** | SOIC-8 CAN SIC; steering only. VCC = 5 V, VIO = 3.3 V. No front/rear drive FD transceivers |
+| Steering FD transceiver — 🟢 **Recommend** | NXP **TJA1462AT/0Z** | [C3234095](https://jlcpcb.com/partdetail/NXPSemicon-TJA1462AT0Z/C3234095) | **1** | **$1.00** | SOIC-8 CAN SIC; steering only. VCC = 5 V, VIO = 3.3 V |
 | Classic command transceiver — 🟢 **Existing family** | NXP **TJA1051T/3/CM,118** | [C2671195](https://jlcpcb.com/partdetail/NXP-TJA1051T_3CM118/C2671195) | **1** | **$0.82** | SOIC-8; 5 V bus supply / 3.3 V I/O. Pin 8 is silent-mode S, unlike the SIC transceiver's STB. |
 | Four identical ToF addresses — 🟢 **Recommend** | TI **TCA9548APWR** | [C130026](https://jlcpcb.com/partdetail/TexasInstruments-TCA9548APWR/C130026) | 1 | **$0.81** | TSSOP-24; eight-channel I²C mux, one ToF per channel; pull-ups and reset behavior per channel. |
 | Quiet sensor 3.3 V — 🟢 **Recommend** | TI **TPS7A2033PDBVR** | [C2862740](https://jlcpcb.com/partdetail/TexasInstruments-TPS7A2033PDBVR/C2862740) | **2 provisional** | **$0.2151** | SOT-23-5, 300 mA LDO, feed from protected 5 V. Budget each sensor domain; this is not the main H723 supply. |
 
 Reserve channels for **12 sensor chip-selects** (2 IMUs + 10 angle sensors), IMU interrupts, MCP2518FD, power-board data, four trigger outputs, PPS, debug, lighting-mode controls and the specified spares. With MCP2518FD, direct cell-monitor SPI and one spare, allocate **15 chip-selects**; also reserve the MCP interrupt separately from the two IMU interrupts. Partition SPI buses / interrupt routing before committing the LQFP pin map. The cell-monitor select is additional to the twelve state-sensor selects.
 
-One native H723 FDCAN serves classic drive commands. The existing external MCP2518FD baseline serves the separate moteus steering FD link at **1 Mbit/s arbitration / 5 Mbit/s data with BRS**; two native FDCAN peripherals are freed. Moving steering to one of them remains the owner's choice, so the steering MCP/crystal/transceiver stay listed. Allocate **four controller UARTs plus debug**, with DMA/pin mapping and spare provision checked alongside sensors and Ethernet. Each CAN segment needs its own correct termination; UART TX/RX do not use CAN termination. The selected TJA1462AT uses pins 1 TXD, 2 GND, 3 VCC (5 V), 4 RXD, 5 VIO (3.3 V), 6 CANL, 7 CANH, 8 STB. Verify exact suffix and pinout; follow [ADR-0049](../adr/0049-a50s-uart-telemetry.md) and the [UART ICD](../icd/controller-telemetry.md).
+One native H723 FDCAN serves classic drive commands. The existing external MCP2518FD baseline serves the separate moteus steering FD link at **1 Mbit/s arbitration / 5 Mbit/s data with BRS**; two native FDCAN peripherals are freed. Moving steering to one of them remains the owner's choice, so the steering MCP/crystal/transceiver stay listed. Allocate **four controller UARTs plus debug**, with DMA/pin mapping and spare provision checked alongside sensors and Ethernet. Each CAN segment needs its own correct termination; UART TX/RX do not use CAN termination. The selected TJA1462AT uses pins 1 TXD, 2 GND, 3 VCC (5 V), 4 RXD, 5 VIO (3.3 V), 6 CANL, 7 CANH, 8 STB. Verify exact suffix and pinout; follow ADR-0034 and the [UART ICD](../icd/controller-telemetry.md).
 
 ## Power and electrical sensing (motherboard)
 
@@ -218,13 +218,13 @@ These are **new proposed MPNs**. Input is 4S LiPo (up to 16.8 V) and a 19 V wall
 
 ## Motor controllers and UART
 
-**Bought A50S is the active baseline (ADR-0034 / ADR-0049).** Four installed controllers with signal connector and heatsink were GBP £400 at the retained 2026-10-07 snapshot; two spares add £200. Final landed/USD quote TBD. This is bought hardware, not JLCPCB assembly.
+**Bought A50S is the active baseline (ADR-0034).** Four installed controllers with signal connector and heatsink were GBP £400 at the retained 2026-10-07 snapshot; two spares add £200. Final landed/USD quote TBD. This is bought hardware, not JLCPCB assembly.
 
 | Function / choice | Exact manufacturer part | JLCPCB | Qty / car | USD each | Package / design notes |
 | --- | --- | --- | --- | --- | --- |
 | Drive controller — 🟢 **Existing** | Team Triforce **A50S V2.3c 12S** | Bought controller; not JLC | **4 + 2 spares** | **TBD**; retained GBP £100 each | Heatsink / signal connector baseline; classic CAN commands + own 2 Mbit/s UART. Qualify firmware, temperature input, harness and full-stop interfaces |
 
-**Removed from active procurement:** four A50S-local MCP2518FDs, four 40 MHz crystals, four local FD transceivers and the two motherboard drive-FD transceivers. The separate steering FD controller/crystal/transceiver remain in the sync MCU section. UART connector contacts, grounding/isolation/protection and any added interface parts/prices remain TBD; no replacement buffer or isolator is selected here.
+The steering FD controller, crystal and transceiver are in the sync MCU section. UART connector contacts, grounding/isolation/protection and any added interface parts/prices remain TBD; no replacement buffer or isolator is selected here.
 
 Each A50S USART3 TX (PB10) goes to its assigned H723 RX; RX (PB11) receives from that H723 TX. The proposed harness is **five conductors per run / 20 across four runs, TBC**, including paired references and one spare per run. Do not parallel controller supply outputs or release the return wiring before the grounding review. See [wire schedule](motherboard-wiring.md), [UART ICD](../icd/controller-telemetry.md) and [readiness review](../reviews/a50s-uart-readiness.md).
 
@@ -255,7 +255,7 @@ Use [ICD-corner-connector Rev H](../icd/corner-connector.md) for corner-to-deck 
 | ToF ICs | **4** | Four corner ride-height sites; camera scale derivation TBD |
 | MCP2518FD controllers / 40 MHz crystals | **1 each** | Existing sync steering baseline only; no A50S-local circuits |
 | ARC-added TJA1051 command transceivers | **1** | Sync board only; the four bought A50S include their own classic-CAN hardware |
-| TJA1462 FD transceivers | **1** | Steering only; front/rear drive FD and local A50S interfaces removed |
+| TJA1462 FD transceivers | **1** | Steering only |
 | Power-side cut / steering timing | **TBD** | Final timing circuitry and quantities depend on the power / independent-brake sequence; E-34 coordination remains open |
 | CSD18540 power-board / clamp candidates | **9** | 4 buck-boost + 2 main buck + 2 ORing + 1 clamp; excludes any further switch / parallel FETs |
 
@@ -263,7 +263,7 @@ The selected **16 installed state-sensor ICs** cost **USD $66.5836 / CAD $95.02 
 
 ## External parts and remaining schematic work
 
-Custom carrier / power / sync prices in the old cost budget are build allowances. The A50S is bought hardware under ADR-0034 / ADR-0049; four installed units and two spares are separate from motherboard JLC component costs. UART interface/protection parts and prices remain TBD. Keep these external items separate:
+Custom carrier / power / sync prices in the old cost budget are build allowances. The A50S is bought hardware under ADR-0034; four installed units and two spares are separate from motherboard JLC component costs. UART interface/protection parts and prices remain TBD. Keep these external items separate:
 
 | External item | Qty / car | Budget basis — not a live JLC quote |
 | --- | --- | --- |
@@ -282,9 +282,8 @@ Before exporting an orderable assembly BOM, finish these specific items:
 1. **Carrier:** frozen Antmicro revision and full inherited BOM, module power mode / input path, GbE magnetics / RJ45, all local rail currents, EEPROM / sequencing / reset / fan parts, connectors and mounting heights. Confirm the four CSI connector pinouts even though camera procurement is out of scope.
 2. **Sync:** complete MCU pin map; HSE / PHY clock scheme; main MCU supply / decoupling; ToF pull-ups; sensor connectors / satellite PCBs; power-board bus and logic levels; CAN terminations / protection / optional chokes. Verify harnessed SPI before routing long runs.
 3. **Power:** branch-current peaks and steering regen path; exact converter FET suitability, inductors, diodes, compensation and capacitors; branch shunt values; branch fuses / switches; cell-tap protection / off-state isolation; internal power/sync connections and test access. A current-limit IC does not remove the physical-fuse requirement.
-4. **A50S / UART / e-stop:** retain the `a50s_v23c_12s` target and qualify bought-controller cooling / phase current; qualify four 2 Mbit/s UARTs, source timestamps/clock mapping, driver/DMA ownership and actual contacts, logic/reference/protection behavior. Preserve Hall / ESTOP / recovery. See the [readiness review](../reviews/a50s-uart-readiness.md) and [arrival checks](../tests/a50s-arrival-and-fd.md). Select independent full-stop path E-34 and its electrical / mechanical interfaces, hardware drive inhibition and fault-stop / re-arm sequence (ADR-0047 / ADR-0039). Confirm built-in motor temperature compatibility/curves and Aux-power behavior. Timer-only coasting fallback cannot pass the fab gate.
+4. **A50S / UART / e-stop:** retain the `a50s_v23c_12s` target and qualify bought-controller cooling / phase current; qualify four 2 Mbit/s UARTs, source timestamps/clock mapping, driver/DMA ownership and actual contacts, logic/reference/protection behavior. Preserve Hall / ESTOP / recovery. See the [readiness review](../reviews/a50s-uart-readiness.md) and [arrival checks](../tests/a50s-arrival.md). Select independent full-stop path E-34 and its electrical / mechanical interfaces, hardware drive inhibition and fault-stop / re-arm sequence (ADR-0047 / ADR-0039). Confirm built-in motor temperature compatibility/curves and Aux-power behavior. Timer-only coasting fallback cannot pass the fab gate.
 5. **Clamp / assembly:** independent startup supply and protection, final threshold, resistor pulse data and heatsink; exact power connectors, switch / loop key, wire gauges and harness crimps; sensor magnets; prototype spare quantities. Recheck price / stock through the JLC BOM tool using the final reference-designator BOM.
 
 Items in this list are required schematic / mechanical selections; their exact MPN, quantity and JLC cost remain **TBD**. A complete board total becomes meaningful once those are filled in; the tables above price the selected main components only.
 
-[Deprecated parts reference](deprecated-custom-vesc-pcb.md) — historical material excluded from the current parts list.

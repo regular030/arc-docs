@@ -3,12 +3,12 @@
 - **Status:** Proposed (for kunshpreet's design review; not a released grounding decision)
 - **Date:** 2026-10-08
 - **Deciders:** kunshpreet
-- **Traces to:** SYS-05, SYS-19, SYS-24, SYS-31, ADR-0034, ADR-0049, E-30, E-41, E-50, RSK-03, RSK-12
+- **Traces to:** SYS-05, SYS-19, SYS-24, SYS-31, ADR-0034, E-30, E-41, E-50, RSK-03, RSK-12
 - **Issues:** [#94](https://github.com/Autonomous-Robotics-Carleton/arc-monorepo/issues/94), [#115](https://github.com/Autonomous-Robotics-Carleton/arc-monorepo/issues/115)
 
 ## Context
 
-The drive controllers return motor current to the power board while sync, carrier and sensors have low-voltage supply returns. Adding a thin signal-ground connection between those branches creates another current path. ADR-0049 selects four single-ended 3.3 V UART links. Their receiver thresholds are sensitive to controller-to-sync ground offset; the return/reference, protection and isolation decisions remain deferred by the owner. Classic commands and steering FD also retain their common-mode limits.
+The drive controllers return motor current to the power board while sync, carrier and sensors have low-voltage supply returns. Adding a thin signal-ground connection between those branches creates another current path. ADR-0034 selects four single-ended 3.3 V UART links. Their receiver thresholds are sensitive to controller-to-sync ground offset; the return/reference, protection and isolation decisions remain deferred by the owner. Classic commands and steering FD also retain their common-mode limits.
 
 Four UART harnesses must not join the controllers’ output supplies or create a second motor-current return through signal/reference conductors. Bench USB, PSU earth, Ethernet shields, mounting hardware and the proposed Aux feeds must be included in the return-path inventory.
 
@@ -28,7 +28,7 @@ Four UART harnesses must not join the controllers’ output supplies or create a
 2. Do not route motor current through sync/carrier/sensor ground planes, internal logic returns, UART reference leads or cable shields. A board's fast digital signals retain a continuous local reference plane; a system-level star is not permission to split a plane underneath them.
 3. Each A50S UART TX/RX uses 3.3 V logic with a reviewed controller-to-sync reference. Quantify DC offset, motor-switching transients, reference current and receiver timing/noise margin at both ends. The proposed two signal/reference pairs are a wire budget, not approval to create parallel motor-current returns. Do not parallel 3.3 V / 5 V controller outputs.
 4. Classic command CAN and steering FD reference the reviewed supply-return network. Final CAN-reference conductor population / impedance network is **TBC**; validate common-mode range, EMI and loss-of-return cases with the actual harness.
-5. Keep shields separate from functional supply returns. Shield-to-chassis / mounting bonds are **TBD**; record intentional bonds and exclude accidental ones. Keep power branches / phase leads away from signal pairs and Hall extensions. Route CAN as a twisted pair with short transceiver taps, per ADR-0019 / ADR-0049.
+5. Keep shields separate from functional supply returns. Shield-to-chassis / mounting bonds are **TBD**; record intentional bonds and exclude accidental ones. Keep power branches / phase leads away from signal pairs and Hall extensions. Route CAN as a twisted pair with short transceiver taps, per ADR-0019 / ADR-0034.
 6. Retain TJA1462AT-class FD and TJA1051-class classic transceivers as the existing **non-isolated candidates**, subject to exact-suffix review. SIC improves signal behavior; it does not provide galvanic isolation. Only the steering FD link remains; qualify its recorded 1 / 5 Mbit/s baseline separately.
 7. Four permanent UART links are now the operating drive telemetry path. Harness length, pairing, reference population, damping/protection and power-off behavior are **TBD**. If single-ended margins fail, review an isolation or line-interface implementation with the owner; no isolator/buffer or altered voltage standard is selected here.
 

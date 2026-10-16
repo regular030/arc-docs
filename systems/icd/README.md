@@ -4,11 +4,10 @@ One file per interface. An ICD names an owner on **each** side. Changes need bot
 
 | ICD | Side A | Side B | Format | Status |
 | --- | --- | --- | --- | --- |
-| [corner-connector](corner-connector.md) | Corner (motor, gearbox) | Chassis harness / motor controllers on the deck / sync board / e-stop | Markdown | Draft (rev H; approvals pending) |
+| [corner-connector](corner-connector.md) | Corner (motor, gearbox) | Chassis harness / motor controllers on the deck / sync board / e-stop | Markdown | Draft (rev F; approvals pending) |
 | [corner-mechanical](corner-mechanical.md) | Corner (motor, gearbox) | Chassis | Markdown + CAD | Draft (outline) |
 | [can-command](can-command.dbc) | Sync MCU | Motor controllers (classic CAN, ADR-0009) | `can-command.dbc`: stock VESC frames | Draft |
-| [controller-telemetry](controller-telemetry.md) | Motor controllers | Sync MCU (four independent UARTs; ADR-0049) | Markdown; MAVLink 2, the ARC message set in `sync-link.xml` | Draft active UART interface; implementation / qualification pending |
-| [drive-canfd-telemetry](drive-canfd-telemetry.md) | Historical A50S FD proposal | Historical sync / harness / Orin proposal | Markdown | Deprecated after ADR-0049; no active circuit |
+| [controller-telemetry](controller-telemetry.md) | Motor controllers | Sync MCU (four independent UARTs; ADR-0034) | Markdown; MAVLink 2, the ARC message set in `sync-link.xml` | Draft active UART interface; implementation / qualification pending |
 | [power-rails](power-rails.md) | Power board | Every load | Markdown (voltage, current, sequencing, fusing) | Draft (rev A; approvals pending) |
 | [power-sync-stack](power-sync-stack.md) | Motherboard power section | Motherboard sync section | Markdown (internal signals; ADR-0044) | Draft (rev B; approvals pending) |
 | [carrier-sync](carrier-sync.md) | Orin carrier | Sync board | Markdown (triggers, PPS/PTP, Ethernet) | Draft (rev A; approvals pending) |

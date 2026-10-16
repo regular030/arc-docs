@@ -33,7 +33,7 @@ Everything that passes between the sync MCU and the Orin, apart from time synchr
 | Message family | Content | Rate | Timing |
 | --- | --- | --- | --- |
 | Vehicle-state samples | IMUs, wheel, suspension and knuckle encoders, ride-height ToF | Each sensor's full useful rate (SYS-24) | Stamped at the pin; forwarded within ≤ 0.25 ms (ADR-0024) |
-| VESC telemetry | Full coherent snapshots from each controller’s 2 Mbit/s UART; firmware endpoints remain stubs | ≥ 1 kHz per corner (ADR-0049) | Stamped at sampling on the VESC (ADR-0024), mapped to sync-MCU time |
+| VESC telemetry | Full coherent snapshots from each controller’s 2 Mbit/s UART; firmware endpoints remain stubs | ≥ 1 kHz per corner (ADR-0034) | Stamped at sampling on the VESC (ADR-0024), mapped to sync-MCU time |
 | Steering telemetry | moteus-c1 angle and torque | ≥ 1 kHz (ADR-0019) | Reply built when the sync MCU's query arrives, stamped in sync-MCU time (ADR-0019, ADR-0024) |
 | Camera triggers | Trigger time and frame sequence number per camera | Each frame | The Orin pairs frames with trigger times (ADR-0021) |
 | Power | Battery V/I, cell voltages (rail currents TBD: not in the message set yet) | ≥ 100 Hz (SYS-32) | Path per ADR-0022 (Proposed) |

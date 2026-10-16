@@ -24,7 +24,7 @@ Under ADR-0044, power and sync share one [motherboard PCB](../../hardware/mother
 | BAT_V_AIN / BAT_I_AIN (rework fallback) | Power → sync ADC | Conditioned analog fallback under proposed ADR-0022; referenced to approved analog/logic return, limited to selected ADC input ratings | Divider/shunt scaling, filters, protection, source impedance and ADC pins TBD; default DNP until reviewed |
 | Spare MCU I/O / test access | Reserved | No circuit assigned | Count / location TBD from the complete pin map and test plan |
 
-There is **no inter-board power/sync connector** in the current plan. MCU pins and test points remain **TBD**. Motor phases, motor-bus current, CAN trunks and A50S local SPI are outside this low-voltage monitor contract; combining boards does not make logic returns suitable for motor current.
+There is **no inter-board power/sync connector** in the current plan. MCU pins and test points remain **TBD**. Motor phases, motor-bus current and CAN trunks are outside this low-voltage monitor contract; combining boards does not make logic returns suitable for motor current.
 
 ## Data and failure handling
 

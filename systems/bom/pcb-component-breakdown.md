@@ -2,7 +2,7 @@
 
 - **Status:** Draft. Complete extracted carrier reference; ARC component selections and missing schematic details recorded below
 - **Scope:** One separate Jetson carrier, one combined power/sync motherboard, three remote sensor designs and the optional separate bus-clamp design
-- **Traces to:** E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-34, E-41, E-43, E-46; ADR-0025, ADR-0044, ADR-0047, ADR-0049, ADR-0052
+- **Traces to:** E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-34, E-41, E-43, E-46; ADR-0025, ADR-0044, ADR-0047, ADR-0034, ADR-0052
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-12
 
@@ -68,7 +68,7 @@ The NX module, SSD and Wi-Fi module are bought assemblies listed in total electr
 
 ## Combined power/sync motherboard — E-30 / E-41 / E-46
 
-Power and sync are **sections of one PCB** under ADR-0044. The H723 is the only main sensor MCU. The following tables retain the current named candidates and **one steering FD link**, with classic drive commands and four A50S UARTs under ADR-0049.
+Power and sync are **sections of one PCB** under ADR-0044. The H723 is the only main sensor MCU. The following tables retain the current named candidates and **one steering FD link**, with classic drive commands and four A50S UARTs under ADR-0034.
 
 ### Sync / communications named components
 
@@ -99,7 +99,7 @@ Power and sync are **sections of one PCB** under ADR-0044. The H723 is the only 
 | Steering delayed cut timer | **TLC555IDR**; [JLC reference C6987](https://jlcpcb.com/partdetail/TexasInstruments-TLC555IDR/C6987) | 1 candidate | Timing network and fail-safe behavior TBD; use current ICD policy | $0.3749 / $0.54 |
 | Raw low-voltage input TVS | **SMCJ24A**; [JLC reference C2996490](https://jlcpcb.com/partdetail/SETsafe_SETfuse-SMCJ24A/C2996490) | TBD protected inputs | Candidate; rating coordination and quantity pending | $0.1000 / $0.14 |
 
-These are candidates/recommendations where marked, not a released high-current stage. The eight listed converter/ORing FETs do not include the unselected high-current drive-bus cut or the independent brake. Branch shunts are additional to the battery shunt but their actual values/counts are not frozen. The previous drive-FD adapters, four local MCPs/crystals/transceivers and two drive-FD motherboard transceivers are **not** populated.
+These are candidates/recommendations where marked, not a released high-current stage. The eight listed converter/ORing FETs do not include the unselected high-current drive-bus cut or the independent brake. Branch shunts are additional to the battery shunt but their actual values/counts are not frozen.
 
 ### Supporting components to capture
 

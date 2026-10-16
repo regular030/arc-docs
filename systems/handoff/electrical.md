@@ -14,7 +14,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
 
 ## Read first
 
-**Owner deferral, 2026-10-09:** grounding/isolation and power-stage component/sizing decisions remain **TBD for later review**. Existing candidate tables and ADR-0042 are retained as proposals; no approval or layout release is inferred. ADR-0043 is withdrawn. ADR-0049 selects four 2 Mbit/s A50S UARTs; implementation and harness qualification are tracked in the [UART readiness review](../reviews/a50s-uart-readiness.md). Carrier CAD source and conversion status are in [hardware/orin-carrier](../../hardware/orin-carrier/README.md).
+**Owner deferral, 2026-10-09:** grounding/isolation and power-stage component/sizing decisions remain **TBD for later review**. Existing candidate tables and ADR-0042 are retained as proposals; no approval or layout release is inferred. ADR-0034 selects four 2 Mbit/s A50S UARTs; implementation and harness qualification are tracked in the [UART readiness review](../reviews/a50s-uart-readiness.md). Carrier CAD source and conversion status are in [hardware/orin-carrier](../../hardware/orin-carrier/README.md).
 
 | What | Where |
 | --- | --- |
@@ -25,7 +25,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
 | A50S UART transport / operating rate | [controller-telemetry.md](../icd/controller-telemetry.md) |
 | UART firmware gaps / pin and ground review | [UART source review](../reviews/a50s-uart-readiness.md) |
 | Functional BOM + sync MCU I/O tally | `bom/electrical.md` |
-| Corner connector (rev H: motor phases and Hall cable to the deck) | `icd/corner-connector.md` |
+| Corner connector (rev F: motor phases and Hall cable to the deck) | `icd/corner-connector.md` |
 | Power loads and scenarios | `budgets/power.csv`, `budgets/power-scenarios.md` |
 | Bus load, latency, cost | `budgets/bus-load.csv`, `budgets/latency.csv`, `budgets/cost.csv` |
 | Risks | `risks.md` |
@@ -74,8 +74,8 @@ The starting point for the electrical engineer. It collects, per board, what's d
 - **Decided:**
   - STM32H723 + Ethernet PHY (ADR-0011); firmware on Zephyr (ADR-0017).
   - Time sync: µs-critical sensors timestamped in the sync MCU's clock; frame triggers for all four camera groups, with trigger timestamps paired to frame sequences (ADR-0053); Orin synced in software, PPS to an Orin GPIO as cross-check (ADR-0021).
-  - Active transport under ADR-0049: classic command CAN at 1 Mbit/s; four independent A50S UARTs at 2 Mbit/s 8N1, full ≥1 kHz status each; separate steering CAN-FD at its 1 / 5 Mbit/s baseline. One native FDCAN serves commands, the existing external MCP2518FD baseline serves steering; two native FDCAN are freed. Final pin/DMA map TBC.
-  - SO-8 CAN transceivers with SIC drop-in; unpopulated split termination, common-mode choke and TVS footprints on the steering bus (ADR-0019 / ADR-0049).
+  - Active transport under ADR-0034: classic command CAN at 1 Mbit/s; four independent A50S UARTs at 2 Mbit/s 8N1, full ≥1 kHz status each; separate steering CAN-FD at its 1 / 5 Mbit/s baseline. One native FDCAN serves commands, the existing external MCP2518FD baseline serves steering; two native FDCAN are freed. Final pin/DMA map TBC.
+  - SO-8 CAN transceivers with SIC drop-in; unpopulated split termination, common-mode choke and TVS footprints on the steering bus (ADR-0019).
   - I/O per the tally in `bom/electrical.md`:
     - 12 SPI devices (2 IMUs, 4 wheel encoders, 4 suspension angle sensors, 2 knuckle encoders), each with a data-ready or chip-select line as needed
     - I2C + mux for 4 corner-height ToF sensors, plus at least one spare mux channel (ADR-0052)
@@ -85,7 +85,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
     - status LEDs
 - **Requirements:** SYS-04, -07, -19, -22, -24, -25, -29.
 - **Open:**
-  - **Deprecated historical feasibility tally (2026-10-07):** the following example predates ADR-0049 / ADR-0052. It is retained as a feasibility reference and requires a fresh clock/pin/DMA review for four operating UARTs and four corner-height ToFs; it does not establish the current spare-pin count. Against Zephyr's pin data for the STM32H723ZG (LQFP144), with SWD, HSE and LSE reserved, everything gets its own pin with 37 to spare: Ethernet RMII, 3 FDCAN, 5 UARTs, 4 SPI buses, 2 I2C, 6 timer outputs (4 triggers, a spare, PPS) and 22 plain GPIO (12 chip-selects, 4 interrupts, e-stop in, 2 LEDs, 3 lighting). One example assignment, to show feasibility only (the pin choice is yours):
+  - **Deprecated historical feasibility tally (2026-10-07):** the following example predates ADR-0052. It is retained as a feasibility reference and requires a fresh clock/pin/DMA review for four operating UARTs and four corner-height ToFs; it does not establish the current spare-pin count. Against Zephyr's pin data for the STM32H723ZG (LQFP144), with SWD, HSE and LSE reserved, everything gets its own pin with 37 to spare: Ethernet RMII, 3 FDCAN, 5 UARTs, 4 SPI buses, 2 I2C, 6 timer outputs (4 triggers, a spare, PPS) and 22 plain GPIO (12 chip-selects, 4 interrupts, e-stop in, 2 LEDs, 3 lighting). One example assignment, to show feasibility only (the pin choice is yours):
     - Ethernet: REF_CLK PA1, MDIO PA2, MDC PC1, CRS_DV PA7, RXD0 PC4, RXD1 PC5, TX_EN PB11, TXD0 PB12, TXD1 PB13
     - FDCAN1 PA11/PA12, FDCAN2 PB5/PB6, FDCAN3 PD12/PD13
     - UARTs: USART1 PA9/PA10, USART2 PD5/PA3, USART3 PB10/PC11, USART6 PC6/PC7, USART10 PE3/PE2
@@ -93,7 +93,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
     - I2C1 PB8/PB7, I2C2 PF1/PF0
     - Timer outputs: TIM2_CH1 PA0, TIM3_CH3 PB0, TIM3_CH4 PB1, TIM4_CH3 PD14, TIM4_CH4 PB9, TIM13_CH1 PF8
   - Connector map and pinouts for every sensor run
-  - Four operating UARTs: verify A50S PB10 TX / PB11 RX contacts, assign H723 RX/TX and DMA resources, qualify 3.3 V logic and ground/reference/protection behavior. Both telemetry endpoints remain stubs; see [readiness review](../reviews/a50s-uart-readiness.md) and [UART ICD](../icd/controller-telemetry.md). No A50S-local FD circuits or SPI harness remain.
+  - Four operating UARTs: verify A50S PB10 TX / PB11 RX contacts, assign H723 RX/TX and DMA resources, qualify 3.3 V logic and ground/reference/protection behavior. Both telemetry endpoints remain stubs; see [readiness review](../reviews/a50s-uart-readiness.md) and [UART ICD](../icd/controller-telemetry.md).
   - Recheck the earlier 37-spare-pin feasibility example against four operating UARTs + debug, steering SPI, cell-monitor SPI, all interrupts and final clocks. It is not a released pin/DMA map; the `arc_sync` board definition is still a skeleton.
   - ISM330DHCXTR selected for both IMUs; separate AS5047P angle PCBs assembled in house (ADR-0050). Our custom [IMU](../../hardware/sensor-boards/imu/README.md) and [corner-height](../../hardware/sensor-boards/tof/README.md) PCBs are selected under ADR-0051. ADR-0052 selects ten angle + two IMU + four ToF boards, all assembled in house; capture/layout, exact ToF variant and [qualification](../bom/sensor-candidate-review.md) remain pending. ELPM remains an unselected analog alternative
   - Ground-camera scale coverage (ADR-0052): the fifth ToF is removed. Scale derivation from four corner-height ToFs requires a mounting/geometry model (TBD); SYS-10 remains in force
@@ -108,10 +108,10 @@ The starting point for the electrical engineer. It collects, per board, what's d
   - Purchase four drive controllers, one per motor; no purchased motor-controller spares under ADR-0054.
   - Team Triforce A50S V2.3c, 12S version, bought, not designed. Mounted on the lower deck, not on the motors.
   - Runs our build of the vendored VESC firmware (ADR-0033); per-unit current calibration stays in the board's EEPROM.
-  - Commands remain on classic CAN (ADR-0009); full ≥1 kHz drive telemetry uses one 2 Mbit/s UART per controller (ADR-0049). Firmware transmit/receive and clock mapping remain unimplemented.
-  - PB10/PB11 retain USART3 TX/RX. The withdrawn FD IRQ/CS proposal no longer conflicts with them. The calculated status-stream load is 29.5% per UART; installed harness/DMA/timestamp/fault qualification is still required.
+  - Commands remain on classic CAN (ADR-0009); full ≥1 kHz drive telemetry uses one 2 Mbit/s UART per controller (ADR-0034). Firmware transmit/receive and clock mapping remain unimplemented.
+  - PB10/PB11 retain USART3 TX/RX. The calculated status-stream load is 29.5% per UART; installed harness/DMA/timestamp/fault qualification is still required.
   - E-stop: our firmware reads ESTOP on a spare input (PPM, TBC) and ramps the brake; the power board's switched motor bus provides the hardware cut (section 1).
-  - Motor phases (MR30) and the motor's Hall sensor cable come from each corner to the deck (ICD-corner-connector rev H).
+  - Motor phases (MR30) and the motor's Hall sensor cable come from each corner to the deck (ICD-corner-connector rev F).
 - **Requirements:** SYS-05, -13, -19, -24, -25; RSK-11, -12, -18, -19, -20.
 - **Open (integration, not design):**
   - Circuit numbers for the 20-pin Pico-Clasp are in ICD-corner-connector, provisional until checked on the first unit (ESTOP goes on Servo/PPM, which takes 3.3 or 5 V; SWD is on the connector)
@@ -149,7 +149,7 @@ The [wiring diagram and count schedule](../bom/motherboard-wiring.md) propose 16
 
 - **Decided:**
   - JST-GH for signal; the controllers' own XT30, MR30 and Pico-Clasp on the deck; everything locking. The Pico-Clasp housing (Molex 501189-2010) has an inner positive lock.
-  - Corner connector rev H: motor phases and the Hall cable from each corner to the deck.
+  - Corner connector rev F: motor phases and the Hall cable from each corner to the deck.
   - Command CAN is terminated at the sync board and the far trunk end; steering FD is a separate point-to-point link. Four UART runs carry drive telemetry; proposed TX/reference + RX/reference + spare budgets total 20 conductors, TBC. No CAN termination on UART signals.
   - One spare conductor per run; labels match schematic net names; strain relief at every entry.
   - Chassis service Ethernet port (E-09).
@@ -158,7 +158,7 @@ The [wiring diagram and count schedule](../bom/motherboard-wiring.md) propose 16
 ## Review packages prepared for the selected EE issues
 
 - **Owner:** kunshpreet, as identified for the electrical, firmware/Orin and mechanical/harness interfaces. [Interface review matrix](../icd/signoff.md) records pending approvals; a separate safety reviewer remains TBD.
-- **A50S integration (#100):** [UART readiness review](../reviews/a50s-uart-readiness.md), [active UART ICD](../icd/controller-telemetry.md) and [arrival/qualification procedure](../tests/a50s-arrival-and-fd.md). ADR-0049 removes the local-FD pin/clock blockers. Controller streaming, clock alignment, DMA/pins and loaded signal margins remain open; ground design is deferred TBD.
+- **A50S integration (#100):** [UART readiness review](../reviews/a50s-uart-readiness.md), [active UART ICD](../icd/controller-telemetry.md) and [arrival/qualification procedure](../tests/a50s-arrival.md). Controller streaming, clock alignment, DMA/pins and loaded signal margins remain open; ground design is deferred TBD.
 - **Grounding (#94 / #115):** proposed ADR-0042 plus [return-path bench checks](../tests/grounding-and-signal-integrity.md). Non-isolated star proposal / complete isolation alternative require approval and measured margins; FD does not eliminate ground shift.
 - **Missing interfaces (#102):** [power-rails](../icd/power-rails.md), [power-sync-stack](../icd/power-sync-stack.md), [carrier-sync](../icd/carrier-sync.md). Logical contracts exist; ratings, physical pins and technical sign-off remain open.
 
