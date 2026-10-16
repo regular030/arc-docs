@@ -1,6 +1,6 @@
 # ARC remote IMU PCB
 
-**Current build under ADR-0052:** design and assemble our own remote IMU PCB **in house**, separate from the motherboard. Both measurement sites use **ST ISM330DHCXTR**: one at the body/CG and one at the front axle. Reuse a common PCB design at the two locations; each populated board has its own cable, chip select and data-ready input. No schematic, layout or fabrication package is released.
+**Current build under ADR-0045:** design and assemble our own remote IMU PCB **in house**, separate from the motherboard. Both measurement sites use **ST ISM330DHCXTR**: one at the body/CG and one at the front axle. Reuse a common PCB design at the two locations; each populated board has its own cable, chip select and data-ready input. No schematic, layout or fabrication package is released.
 
 | Item | Current plan / status |
 | --- | --- |
@@ -13,4 +13,4 @@
 
 Before release, capture the exact supply/decoupling and interface circuit from the manufacturer guidance; review the land pattern, protection, mounting and connector assignment. Follow the LGA package's assembly/reflow and ESD/MSL instructions, inspect solder joints and test shorts/supply current before interface bring-up. Qualify power-up, installed SPI/DRDY timing, sustained acquisition, calibration, thermal drift, motor-on vibration and velocity-through-slip performance. A selected chip or board architecture does not establish achieved navigation performance.
 
-See the [sensor-board overview](../README.md), [parts selection](../../../systems/bom/pcb-parts-selection.md), [wiring schedule](../../../systems/bom/motherboard-wiring.md), [sensor review](../../../systems/bom/sensor-candidate-review.md), [CAD funding estimate](../../../systems/bom/jlc-pcba-cost-estimate.md) and [fab gate](../../../systems/reviews/fab-gate.md). Grounding and signal returns remain subject to ADR-0042; all circuit and assembly details need review before ordering.
+See the [sensor-board overview](../README.md), [parts selection](../../../systems/bom/pcb-parts-selection.md), [wiring schedule](../../../systems/bom/motherboard-wiring.md), [sensor review](../../../systems/bom/sensor-candidate-review.md), [CAD funding estimate](../../../systems/bom/jlc-pcba-cost-estimate.md) and [fab gate](../../../systems/reviews/fab-gate.md). Grounding and signal returns remain subject to ADR-0041; all circuit and assembly details need review before ordering.

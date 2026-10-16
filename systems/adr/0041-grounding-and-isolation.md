@@ -1,4 +1,4 @@
-# ADR-0042: Ground returns and communication isolation
+# ADR-0041: Ground returns and communication isolation
 
 - **Status:** Proposed (not a released grounding decision)
 - **Date:** 2026-10-08

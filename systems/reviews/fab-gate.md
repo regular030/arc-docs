@@ -15,7 +15,7 @@ Run before ordering any PCB, machined part, or purchase over the spending thresh
 
 - [ ] ERC/DRC clean, or each waiver is explained
 - [ ] Connector pinouts checked against the ICD pin by pin; A50S contacts checked using the [arrival procedure](../tests/a50s-arrival.md)
-- [ ] Return map / transceiver reference conductors and exact voltage-domain / off-state limits reviewed; ADR-0042 remains Proposed until approved, with [grounding bench evidence](../tests/grounding-and-signal-integrity.md) planned or attached
+- [ ] Return map / transceiver reference conductors and exact voltage-domain / off-state limits reviewed; ADR-0041 remains Proposed until approved, with [grounding bench evidence](../tests/grounding-and-signal-integrity.md) planned or attached
 - [ ] Input-voltage ratings checked against worst-case transients, not nominal
 - [ ] Test points on every rail and bus; a bring-up plan exists
 - [ ] Fab and assembly files generated from the tagged commit

@@ -18,11 +18,11 @@ v1 is tightly integrated; modular hardware is a v2 goal. The car runs on an indo
 | Power | 4S LiPo; power board with LV rails, monitoring and e-stop circuit; bus clamp | ADR-0012, `budgets/power-scenarios.md` |
 | Ground link | Team router (GL.iNet Flint 3, 6 GHz), laptop gateway, button hotspot, service port | ADR-0015 |
 
-**PCB packaging (ADR-0044):** the power and sync functions below share one [motherboard PCB](../hardware/motherboard/README.md); the Jetson carrier remains separate. References to power/sync boards describe those functional sections. The power-sync contract now covers internal PCB signals, with a future two-board split subject to review.
+**PCB packaging (ADR-0042):** the power and sync functions below share one [motherboard PCB](../hardware/motherboard/README.md); the Jetson carrier remains separate. References to power/sync boards describe those functional sections. The power-sync contract now covers internal PCB signals, with a future two-board split subject to review.
 
 ## Drive
 
-**Corners.** Each corner is a motor and gearbox; we design its knuckle or upright, arms and mounts, and buy the shocks, CVDs and wheels (ADR-0040). Its motor controller sits on the lower deck (ADR-0034), and there's no corner module or corner sensor MCU (ADR-0006). The vehicle-state sensors sit on our own small boards with no MCU, assembled in house: ten AS5047P angle boards (four wheel, four suspension, two front knuckle), two ISM330DHCXTR IMU boards and five ToF boards (ADR-0052). They wire directly to the sync board (ADR-0008).
+**Corners.** Each corner is a motor and gearbox; we design its knuckle or upright, arms and mounts, and buy the shocks, CVDs and wheels (ADR-0040). Its motor controller sits on the lower deck (ADR-0034), and there's no corner module or corner sensor MCU (ADR-0006). The vehicle-state sensors sit on our own small boards with no MCU, assembled in house: ten AS5047P angle boards (four wheel, four suspension, two front knuckle), two ISM330DHCXTR IMU boards and five ToF boards (ADR-0045). They wire directly to the sync board (ADR-0008).
 
 **Motor:** [Castle 1010-4400kV](https://www.powerhobby.com/products/castle-creations-060-0098-00-4-pole-sensored-brushless-motor-1010-4400kv), sensored, 2S–4S.
 
@@ -70,7 +70,7 @@ A gimbal-style brushless motor drives the steering through a ~4–6:1 belt (zero
 
 ## Power
 
-The [updated EE sizing review](adr/0048-ee-sizing-after-custom-corners.md) uses the current main scenario and reopens dump-resistor sizing. Motor thermal and runtime qualification remain pending.
+The [updated EE sizing review](adr/0044-ee-sizing-after-custom-corners.md) uses the current main scenario and reopens dump-resistor sizing. Motor thermal and runtime qualification remain pending.
 
 4S LiPo hardcase, charged off the car at the team's charging station (a separate system; the pack is the interface, ICD-battery-pack).
 
@@ -81,7 +81,7 @@ The [updated EE sizing review](adr/0048-ee-sizing-after-custom-corners.md) uses 
   - regulators rated ≥ 30 V with TVS
   - the e-stop circuit
 - **Low battery:** the lowest cell triggers a warning, then a clean Orin shutdown before cutoff (SYS-30). Voltage sag at peak current must never reset anything (SYS-31).
-- **Interfaces / returns:** [power-rails](icd/power-rails.md), [power-sync-stack](icd/power-sync-stack.md) and [carrier-sync](icd/carrier-sync.md) are draft logical contracts. Proposed ADR-0042 records the grounding / isolation review; physical assignments and approvals are pending.
+- **Interfaces / returns:** [power-rails](icd/power-rails.md), [power-sync-stack](icd/power-sync-stack.md) and [carrier-sync](icd/carrier-sync.md) are draft logical contracts. Proposed ADR-0041 records the grounding / isolation review; physical assignments and approvals are pending.
 - **Sizing inputs:** `budgets/power.csv` and `budgets/power-scenarios.md`. The tires limit useful peak current (`budgets/power-scenarios.md`), not the old 120 A figure. Rail sizing is the EE's.
 
 ## Compute and software
@@ -102,13 +102,13 @@ The sync MCU (STM32H723, Zephyr) owns the car's time base. It timestamps sensors
 | Side/rear cameras | Arducam quad OV9281 | Native | CSI 2, triggered |
 | Forward event camera | Prophesee GenX320 | Continuous | CSI 3, Trigger In |
 | Ground-speed camera | Second GenX320, pointing down, three lighting modes (cross-polarized LED, grazing LED, Class 1 laser speckle) | Continuous | CSI 4, Trigger In (ADR-0014) |
-| IMU at CG | ST ISM330DHCXTR (industrial grade) on our IMU board (ADR-0052) | ≥ 4 kHz | Sync SPI + DRDY |
-| IMU, front axle | ST ISM330DHCXTR, same board design (ADR-0052) | ≥ 4 kHz | Sync SPI + DRDY |
+| IMU at CG | ST ISM330DHCXTR (industrial grade) on our IMU board (ADR-0045) | ≥ 4 kHz | Sync SPI + DRDY |
+| IMU, front axle | ST ISM330DHCXTR, same board design (ADR-0045) | ≥ 4 kHz | Sync SPI + DRDY |
 | Wheel encoders ×4 | AS5047 on the wheel output shaft | 2 kHz | Sync SPI |
 | Suspension angle ×4 | AS5047-family, contactless | 2 kHz | Sync SPI |
 | Steering knuckle ×2 | AS5047 | 2 kHz | Sync SPI |
-| Ride height ×5 | ToF on our own boards (4 corners + 1 for ground-speed scale; ADR-0052) | Native | Sync I2C + mux |
-| Cell voltages ×4 | Motherboard cell monitor | ≥ 100 Hz | Internal power/sync signals (ADR-0044) |
+| Ride height ×5 | ToF on our own boards (4 corners + 1 for ground-speed scale; ADR-0045) | Native | Sync I2C + mux |
+| Cell voltages ×4 | Motherboard cell monitor | ≥ 100 Hz | Internal power/sync signals (ADR-0042) |
 | Motor/FET temperature, currents | Controller telemetry | ≥ 1 kHz | Four 2 Mbit/s UARTs (ADR-0034) |
 
 Latency from sample to the Orin is ≤ 2 ms for sync-board sensors and VESC telemetry (SYS-29, `budgets/latency.csv`).
@@ -133,7 +133,7 @@ Wi-Fi is the only wireless link (ADR-0005). The car joins the team's Flint 3 rou
 
 ## Harness
 
-The [proposed wiring diagram and cable budget](bom/motherboard-wiring.md) separates remote sensor looms, power, bought A50S controllers and the Jetson carrier. The angle, IMU and ToF boards total seventeen sensor runs / 111 minimum conductors, including seventeen spare conductors (TBC wiring proposal, ADR-0052). All seventeen boards are assembled in house; their 2-layer implementations, connector contacts and the complete motherboard wire total remain TBC/TBD.
+The [proposed wiring diagram and cable budget](bom/motherboard-wiring.md) separates remote sensor looms, power, bought A50S controllers and the Jetson carrier. The angle, IMU and ToF boards total seventeen sensor runs / 111 minimum conductors, including seventeen spare conductors (TBC wiring proposal, ADR-0045). All seventeen boards are assembled in house; their 2-layer implementations, connector contacts and the complete motherboard wire total remain TBC/TBD.
 
 Every connection locks; every run carries a spare conductor; every wire is labelled with its schematic net name; strain relief at every board entry. JST-GH for signal; the controllers' own connectors (XT30, MR30, Pico-Clasp) on the deck. Twisted pairs for CAN buses; four A50S UART signal/reference cable runs, routed away from motor phase leads (ADR-0034); Hall cables too. Command-bus terminators sit at the sync board and the far end of the trunk.
 

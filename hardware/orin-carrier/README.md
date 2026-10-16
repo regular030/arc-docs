@@ -2,7 +2,7 @@
 
 The Antmicro carrier CAD source is imported for the ARC carrier work (v1.1). The current source is an unchanged reference design; ARC power, four 22-pin CSI ports and sync/trigger changes have not been made.
 
-The carrier remains separate from the combined [power/sync motherboard](../motherboard/README.md) under ADR-0044.
+The carrier remains separate from the combined [power/sync motherboard](../motherboard/README.md) under ADR-0042.
 
 ## Four-port CSI feasibility
 

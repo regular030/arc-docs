@@ -1,12 +1,12 @@
 # ICD-corner-connector
 
-- **Revision:** F (2026-10-09). Records the A50S UART pins, the sensor-board runs that bypass this interface (ADR-0052) and the grounding review (ADR-0042). Rev E and earlier are superseded. Motor phases and the Hall cable still run from each corner to its controller on the deck; actual contacts and motor sensor mapping remain TBD.
+- **Revision:** F (2026-10-09). Records the A50S UART pins, the sensor-board runs that bypass this interface (ADR-0045) and the grounding review (ADR-0041). Rev E and earlier are superseded. Motor phases and the Hall cable still run from each corner to its controller on the deck; actual contacts and motor sensor mapping remain TBD.
 - **Status:** Draft. Needs Molex pin numbering against Triforce's pinout layout, and sign-off from both owners.
 - **Side A:** corner assembly: motor (E-51), gearbox (owner TBD)
 - **Side B:** chassis harness, the motor controllers on the deck (E-50), sync board, power board e-stop circuit (owner TBD)
-- **Traces to:** ADR-0042, SYS-05, SYS-13, SYS-19, SYS-25, ADR-0008, ADR-0009, ADR-0012, ADR-0034, ADR-0052, RSK-11
+- **Traces to:** ADR-0041, SYS-05, SYS-13, SYS-19, SYS-25, ADR-0008, ADR-0009, ADR-0012, ADR-0034, ADR-0045, RSK-11
 
-The wheel, suspension and front knuckle angle boards and the corner ToF boards do not pass through the motor interface below; they wire directly to the motherboard's sync section (ADR-0008, ADR-0052). The [wiring schedule](../bom/motherboard-wiring.md) budgets four sensor runs / 26 conductors per front corner and three runs / 19 conductors per rear corner, including spares (TBC).
+The wheel, suspension and front knuckle angle boards and the corner ToF boards do not pass through the motor interface below; they wire directly to the motherboard's sync section (ADR-0008, ADR-0045). The [wiring schedule](../bom/motherboard-wiring.md) budgets four sensor runs / 26 conductors per front corner and three runs / 19 conductors per rear corner, including spares (TBC).
 
 ## At the corner boundary
 
@@ -65,7 +65,7 @@ Controlled braked stop, then a hardware torque cut (SYS-05, ADR-0012 as amended 
 ## Termination
 
 - **Command bus:** 120 Ω at the sync board and at the far end of the trunk (ADR-0009). Nothing populated on the controllers.
-- **Drive UART:** point-to-point links; no CAN termination resistors on TX/RX. Signal/reference/protection design remains TBD under ADR-0042.
+- **Drive UART:** point-to-point links; no CAN termination resistors on TX/RX. Signal/reference/protection design remains TBD under ADR-0041.
 
 ## Open issues
 
@@ -73,6 +73,6 @@ Controlled braked stop, then a hardware torque cut (SYS-05, ADR-0012 as amended 
 2. ESTOP logic level (3.3 or 5 V; the PPM pin takes either) and driver: the power board sources it; the current per controller.
 3. Whether the Aux power input is fed from an always-on rail (telemetry and logging survive the motor-bus cut).
 4. The connector at the corner boundary for the phase leads and the Hall cable, with a spare contact for an E-28 lead; lengths from the CAD layout.
-5. Grounding review under proposed ADR-0042: rated return branches / collection point, no accidental parallel motor return through communication wiring, UART reference currents/logic margins and measured CAN common-mode margins. See [grounding proposal](../adr/0042-grounding-and-isolation.md); acceptance remains pending.
+5. Grounding review under proposed ADR-0041: rated return branches / collection point, no accidental parallel motor return through communication wiring, UART reference currents/logic margins and measured CAN common-mode margins. See [grounding proposal](../adr/0041-grounding-and-isolation.md); acceptance remains pending.
 6. Brake ramp, target deceleration and delay T (ADR-0012).
 7. Four operating UARTs: actual PB10/PB11 contacts, H723 pin/DMA assignment, source-clock alignment, 3.3 V ground/reference margins and power-off behavior remain unqualified. See [UART readiness](../reviews/a50s-uart-readiness.md).

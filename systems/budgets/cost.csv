@@ -1,6 +1,6 @@
 group,item,qty,low_usd,high_usd,source,notes
 compute,Jetson Orin NX 16GB module,1,950,1100,"NVIDIA 1KU list $899 (Jul 2026); single units cost more",ADR-0010
-compute,Carrier board (Antmicro fork) fab + assembly + parts,1 installed; 2 JLC assembled; 5 bare total,447.65,617.65,jlc-pcba-cost.csv; base estimate 2026-10-12,"ADR-0052 one-car scope; two-unit factory minimum retained, one installed and one minimum-run surplus. Before 30%; excludes Jetson module/cooling."
+compute,Carrier board (Antmicro fork) fab + assembly + parts,1 installed; 2 JLC assembled; 5 bare total,447.65,617.65,jlc-pcba-cost.csv; base estimate 2026-10-12,"ADR-0045 one-car scope; two-unit factory minimum retained, one installed and one minimum-run surplus. Before 30%; excludes Jetson module/cooling."
 compute,NVMe SSD 4 TB swappable,1,250,450,estimate,
 compute,Wi-Fi card MT7922 + antennas,1,25,50,estimate,ADR-0015
 compute,Cooling (heatsink + fan),1,30,60,estimate,
@@ -10,17 +10,17 @@ perception,Arducam quad OV9281 kit,1,300,450,estimate,
 perception,Prophesee GenX320 (forward + ground speed),2,600,800,"OpenMV module $300-400 each; Jetson-ready version needs a quote",ADR-0014
 perception,Hokuyo UST-10LX 2D LiDAR,1,1600,2200,estimate,largest single item; sourcing is RSK-10
 perception,Ground-speed lighting (LED rings + Class 1 VCSEL module + polarizers + lens),1,50,100,estimate,ADR-0014
-state,IMUs (ISM330DHCXTR on ARC PCBs),2,0,0,Included in in-house remote sensor row,"ADR-0052: two custom ARC IMU boards, loose chips and in-house assembly consumables included once below; no bought breakout or JLC sensor assembly charge."
-state,AS5047P wheel/knuckle angle boards (4 wheel + 2 knuckle),6,0,0,Included in in-house remote sensor row,Six of ten installed angle boards under ADR-0052; loose chips and bare PCBs included once below. Magnets/mechanics excluded from PCB estimate.
-state,AS5047P suspension-angle boards,4,0,0,Included in in-house remote sensor row,Four of ten installed angle boards under ADR-0052; no potentiometer purchase. Loose chips and bare PCBs included once below; magnets/mechanics excluded.
-state,Ride-height ToF sensors,4,0,0,Included in in-house remote sensor row,"ADR-0052: four corner-height custom ARC boards, preferred/TBC VL53L4CD, assembled in house. Dedicated fifth camera-scale board removed; scale derivation/qualification TBD; no JLC assembly charge."
+state,IMUs (ISM330DHCXTR on ARC PCBs),2,0,0,Included in in-house remote sensor row,"ADR-0045: two custom ARC IMU boards, loose chips and in-house assembly consumables included once below; no bought breakout or JLC sensor assembly charge."
+state,AS5047P wheel/knuckle angle boards (4 wheel + 2 knuckle),6,0,0,Included in in-house remote sensor row,Six of ten installed angle boards under ADR-0045; loose chips and bare PCBs included once below. Magnets/mechanics excluded from PCB estimate.
+state,AS5047P suspension-angle boards,4,0,0,Included in in-house remote sensor row,Four of ten installed angle boards under ADR-0045; no potentiometer purchase. Loose chips and bare PCBs included once below; magnets/mechanics excluded.
+state,Ride-height ToF sensors,4,0,0,Included in in-house remote sensor row,"ADR-0045: four corner-height custom ARC boards, preferred/TBC VL53L4CD, assembled in house. Dedicated fifth camera-scale board removed; scale derivation/qualification TBD; no JLC assembly charge."
 drive,Castle 1010-4400kV sensored motors,4,400,520,estimate,
 drive,A50S V2.3c motor controllers with heatsinks (4 corners + 2 spares),6,810,1000,estimate,"£70 each + £30 heatsink (Triforce product page, 2026-10-07); ~1.35 USD/GBP TBC; plus UK shipping and import duty (ADR-0034)"
 drive,Gearboxes (steel gears) + bearings + CVDs,4 corners,400,700,estimate,
 steering,moteus-c1 controller,1,69,69,"mjbots list $69",ADR-0019
 steering,Steering actuator mechanics (gimbal motor + belt + pulleys + mount),1,80,200,estimate,ADR-0019
-power,Combined power/sync motherboard fab + assembly + parts,1 installed; 2 JLC assembled; 5 bare total,541.85,791.85,jlc-pcba-cost.csv; base estimate 2026-10-12,ADR-0044 / ADR-0052 one combined PCB installed; minimum two JLC-populated units retained. Power/sync population included once; before 30%.
-sync,Sync MCU board (STM32H723 + PHY + transceivers),included in motherboard,0,0,Included; ADR-0044,"Functional E-30 scope, not another PCB/build charge"
+power,Combined power/sync motherboard fab + assembly + parts,1 installed; 2 JLC assembled; 5 bare total,541.85,791.85,jlc-pcba-cost.csv; base estimate 2026-10-12,ADR-0042 / ADR-0045 one combined PCB installed; minimum two JLC-populated units retained. Power/sync population included once; before 30%.
+sync,Sync MCU board (STM32H723 + PHY + transceivers),included in motherboard,0,0,Included; ADR-0042,"Functional E-30 scope, not another PCB/build charge"
 power,Optional separate bus-clamp PCB batch,1 optional installed; 2 JLC assembled; 5 bare total,65,115,jlc-pcba-cost.csv; base estimate 2026-10-12,One-car optional clamp; two-unit factory-minimum costing scenario retained. Omit if integrated; external resistors/heatsink excluded; before 30%.
 power,4S LiPo hardcase packs,3-4,250,450,estimate,charging station is a separate system
 power,"Harness (JST-GH, XT30, MR30 and Pico-Clasp connectors, wire, crimp tools)",1,150,350,estimate,
@@ -33,8 +33,8 @@ chassis,Fasteners + hardware,1,50,100,estimate,
 ground,Team router GL.iNet Flint 3 + cables,1,240,260,"GL.iNet list $209.99",ADR-0015
 ground,NUCLEO-H723ZG sync MCU development boards (G-04),2,60,70,"Future Electronics $30.45 each (2026-10-08); stock varies",SQ-5
 ground,3.3 V CAN transceiver breakouts + 120 ohm terminators (G-05),2,5,15,estimate,SQ-5
-state,Deleted precision-CG IMU upgrade; both IMUs now ISM330DHCXTR,1,0,0,Included in in-house remote sensor row,ADR-0052: no precision-IMU purchase; selected two ISM330DHCXTR boards already included below.
-state,Deleted standalone magnetic suspension upgrade delta,4,0,0,Included in in-house remote sensor row,Historical delta retained at zero; four selected AS5047P suspension boards are included once in the sixteen-board remote batch under ADR-0052.
-state,"Remote sensor PCB batch: 10 angle + 2 IMU + 4 corner ToF, all in house",16 populated in house; 20 bare total,118.3836,169.9836,jlc-pcba-cost.csv; USD base 2026-10-12,"ADR-0052 one car: 10 AS5047P, 2 ISM330DHCXTR and 4 preferred/TBC VL53L4CD boards, all assembled in house. Includes loose chips/support, 20 bare PCBs and one shared consumables allowance; no factory sensor fees or populated spare set. Exact USD base range shown; midpoint USD 144.1836. CAD 3000 whole-PCB working estimate includes 30% and separate shipping; magnets/mechanics excluded."
+state,Deleted precision-CG IMU upgrade; both IMUs now ISM330DHCXTR,1,0,0,Included in in-house remote sensor row,ADR-0045: no precision-IMU purchase; selected two ISM330DHCXTR boards already included below.
+state,Deleted standalone magnetic suspension upgrade delta,4,0,0,Included in in-house remote sensor row,Historical delta retained at zero; four selected AS5047P suspension boards are included once in the sixteen-board remote batch under ADR-0045.
+state,"Remote sensor PCB batch: 10 angle + 2 IMU + 4 corner ToF, all in house",16 populated in house; 20 bare total,118.3836,169.9836,jlc-pcba-cost.csv; USD base 2026-10-12,"ADR-0045 one car: 10 AS5047P, 2 ISM330DHCXTR and 4 preferred/TBC VL53L4CD boards, all assembled in house. Includes loose chips/support, 20 bare PCBs and one shared consumables allowance; no factory sensor fees or populated spare set. Exact USD base range shown; midpoint USD 144.1836. CAD 3000 whole-PCB working estimate includes 30% and separate shipping; magnets/mechanics excluded."
 power,JLC PCB/PCBA shipping allowance,1 batch,80,150,Planning allowance 2026-10-12,JLC shipment only; loose-parts shipping is separate; USD before 30%; CAD funding slice in bom/jlc-pcba-cost-estimate.md
 state,Loose sensor component shipping allowance,1 shipment,20,40,Planning allowance 2026-10-12,One consolidated loose-chip/support-parts order for all three in-house sensor families; USD before 30%; actual cart/shipping TBC; tax/import/brokerage excluded.

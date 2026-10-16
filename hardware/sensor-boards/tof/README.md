@@ -1,6 +1,6 @@
 # ARC remote ground-height sensor PCB
 
-**Current build under ADR-0052:** design and assemble our own remote ground-height sensor PCBs **in house**, separate from the motherboard. Use **five populated boards under E-26**: one at each corner and one beside the downward ground-speed camera for its scale (ADR-0007). A common PCB design is the current proposal; no schematic, layout or fabrication package is released.
+**Current build under ADR-0045:** design and assemble our own remote ground-height sensor PCBs **in house**, separate from the motherboard. Use **five populated boards under E-26**: one at each corner and one beside the downward ground-speed camera for its scale (ADR-0007). A common PCB design is the current proposal; no schematic, layout or fabrication package is released.
 
 | Item | Current plan / status |
 | --- | --- |
@@ -14,4 +14,4 @@
 
 Before release, confirm the sensor choice and capture its local support circuit, land pattern, address/reset behavior and connector assignment. Follow the optical package's assembly/reflow, handling and cleanliness guidance; inspect and test the populated boards before installation. Qualify sensor-to-floor clearance through full bump and droop, glossy tile response, optical aperture/recess and any cover-window crosstalk. Review the real I²C harness, mux reset/startup sequence and fault recovery. Test ground-camera scale under SYS-10 and RSK-07; a minimum-range specification alone does not prove measurement accuracy.
 
-See the [sensor-board overview](../README.md), [parts selection](../../../systems/bom/pcb-parts-selection.md), [wiring schedule](../../../systems/bom/motherboard-wiring.md), [CAD funding estimate](../../../systems/bom/jlc-pcba-cost-estimate.md) and [fab gate](../../../systems/reviews/fab-gate.md). Grounding and signal returns remain subject to ADR-0042; all circuit and assembly details need review before ordering.
+See the [sensor-board overview](../README.md), [parts selection](../../../systems/bom/pcb-parts-selection.md), [wiring schedule](../../../systems/bom/motherboard-wiring.md), [CAD funding estimate](../../../systems/bom/jlc-pcba-cost-estimate.md) and [fab gate](../../../systems/reviews/fab-gate.md). Grounding and signal returns remain subject to ADR-0041; all circuit and assembly details need review before ordering.

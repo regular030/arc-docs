@@ -1,4 +1,4 @@
-# ADR-0044: Power and sync MCU share one motherboard PCB
+# ADR-0042: Power and sync MCU share one motherboard PCB
 
 - **Status:** Accepted (circuit design and layout remain draft)
 - **Date:** 2026-10-09
@@ -19,6 +19,6 @@ The BOM, handoff and mechanical brief previously described separate power and sy
 ## Consequences and open items
 
 - Sync and power component lists describe two sections of the same motherboard. Mounting, cost and mass estimates must avoid counting two bare boards.
-- Monitor transport, grounding/isolation, rail ratings, part selection, pin mapping, board envelope, thermal behavior and return-current control remain TBD/TBC as already recorded. ADR-0022 and ADR-0042 remain proposals.
+- Monitor transport, grounding/isolation, rail ratings, part selection, pin mapping, board envelope, thermal behavior and return-current control remain TBD/TBC as already recorded. ADR-0022 and ADR-0041 remain proposals.
 - The e-stop and its hardware torque cut (SYS-05, ADR-0012) must still work with the sync MCU reset or unpowered.
 - No schematic, layout, fabrication release or technical interface sign-off is implied by this packaging instruction. Combined-board verification and the fab gate remain required.

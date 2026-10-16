@@ -22,7 +22,7 @@ The carrier is the Antmicro fork under ADR-0025. Freeze its revision before assi
 | TRIGGER_SPARE | Sync → reserved contact | Spare in the sync I/O tally | No load or pin assignment selected |
 | ORIN_SHUTDOWN_REQ | Sync → reviewed carrier input | Proposed ADR-0022 low-battery shutdown request, plus platform message | Confirm actual module/carrier power-button or equivalent input and allowed levels; driver, polarity and duration TBD |
 | ORIN_HALTED / POWER_REMOVE_OK | Reviewed carrier/platform output → power board; sync observes if required | Proposed confirmation before normal compute-rail removal under SYS-30 | Confirm actual signal and whether it means halt / shutdown request / power removal permission. Module contact, translation, route and timeout TBD |
-| Signal reference / shield | Per actual carrier / sync connection | Follows proposed ADR-0042 return map; no motor current through this interface | Connector reference contacts and shield/chassis bonds TBC after grounding review |
+| Signal reference / shield | Per actual carrier / sync connection | Follows proposed ADR-0041 return map; no motor current through this interface | Connector reference contacts and shield/chassis bonds TBC after grounding review |
 
 Physical pin numbers / connector MPNs are **TBD**. GPIO-level translation must match the frozen module/carrier guide and each sensor module; do not connect sync's 3.3 V outputs to an unverified carrier or camera input. Resolve load capacitance, edge rate, protection and both-side power-off behavior before routing.
 

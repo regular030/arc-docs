@@ -4,7 +4,7 @@
 - **Status:** Draft contract; ratings, connector contacts and sequencing values remain open. No layout release or sign-off recorded.
 - **Side A:** power board / motor distribution, E-41 (owner TBD)
 - **Side B:** carrier, sync, sensors, steering and drive loads (owner TBD)
-- **Traces to:** SYS-03, SYS-05, SYS-14, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, E-41, ADR-0019, ADR-0022, ADR-0034, ADR-0039, ADR-0042, RSK-06, RSK-11
+- **Traces to:** SYS-03, SYS-05, SYS-14, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, E-41, ADR-0019, ADR-0022, ADR-0034, ADR-0039, ADR-0041, RSK-06, RSK-11
 - **Related work:** [#102](https://github.com/Autonomous-Robotics-Carleton/arc-monorepo/issues/102); ratings / schematic depend on #96, stop hardware on #95
 
 This interface defines what every load and the power board must agree on. It carries the existing functional requirements from [electrical BOM](../bom/electrical.md), [power budget](../budgets/power.csv) and [power scenarios](../budgets/power-scenarios.md). Parts recommendations are not confirmed current ratings. Nominal voltage, tolerance, ripple, steady/peak current, startup load, fuse and contact assignments must be released together for each branch.
@@ -27,7 +27,7 @@ Camera/module supply allocation follows the carrier and sensor-module design. Ca
 
 ## Returns and connectors
 
-Use the proposed return map in ADR-0042 only after design approval. Every power output includes an adequately rated return; multiple connector contacts / derating are **TBD** from actual current and the connector datasheet. A stacking-header ground or SPI/CAN reference is not a motor-current return. No A50S 5 V / 3.3 V output is paralleled with another controller or an ARC supply.
+Use the proposed return map in ADR-0041 only after design approval. Every power output includes an adequately rated return; multiple connector contacts / derating are **TBD** from actual current and the connector datasheet. A stacking-header ground or SPI/CAN reference is not a motor-current return. No A50S 5 V / 3.3 V output is paralleled with another controller or an ARC supply.
 
 Physical connector IDs, pin numbers, contact current ratings, positive-lock retention and wire gauges remain **TBD**. Signal interfaces / logical net directions are in [power-sync-stack](power-sync-stack.md) and [carrier-sync](carrier-sync.md); they do not release a power-connector pinout.
 

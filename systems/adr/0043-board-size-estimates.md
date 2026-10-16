@@ -1,13 +1,13 @@
-# ADR-0045: Preliminary motherboard and Jetson size estimates
+# ADR-0043: Preliminary motherboard and Jetson size estimates
 
 - **Status:** Proposed (TBC estimates for CAD block planning; no board outline or cooling solution approved)
 - **Date:** 2026-10-09
 - **Deciders:** Kunshpreet Baweja (proposer); review of the estimated dimensions pending
-- **Traces to:** SYS-02, SYS-05, SYS-07, SYS-08, SYS-14, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, E-01, E-02, E-03, E-30, E-41, E-46, ADR-0025, ADR-0044, RSK-01, RSK-08
+- **Traces to:** SYS-02, SYS-05, SYS-07, SYS-08, SYS-14, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, E-01, E-02, E-03, E-30, E-41, E-46, ADR-0025, ADR-0042, RSK-01, RSK-08
 
 ## Context
 
-The current plan combines power and sync MCU on one motherboard, with a separate Jetson carrier (ADR-0044). These estimates feed the chassis block layout. Motherboard capture/layout has not started and its power-stage parts and grounding remain open. The imported Antmicro carrier provides a known reference footprint, but ARC's four CSI connectors and other adaptations have not been laid out.
+The current plan combines power and sync MCU on one motherboard, with a separate Jetson carrier (ADR-0042). These estimates feed the chassis block layout. Motherboard capture/layout has not started and its power-stage parts and grounding remain open. The imported Antmicro carrier provides a known reference footprint, but ARC's four CSI connectors and other adaptations have not been laid out.
 
 These estimates support the SYS-02 chassis block layout. They are packaging proposals, not requirements or fabrication dimensions. All dimensions below are in **millimetres**, shown as **long side × short side × total height** where a height is given. Installed blocks include the PCB and fitted parts; they do not prescribe orientation in the chassis.
 
@@ -38,13 +38,13 @@ Keep measured/vendor reference sizes separate from ARC estimates. Include room f
 
 The motherboard estimate excludes the four bought A50S controllers and their heatsinks, external dump resistors, the Ethernet switch, and remote sensors. Bus-clamp circuitry placement remains open; substantial clamp circuitry on this PCB requires a revised estimate. UART connector/cable access and loaded signal margins still need qualification.
 
-**Updated sizing input (ADR-0048):** recheck motherboard copper, connectors, switching parts, cooling and growth allowance against the TBC 36–43 A pack / 16–20 A per-corner scenario. The proposed envelopes do not establish those ratings. The carrier height sources describe different configurations; do not add heights or assume the earlier installed block is sufficient without assembly CAD.
+**Updated sizing input (ADR-0044):** recheck motherboard copper, connectors, switching parts, cooling and growth allowance against the TBC 36–43 A pack / 16–20 A per-corner scenario. The proposed envelopes do not establish those ratings. The carrier height sources describe different configurations; do not add heights or assume the earlier installed block is sufficient without assembly CAD.
 
 Cable bend radii, plug insertion/removal, screwdriver access and an airflow duct are **additional service keep-outs, TBD** from selected connectors/cooling and the chassis CAD. The installed blocks above must not be used as proof of serviceability or adequate airflow. PCB thickness, stack-up, mounting-hole coordinates and final component heights remain TBD.
 
 ## Consequences and verification
 
-- Use option A as a proposal for the first CAD block pass; approval remains pending. The estimates do not amend accepted ADR-0025 or ADR-0044.
+- Use option A as a proposal for the first CAD block pass; approval remains pending. The estimates do not amend accepted ADR-0025 or ADR-0042.
 - Keep the size estimates in this ADR. Existing TBD envelopes are not silently replaced with approved dimensions, and no part is selected solely to fit these estimates.
 - Complete footprint/connector placement in Altium, include all top/bottom parts and mounting hardware, and inspect a STEP assembly in chassis CAD. Confirm cable access, UART cable access, copper/current capacity, switching-noise control and full-load cooling before freezing dimensions.
 - Revise this proposal when power parts, UART/clamp/brake placement, four-port camera interfaces or the cooler change. Board release still requires the fab gate.

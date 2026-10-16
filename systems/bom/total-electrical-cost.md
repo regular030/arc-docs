@@ -3,11 +3,11 @@
 - **Status:** Draft estimate; final BOMs, quotes and qualification pending
 - **Date:** 2026-10-13
 - **Currency:** CAD totals; CAD, USD and GBP supplier prices
-- **Traces to:** SYS-01, SYS-03, SYS-05, SYS-06, SYS-07, SYS-08, SYS-09, SYS-10, SYS-13, SYS-14, SYS-19, SYS-23, SYS-24, SYS-29, SYS-30, SYS-32; ADR-0034, ADR-0044, ADR-0046, ADR-0047, ADR-0048, ADR-0034, ADR-0052, ADR-0053, ADR-0054
+- **Traces to:** SYS-01, SYS-03, SYS-05, SYS-06, SYS-07, SYS-08, SYS-09, SYS-10, SYS-13, SYS-14, SYS-19, SYS-23, SYS-24, SYS-29, SYS-30, SYS-32; ADR-0034, ADR-0042, ADR-0046, ADR-0047, ADR-0044, ADR-0034, ADR-0045, ADR-0053, ADR-0054
 
 The priced electrical estimate is **CAD $11,502.52**, including estimated Ontario HST and a 30% allowance on the PCB package only. Round to **CAD $11,600.00 for the priced KEFC scope**. The independent full-stop brake E-34, Class 1 ground-lighting module and unresolved camera-interface work are additional costs, **TBD**; this is not a complete release quote.
 
-One car uses one motherboard, one separate Jetson carrier, ten angle boards, two IMU boards and four corner-height ToF boards (ADR-0052). All sixteen sensor boards are assembled in house. The camera suite is two AR0234 stereo cameras, four side/rear OV9281 cameras and two B0223 OV9281 MIPI cameras, forward and downward (ADR-0053). Include one UST-10LX, one 500 GB NVMe, at most two 4S packs, four installed A50S controllers and one steering controller. **No motor-controller spares are included** (ADR-0054). **All purchases use new-unit pricing.** The 19 V wall supply is already owned.
+One car uses one motherboard, one separate Jetson carrier, ten angle boards, two IMU boards and four corner-height ToF boards (ADR-0045). All sixteen sensor boards are assembled in house. The camera suite is two AR0234 stereo cameras, four side/rear OV9281 cameras and two B0223 OV9281 MIPI cameras, forward and downward (ADR-0053). Include one UST-10LX, one 500 GB NVMe, at most two 4S packs, four installed A50S controllers and one steering controller. **No motor-controller spares are included** (ADR-0054). **All purchases use new-unit pricing.** The 19 V wall supply is already owned.
 
 ## Cost summary
 
@@ -108,7 +108,7 @@ These are purchase references, not approval of an unresolved part or circuit. Fi
 | Loop key — E-42 | [XT90-S male/female pair, ADR1038](https://www.adrenalinehobby.com/products/connectors-xt90s-male-female-anti-spark): CAD $9.99, listed available. Loop wire/strain relief is in the harness allowance. Verify contact polarity, peak-current and anti-spark/precharge behavior; this is not a released disconnect design |
 | Harness / distribution — E-09 / E-45 | [Adafruit 909](https://www.adafruit.com/product/909) panel CAT5e cable; [501189-2010 / 501193 terminals](https://www.molex.com/en-us/products/series-chart/501189) for the A50S signal interface in ICD-corner-connector. [30 AWG flexible wire](https://www.adafruit.com/product/2051) is a signal-wire candidate, not motor/battery wire. Final power-wire gauge, remote connector MPNs, lengths, contact counts, shielding and adapter/fuse schedule TBD. Use supplied kit connectors/cables before buying duplicates |
 | Angle magnets — E-22 / E-23 / E-24 | [D42DIA](https://www.kjmagnetics.com/d42dia-neodymium-diametric-disc-magnet): USD $0.46 each, ten total. Diametric, Ø6.35 × 3.175 mm pricing candidate. Confirm installed AS5047P field/gap, shaft fit, runout and retention; ordinary axial disc magnets are unsuitable |
-| Dump load — E-43 | [Ohmite HS100 3R F](https://www.digikey.ca/en/products/detail/ohmite/HS100-3R-F/5307114): CAD $22.98 each. [Wakefield extrusions](https://wakefieldthermal.com/literature/) provide a heatsink quotation route. Final resistance/count, pulse ratings, airflow/thermal recovery and assembly price TBD. The historical two-resistor example remains insufficient for the upper regen scenario (ADR-0048) |
+| Dump load — E-43 | [Ohmite HS100 3R F](https://www.digikey.ca/en/products/detail/ohmite/HS100-3R-F/5307114): CAD $22.98 each. [Wakefield extrusions](https://wakefieldthermal.com/literature/) provide a heatsink quotation route. Final resistance/count, pulse ratings, airflow/thermal recovery and assembly price TBD. The historical two-resistor example remains insufficient for the upper regen scenario (ADR-0044) |
 | Ground optics — E-29 | [Adafruit 754](https://www.adafruit.com/product/754) LED pack and two [Edmund 86-178](https://www.edmundoptics.com/p/50-x-50mm-018mm-thickness-polarizing-laminated-film/28636/) visible-light sheets (USD $17.95 each; new clearance). Driver candidate [Adafruit 6354](https://www.adafruit.com/product/6354) is USD $4.50 within the accessory allowance; topology/current, strobe timing and irradiance remain TBC. Start with the supplied B0223 lens; any replacement [M12 optics](https://docs.arducam.com/Optics-and-Lenses/Types-of-Lenses/M12-Lens/) need image/working-distance review. The 400–700 nm films do not qualify 850 nm speckle optics |
 | Class 1 speckle option — E-29 | [Brightlaser VM-0850F-025M-HL-0A0](https://www.brightlaser.com.hk/download/en/202201/VM-0850F-025M-HL-0A0.pdf) is a manufacturer Class 1 line-module quotation candidate, not a verified floor-illumination solution. Public price not found: **additional quote TBD**. Obtain certification/test evidence and review footprint/speckle, package/diffuser, hardware current limit, driver and installed classification before purchase |
 | Independent full-stop brake — E-34 | [Kendrion Servo Line](https://www.kendrion.com/en/products-services/industrial-brakes/spring-applied-brakes/servo-line) is a supplier route for dynamic-stop review/RFQ. Actuator/design/count and **additional price TBD** under ADR-0047. Do not substitute a holding-only part or declare the button/torque cut a complete braking path |
@@ -139,7 +139,7 @@ This table allocates costs already included above; it is not an additional subto
 | Branch/battery V/I/faults — E-41 | Channels TBC | Motherboard monitors/shunts | Motherboard |
 | Per-cell voltage — E-46 | 4 cell inputs | Motherboard cell monitor | Motherboard |
 
-The sixteen remote sensing ICs are already included in the PCB package at **CAD $95.02**. The fifth camera-scale ToF is removed under ADR-0052; scale derivation from the four corner readings is TBD. Deleted E-07, E-27 and E-28 have no purchase cost. No dead-wheel fallback hardware is ordered.
+The sixteen remote sensing ICs are already included in the PCB package at **CAD $95.02**. The fifth camera-scale ToF is removed under ADR-0045; scale derivation from the four corner readings is TBD. Deleted E-07, E-27 and E-28 have no purchase cost. No dead-wheel fallback hardware is ordered.
 
 ## Camera links and logging
 
@@ -179,7 +179,7 @@ Packing preserves all pixel bits and reduces file storage, not CSI load. Impleme
 | Camera interfaces — RSK-01 | Resolve quad bandwidth, stereo/B0223 lane modes, triggers, rails, I²C/reset/clocks and required JetPack drivers; additional interface cost TBD |
 | Ground velocity — RSK-07 | Qualify 0–12 m/s optical review envelope, lens/aperture, exposure/strobe, illumination and four-ToF scale mapping; final optical cart and additional Class 1 module quote TBD |
 | 500 GB storage | Qualify packed logging, available space and sustained writes against SYS-09 / SYS-24 |
-| Motors / steering / dump load | Sources above; motor temperature curve/pinout, four-unit stock, actuator mechanics and regen load ratings/quotes TBC under ADR-0046 / ADR-0048 |
+| Motors / steering / dump load | Sources above; motor temperature curve/pinout, four-unit stock, actuator mechanics and regen load ratings/quotes TBC under ADR-0046 / ADR-0044 |
 | Existing 19 V supply — E-44 | Check rating, polarity, connector and mains lead against low-voltage peak load; no new supply purchase |
 | Imports | Actual shipping, tax, duty and brokerage TBC |
 

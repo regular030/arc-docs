@@ -1,10 +1,10 @@
-# ADR-0052: Vehicle-state sensors sit on our own small boards, assembled in house
+# ADR-0045: Vehicle-state sensors sit on our own small boards, assembled in house
 
 - **Status:** Accepted
 - **Date:** 2026-10-16
 - **Deciders:** Shrikar Vempati, Kunshpreet Baweja
 - **Traces to:** E-20, E-21, E-22, E-23, E-24, E-26, SYS-06, SYS-07, SYS-10, SYS-15, SYS-19, SYS-24, SYS-29, RSK-07
-- **Related:** ADR-0006, ADR-0007, ADR-0008, ADR-0019, ADR-0021, ADR-0044
+- **Related:** ADR-0006, ADR-0007, ADR-0008, ADR-0019, ADR-0021, ADR-0042
 
 ## Context
 

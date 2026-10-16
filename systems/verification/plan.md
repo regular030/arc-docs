@@ -20,7 +20,7 @@
 
 | Rig | Contents | Used for |
 | --- | --- | --- |
-| **R1 Sync-board HIL** | Combined power/sync motherboard (ADR-0044); real sensors where cheap (IMUs, AS5047s on hand-turned shafts, ToF over a moving target); a second MCU acting as fake CAN nodes and four controller UART links; signal generator; scope; fault injection (pull connectors, short a bus, drop the Ethernet link) | SYS-04, -07, -19, -22, -24, -25, -29, -31, -32 |
+| **R1 Sync-board HIL** | Combined power/sync motherboard (ADR-0042); real sensors where cheap (IMUs, AS5047s on hand-turned shafts, ToF over a moving target); a second MCU acting as fake CAN nodes and four controller UART links; signal generator; scope; fault injection (pull connectors, short a bus, drop the Ethernet link) | SYS-04, -07, -19, -22, -24, -25, -29, -31, -32 |
 | **R2 Motor bench** | One corner (A50S + 1010 + gearbox, ADR-0034) driving a flywheel or brake load; second corner for bus tests; a moteus-c1 on the steering bus (RSK-03); current probe; e-stop button; power board's motor-bus cut; bus clamp | SYS-05, -25, RSK-03, RSK-11, RSK-12, RSK-18 |
 | **R3 CAN-FD harness** | Original standalone rig retired by ADR-0034. Steering checks remain on R2; drive UART qualification follows ADR-0034 and `tests/a50s-arrival.md`; see `tests/rsk-03-canfd-bench.md` | SYS-24, RSK-03 |
 | **R4 Power** | Electronic load, bench supply standing in for the pack, 19 V brick, scope with current probe | SYS-14, -30, -31, power scenarios |

@@ -3,7 +3,7 @@
 - **Status:** Draft. Proposed wiring budget (TBC); connector pinouts are not released.
 - **Date:** 2026-10-09
 
-This accompanies the [parts decision list](pcb-parts-selection.md). Power and sync MCU share one motherboard; the Jetson carrier stays separate (ADR-0044). Motor temperature reaches each A50S from the motor's sensor cable, or from an E-28 thermistor on the can. The sensor inventory is ten angle (four wheel, four suspension, two front knuckle), two IMU and five ToF boards, all assembled in house (ADR-0052).
+This accompanies the [parts decision list](pcb-parts-selection.md). Power and sync MCU share one motherboard; the Jetson carrier stays separate (ADR-0042). Motor temperature reaches each A50S from the motor's sensor cable, or from an E-28 thermistor on the can. The sensor inventory is ten angle (four wheel, four suspension, two front knuckle), two IMU and five ToF boards, all assembled in house (ADR-0045).
 
 ## Board and harness diagram
 
@@ -49,7 +49,7 @@ This is a functional connection map, not a connector pinout or a released e-stop
 
 The current SPI-angle / I²C-mux sensor proposal needs **17 remote sensor cable runs, with a minimum budget of 111 conductors entering the motherboard: 94 used + 17 spares**. This is a **TBC lower bound for the sensor harnesses**, not the complete board wiring total, MCU pin count or a released connector pinout. Additional return contacts, shields, reset/sync/interrupt lines and level translation can increase it. Exact connector sizes, pin ordering, wire gauge, lengths and MCU pin assignments are TBD.
 
-Count each cable's physical conductors, even when SPI signals share MCU peripherals. A connector's unused contacts do not count as a spare wire unless the cable actually includes that conductor. The spare-per-run convention is recorded in [architecture](../architecture.md#harness); sensor quantities/interfaces come from E-20, E-21, E-22, E-23, E-24 and E-26 under ADR-0052 and SYS-06, SYS-07, SYS-10 and SYS-24.
+Count each cable's physical conductors, even when SPI signals share MCU peripherals. A connector's unused contacts do not count as a spare wire unless the cable actually includes that conductor. The spare-per-run convention is recorded in [architecture](../architecture.md#harness); sensor quantities/interfaces come from E-20, E-21, E-22, E-23, E-24 and E-26 under ADR-0045 and SYS-06, SYS-07, SYS-10 and SYS-24.
 
 ## Sensor cable budget at the motherboard
 
@@ -59,8 +59,8 @@ Count each cable's physical conductors, even when SPI signals share MCU peripher
 | Suspension angle | 4 | Same SPI set | 1 | 7 | 28 | E-23, SYS-06 |
 | Front knuckle angle | 2 | Same SPI set | 1 | 7 | 14 | E-24, SYS-06, SYS-24 |
 | CG and front IMUs | 2 | 7: sensor supply, GND, SCK, MOSI, MISO, CS, DRDY | 1 | 8 | 16 | E-20, E-21, SYS-06, SYS-07 |
-| Ride-height ToF | 5 | 4: sensor supply, GND, SCL, SDA | 1 | 5 | 25 | E-26, SYS-10, ADR-0052 |
-| **Sensor-only total** | **17** | **94 used overall** | **17 overall** | — | **111 minimum** | Proposed wiring for the sensor inventory under ADR-0052 |
+| Ride-height ToF | 5 | 4: sensor supply, GND, SCL, SDA | 1 | 5 | 25 | E-26, SYS-10, ADR-0045 |
+| **Sensor-only total** | **17** | **94 used overall** | **17 overall** | — | **111 minimum** | Proposed wiring for the sensor inventory under ADR-0045 |
 
 This budget uses AS5047-family suspension sensing and the proposed motherboard TCA9548 mux, **one ToF per mux channel**; retain at least one spare mux channel. The mux's upstream I²C stays on the motherboard; each downstream channel gets its own remote cable. Remote XSHUT is not counted in this minimum: its startup/reset handling must be designed and reviewed. Add conductors if remote XSHUT, ToF interrupt, IMU reset/sync, extra power/reference or the final sensor requires them. The ELPM alternative is not included; accepting it would replace four SPI cable budgets with a reviewed analog interface.
 
@@ -82,9 +82,9 @@ Route each location's sensor loom separately from motor phases and high-current 
 
 ## Custom remote sensor PCBs
 
-**ADR-0052: all seventeen sensor boards are our own and assembled in house.** Build ten AS5047P angle boards (four wheel, four suspension and two front knuckle), two ISM330DHCXTR IMU boards and five ToF boards (four corners plus one beside the downward camera). Order bare PCBs and loose chips/support parts separately; no JLC sensor assembly is budgeted. The model has **three sensor PCB designs / 17 populated sensor boards**. Common 2-layer implementations, physical outlines, mechanical variants and exact connectors remain TBC/TBD; none has a released schematic. See the [in-house assembly purchase plan](../../hardware/sensor-boards/README.md#as5047p-in-house-purchase-and-assembly-plan).
+**ADR-0045: all seventeen sensor boards are our own and assembled in house.** Build ten AS5047P angle boards (four wheel, four suspension and two front knuckle), two ISM330DHCXTR IMU boards and five ToF boards (four corners plus one beside the downward camera). Order bare PCBs and loose chips/support parts separately; no JLC sensor assembly is budgeted. The model has **three sensor PCB designs / 17 populated sensor boards**. Common 2-layer implementations, physical outlines, mechanical variants and exact connectors remain TBC/TBD; none has a released schematic. See the [in-house assembly purchase plan](../../hardware/sensor-boards/README.md#as5047p-in-house-purchase-and-assembly-plan).
 
-Each carrier holds the actual sensing IC, its specified local decoupling, reviewed bias/reset/address straps, protection and a locking cable connector. Angle carriers need the reviewed magnet/shaft geometry; IMU carriers need the specified vibration mounts; ToF carriers need a clear optical aperture and the cover-window/recess checks. Use a continuous signal-return region where practical; connector returns and grounding remain subject to ADR-0042. Pull-up placement is reviewed for each mux channel rather than copied blindly onto every board.
+Each carrier holds the actual sensing IC, its specified local decoupling, reviewed bias/reset/address straps, protection and a locking cable connector. Angle carriers need the reviewed magnet/shaft geometry; IMU carriers need the specified vibration mounts; ToF carriers need a clear optical aperture and the cover-window/recess checks. Use a continuous signal-return region where practical; connector returns and grounding remain subject to ADR-0041. Pull-up placement is reviewed for each mux channel rather than copied blindly onto every board.
 
 These are **sensor carriers without a local MCU or CAN node**. SPI/I²C returns directly to the H723 on the motherboard, preserving ADR-0006 / ADR-0008. Keep the Hall/temperature cable to each A50S separate. The design workspaces are [sensor overview](../../hardware/sensor-boards/README.md), [custom IMU PCB](../../hardware/sensor-boards/imu/README.md) and [custom corner-height PCB](../../hardware/sensor-boards/tof/README.md). Verify assembled harness timing/noise under SYS-06 / SYS-07 before approving 2-layer fabrication.
 
@@ -108,7 +108,7 @@ These figures are **functional wire budgets, TBC**, unless the existing ICD alre
 | E-stop button | E-32 / motherboard | **TBD** | Contacts, connector and run TBD (SYS-05, ADR-0012) |
 | Lighting, off-board status LEDs, dump resistors | Motherboard / reviewed drivers / clamp → remote loads | **TBD** | Driver location, load connections and clamp placement not selected; E-29, E-33, E-43, SYS-10, SYS-14, SYS-19 |
 
-Power/sync monitor buses and alerts are **internal PCB nets**, not an extra external stacking cable (ADR-0044). Four CSI interfaces belong on the separate carrier; camera FFCs do not enter the motherboard and are not included in the sensor count. Debug/programming leads are service connections, with header mapping TBD.
+Power/sync monitor buses and alerts are **internal PCB nets**, not an extra external stacking cable (ADR-0042). Four CSI interfaces belong on the separate carrier; camera FFCs do not enter the motherboard and are not included in the sensor count. Debug/programming leads are service connections, with header mapping TBD.
 
 **A50S UART operating wiring:** PB10 TX / PB11 RX are the A50S's USART3 (ADR-0034). Four UART runs add a TBC 20-conductor budget, separate from the 111 remote-sensor conductors. TX/reference and RX/reference pairs need reviewed return-current paths; debug/programming leads remain separate service connections. Neither subtotal is the complete motherboard wire total. See the [UART review](../reviews/a50s-uart-readiness.md).
 
@@ -120,4 +120,4 @@ Each motor sends **three phase leads to its A50S**, plus its 6-pin Hall sensor c
 
 Freeze the exact sensor/motor variants and board locations; then publish a connector/contact/net/cable schedule and MCU pin map. Confirm supply/reference partitioning, remote reset/interrupt needs, ToF pull-ups and every spare. Verify installed harness behavior, acquisition timestamps and full-rate sensor reads; qualify all four A50S UARTs, the separate steering FD link and the e-stop separately. The ICD approvals and [fab gate](../reviews/fab-gate.md) still apply.
 
-Interface references: [AS5047P manufacturer datasheet, distributor mirror](https://www.mouser.com/datasheet/2/588/asset_pdf_25493104-3419339.pdf), [ISM330DHCX datasheet](https://www.st.com/resource/en/datasheet/ism330dhcx.pdf), [VL53L4CD datasheet](https://www.st.com/resource/en/datasheet/vl53l4cd.pdf), and [A50S supplier connections](https://teamtriforceuk.com/a50s-v2/). Both IMU pin maps follow the ISM330DHCXTR datasheet (ADR-0052); the final SPI/DRDY connector assignments remain TBC.
+Interface references: [AS5047P manufacturer datasheet, distributor mirror](https://www.mouser.com/datasheet/2/588/asset_pdf_25493104-3419339.pdf), [ISM330DHCX datasheet](https://www.st.com/resource/en/datasheet/ism330dhcx.pdf), [VL53L4CD datasheet](https://www.st.com/resource/en/datasheet/vl53l4cd.pdf), and [A50S supplier connections](https://teamtriforceuk.com/a50s-v2/). Both IMU pin maps follow the ISM330DHCXTR datasheet (ADR-0045); the final SPI/DRDY connector assignments remain TBC.

@@ -46,8 +46,8 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0038](0038-steering-loss-stops-the-car.md) | Losing steering stops the car, and the car doesn't drive without it | Accepted |
 | [0039](0039-fault-stop-reset.md) | A fault stop latches, and only an e-stop cycle on the car resets it | Accepted |
 | [0040](0040-custom-corners.md) | We design the corners; only generic parts are bought (Arrma 6S drivetrain and wheel parts, industrial bearings and rod ends) | Accepted |
-| [0042](0042-grounding-and-isolation.md) | Controlled return star / non-isolated review baseline; complete isolation alternative | Proposed |
-| [0044](0044-combined-power-sync-motherboard.md) | Power and sync MCU share one motherboard PCB; Jetson carrier stays separate | Accepted |
-| [0045](0045-board-size-estimates.md) | Preliminary motherboard and Jetson PCB / installed-envelope size estimates | Proposed (TBC; placement and thermal review pending) |
-| [0048](0048-ee-sizing-after-custom-corners.md) | Align EE review with 100 mm wheels, 18:1 gearing and the revised current/regen estimates; resistor sizing reopened | Proposed (ratings and parts review pending) |
-| [0052](0052-vehicle-state-sensor-boards.md) | Vehicle-state sensors on our own small boards (AS5047P, ISM330DHCXTR, five ToF), assembled in house | Accepted |
+| [0041](0041-grounding-and-isolation.md) | Controlled return star / non-isolated review baseline; complete isolation alternative | Proposed |
+| [0042](0042-combined-power-sync-motherboard.md) | Power and sync MCU share one motherboard PCB; Jetson carrier stays separate | Accepted |
+| [0043](0043-board-size-estimates.md) | Preliminary motherboard and Jetson PCB / installed-envelope size estimates | Proposed (TBC; placement and thermal review pending) |
+| [0044](0044-ee-sizing-after-custom-corners.md) | Align EE review with 100 mm wheels, 18:1 gearing and the revised current/regen estimates; resistor sizing reopened | Proposed (ratings and parts review pending) |
+| [0045](0045-vehicle-state-sensor-boards.md) | Vehicle-state sensors on our own small boards (AS5047P, ISM330DHCXTR, five ToF), assembled in house | Accepted |

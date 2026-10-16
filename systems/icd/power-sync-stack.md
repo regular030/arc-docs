@@ -1,13 +1,13 @@
 # ICD-power-sync-stack
 
 - **Revision:** B (2026-10-09)
-- **Status:** Draft internal motherboard interface; clock/pin map and monitor topology TBD. No stacking header in the current plan (ADR-0044)
+- **Status:** Draft internal motherboard interface; clock/pin map and monitor topology TBD. No stacking header in the current plan (ADR-0042)
 - **Side A:** motherboard power section, E-41 / E-46 (owner TBD)
 - **Side B:** motherboard sync MCU section / firmware, E-30 (owner TBD)
-- **Traces to:** SYS-05, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, ADR-0022, ADR-0039, ADR-0042, ADR-0044
+- **Traces to:** SYS-05, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, ADR-0022, ADR-0039, ADR-0041, ADR-0042
 - **Related work:** [#102](https://github.com/Autonomous-Robotics-Carleton/arc-monorepo/issues/102); physical release depends on #96 / #98
 
-Under ADR-0044, power and sync share one [motherboard PCB](../../hardware/motherboard/README.md), with the Jetson carrier separate. This file retains its existing name for links and defines the internal signal inventory; it does not release MCU pins or a connector pinout. A stacking header is needed only if a later reviewed packaging change splits the motherboard. Monitor-IC transport and two-tier shutdown remain **Proposed** in ADR-0022. Power ratings are in [power-rails](power-rails.md); ground/reference rules are proposed in ADR-0042.
+Under ADR-0042, power and sync share one [motherboard PCB](../../hardware/motherboard/README.md), with the Jetson carrier separate. This file retains its existing name for links and defines the internal signal inventory; it does not release MCU pins or a connector pinout. A stacking header is needed only if a later reviewed packaging change splits the motherboard. Monitor-IC transport and two-tier shutdown remain **Proposed** in ADR-0022. Power ratings are in [power-rails](power-rails.md); ground/reference rules are proposed in ADR-0041.
 
 ## Signal inventory
 
@@ -31,7 +31,7 @@ There is **no inter-board power/sync connector** in the current plan. MCU pins a
 - Read and log battery V/I, individual cell voltages, selected branch currents / voltages, alert/fault sources, power-good and e-stop state. Addresses, units, scaling, sample-ready/read timing and stale thresholds are released with the selected monitor and firmware mapping. Cell acquisition meets SYS-32; the bus and other links meet SYS-24.
 - Monitor conversion/read timing must be recorded; polling completion is not automatically the measurement instant. Unavailable, stale or impossible data must be distinguishable from a valid zero. Log bus recovery, CRC/status faults and rail loss under SYS-19.
 - The sync-link schema currently carries battery/cell data; rail-current fields are still open. This ICD does not change XML or generated code. Schema changes require owner review, regeneration and matching firmware/Orin updates.
-- Digital conversion in the power section does not eliminate return-current noise, local ground offset or the need for logic margins on the combined PCB. Resolve return paths / any isolation and unpowered-side behavior under ADR-0042.
+- Digital conversion in the power section does not eliminate return-current noise, local ground offset or the need for logic margins on the combined PCB. Resolve return paths / any isolation and unpowered-side behavior under ADR-0041.
 - Sync reset or I2C/SPI failure must not silently disable the independent pack-protection / stop circuits. Proposed hardware backstop thresholds, hysteresis and timeout remain TBD under ADR-0022; no new cutoff circuit is selected here.
 
 ## Sequencing and sign-off

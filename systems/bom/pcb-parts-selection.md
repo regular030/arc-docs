@@ -11,13 +11,13 @@ This is the main-component selection list for schematic capture. It supplements 
 
 **Controller baseline:** four A50S V2.3c on the deck plus two spares under ADR-0034, with **four independent 2 Mbit/s UARTs**, full ≥1 kHz status per controller, with classic CAN commands kept separate. The moteus steering FD link remains separate. Controllers are bought from Triforce (ADR-0034); landed quote TBD.
 
-**Latest main reconciled, 2026-10-12:** upstream `5a59c53` selects custom corners (ADR-0040), **100 mm wheels / 18:1 gearing / TBC 4–5 kg**. Review **TBC 36–43 A pack peak, 16–20 A phase current per corner, and 160–200 J / 185–230 W regen** in [ADR-0048](../adr/0048-ee-sizing-after-custom-corners.md). Dump-resistor sizing remains open. One power/sync motherboard and a separate carrier remain the plan.
+**Latest main reconciled, 2026-10-12:** upstream `5a59c53` selects custom corners (ADR-0040), **100 mm wheels / 18:1 gearing / TBC 4–5 kg**. Review **TBC 36–43 A pack peak, 16–20 A phase current per corner, and 160–200 J / 185–230 W regen** in [ADR-0044](../adr/0044-ee-sizing-after-custom-corners.md). Dump-resistor sizing remains open. One power/sync motherboard and a separate carrier remain the plan.
 
 **UART readiness:** calculated status-stream load is **29.5% per 2 Mbit/s link at 1 kHz**. Both firmware endpoints are still stubs; clock alignment, DMA ownership, fault handling, forwarding and loaded ground/reference margins need qualification. PB10/PB11 are the A50S's USART3 TX/RX. See [UART ICD](../icd/controller-telemetry.md), [source review](../reviews/a50s-uart-readiness.md) and [arrival checks](../tests/a50s-arrival.md).
 
-**Sensor decisions (ADR-0052):** one car uses **10 AS5047P angle boards (4 wheel + 4 suspension + 2 front knuckle), 2 ISM330DHCXTR IMU boards and 5 ToF boards (4 corners + 1 beside the ground-speed camera)**. All **17 sensor PCBs are assembled in house** from JLC bare boards and separately purchased loose chips/support parts. No populated spare sensor set is included. See the [assembly purchase plan](../../hardware/sensor-boards/README.md#as5047p-in-house-purchase-and-assembly-plan) and [sensor review](sensor-candidate-review.md). Grounding/isolation and power-stage selections remain TBD for later review.
+**Sensor decisions (ADR-0045):** one car uses **10 AS5047P angle boards (4 wheel + 4 suspension + 2 front knuckle), 2 ISM330DHCXTR IMU boards and 5 ToF boards (4 corners + 1 beside the ground-speed camera)**. All **17 sensor PCBs are assembled in house** from JLC bare boards and separately purchased loose chips/support parts. No populated spare sensor set is included. See the [assembly purchase plan](../../hardware/sensor-boards/README.md#as5047p-in-house-purchase-and-assembly-plan) and [sensor review](sensor-candidate-review.md). Grounding/isolation and power-stage selections remain TBD for later review.
 
-**Motherboard packaging, 2026-10-09 (ADR-0044):** [power and sync share one PCB](../../hardware/motherboard/README.md); the Jetson carrier stays separate. The sync MCU and power sections below list components for that same motherboard, not separate bare boards. A stacking header is not required in this plan.
+**Motherboard packaging, 2026-10-09 (ADR-0042):** [power and sync share one PCB](../../hardware/motherboard/README.md); the Jetson carrier stays separate. The sync MCU and power sections below list components for that same motherboard, not separate bare boards. A stacking header is not required in this plan.
 
 ## JLC PCBA cost estimate
 
@@ -66,8 +66,8 @@ Use this summary for the first schematic pass; detailed alternatives, sourcing a
 
 | Sensor | Qty / car | 🟢 Preferred part | Supplier USD each | Mounted at / read by |
 | --- | --- | --- | --- | --- |
-| Body/CG IMU | **1** | ISM330DHCXTR (selected, ADR-0052) | **USD $5.7392 loose / 1+** | CG mount → sync SPI + DRDY |
-| Front IMU | **1** | ISM330DHCXTR (selected, ADR-0052) | **USD $5.7392 loose / 1+** | Front axle mount → sync SPI + DRDY |
+| Body/CG IMU | **1** | ISM330DHCXTR (selected, ADR-0045) | **USD $5.7392 loose / 1+** | CG mount → sync SPI + DRDY |
+| Front IMU | **1** | ISM330DHCXTR (selected, ADR-0045) | **USD $5.7392 loose / 1+** | Front axle mount → sync SPI + DRDY |
 | Wheel angle | **4** | AS5047P-ATSM | **USD $4.231 loose / 10+** | Wheel output shafts → sync SPI |
 | Suspension angle | **4** | AS5047P-ATSM | **USD $4.231 loose / 10+** | Suspension pivots → sync SPI |
 | Steering angle | **2** | AS5047P-ATSM | **USD $4.231 loose / 10+** | Front knuckles → sync SPI |
@@ -95,12 +95,12 @@ Prices link directly to the **genuine manufacturer's JLCPCB catalog entry**, rat
 
 ### IMUs: one at the CG, one at the front axle
 
-Both use [our custom ARC IMU PCB](../../hardware/sensor-boards/imu/README.md) under ADR-0052, with one sensing IC per board. The shared design is remote from the motherboard; connectors, support BOM and layer stack remain TBC.
+Both use [our custom ARC IMU PCB](../../hardware/sensor-boards/imu/README.md) under ADR-0045, with one sensing IC per board. The shared design is remote from the motherboard; connectors, support BOM and layer stack remain TBC.
 
 | Role / choice | Exact manufacturer part | JLCPCB | USD each | Package / interface | Reason and remaining check |
 | --- | --- | --- | --- | --- | --- |
-| Both IMUs, qty 2 — 🟢 **Selected (ADR-0052)** | ST **ISM330DHCXTR** | [C2655101](https://jlcpcb.com/partdetail/Stmicroelectronics-ISM330DHCXTR/C2655101) | **$5.7392 loose each**, [LCSC C2655101](https://www.lcsc.com/product-detail/C2655101.html), 1+ tier | LGA-14, 2.5 × 3 mm; SPI; DRDY; 3.3 V domain | Same part and board at body/CG and front; industrial grade, 3 °/h typical gyro bias instability (DS13012 Rev 7). ≥4 kHz requirement: 6.667 kHz setting available; ±16 g / up to ±4000 °/s. Calibration, vibration, timestamps and velocity-through-slip qualification remain pending. Selected for in-house assembly; JLC's Standard-only catalog condition applies to its factory service, which is not used for these sensors. |
-| Better CG IMU — 🟡 **v1.1 candidate** | Murata **SCH16T-K10-1** | [C46817724](https://jlcpcb.com/partdetail/MurataElectronics-SCH16T_K101/C46817724) | **~$64.78** JLC preorder estimate; DigiKey $47.04 (SCH16T-K10-10, 2026-10-16) | Inverted SOIC-24; SafeSPI | ±2000 °/s, ±16 g, ~2 °/h. Not in quantities or cost: the ISM330DHCXTR is used at both sites (ADR-0052). Consider for v1.1 if testing shows the CG IMU limits slip estimation; needs its own board design. |
+| Both IMUs, qty 2 — 🟢 **Selected (ADR-0045)** | ST **ISM330DHCXTR** | [C2655101](https://jlcpcb.com/partdetail/Stmicroelectronics-ISM330DHCXTR/C2655101) | **$5.7392 loose each**, [LCSC C2655101](https://www.lcsc.com/product-detail/C2655101.html), 1+ tier | LGA-14, 2.5 × 3 mm; SPI; DRDY; 3.3 V domain | Same part and board at body/CG and front; industrial grade, 3 °/h typical gyro bias instability (DS13012 Rev 7). ≥4 kHz requirement: 6.667 kHz setting available; ±16 g / up to ±4000 °/s. Calibration, vibration, timestamps and velocity-through-slip qualification remain pending. Selected for in-house assembly; JLC's Standard-only catalog condition applies to its factory service, which is not used for these sensors. |
+| Better CG IMU — 🟡 **v1.1 candidate** | Murata **SCH16T-K10-1** | [C46817724](https://jlcpcb.com/partdetail/MurataElectronics-SCH16T_K101/C46817724) | **~$64.78** JLC preorder estimate; DigiKey $47.04 (SCH16T-K10-10, 2026-10-16) | Inverted SOIC-24; SafeSPI | ±2000 °/s, ±16 g, ~2 °/h. Not in quantities or cost: the ISM330DHCXTR is used at both sites (ADR-0045). Consider for v1.1 if testing shows the CG IMU limits slip estimation; needs its own board design. |
 | Both-role alternative — 🟡 **Not selected** | TDK **ICM-42688-P** | [C1850418](https://jlcpcb.com/partdetail/ICM-42688-P/C1850418) | **$20.64**, retained snapshot | LGA-14; SPI; data ready | Different timing/registers/pin map; qualifies only after a recorded substitution and installed performance review. |
 | Legacy CG candidate — 🔴 **Fails existing targets** | Analog Devices **ADIS16505-3BMLZ** | [C1235471](https://jlcpcb.com/partdetail/AnalogDevices-ADIS165053BMLZ/C1235471) | **~$234.71**, historical estimate | Packaged module; SPI | 2 kSPS / ±8 g miss the ≥4 kHz / ±16 g targets; excluded. |
 | Lower-cost alternative — 🟡 **Not selected** | ST **LSM6DSOTR** | [C2655100](https://jlcpcb.com/partdetail/STMicroelectronics-LSM6DSOTR/C2655100) | **$3.88**, historical snapshot | LGA-14; SPI; interrupt | Different registers/pins need review; not added to the selected BOM. |
@@ -113,7 +113,7 @@ Mount both selected IMUs away from switching currents and on vibration-isolated 
 
 The same preferred sensor and alternative apply to **all three roles** below. Total: **10 ICs plus 10 diametrically magnetized magnets**, not six encoders.
 
-| Function | Project ID | Qty / car | 🟢 Selected part (ADR-0052) | 🟡 Alternative |
+| Function | Project ID | Qty / car | 🟢 Selected part (ADR-0045) | 🟡 Alternative |
 | --- | --- | --- | --- | --- |
 | Wheel output-shaft angle | E-22 | **4** | AS5047P-ATSM | AS5047D-ATSM |
 | Suspension pivot angle | E-23 | **4** | AS5047P-ATSM | AS5047D-ATSM |
@@ -126,11 +126,11 @@ The same preferred sensor and alternative apply to **all three roles** below. To
 | 🟡 **Variohm ELPM**, suspension only | External supplier; no verified JLC listing | Quote required; GBP £293.46 ELPM-25 distributor reference, ex VAT | Linear contact potentiometer; proposed high-impedance analog front end → sync ADC | Evaluation alternative, not included in the subtotal. Smallest standard 25 mm: 95 mm retracted mounting distance in 10/24 datasheet. Stroke, fit, accuracy, ≥2 kHz acquisition and exact revision TBC; see [sensor review](sensor-candidate-review.md). |
 | Required magnets, qty 10 | No verified JLC selection | Quote required | Diametric magnet; diameter / thickness / air gap TBD | Mechanical selection must produce the datasheet field at the die over runout and suspension motion; an axially magnetized disc is unsuitable. |
 
-**Assembly decision (ADR-0052):** place each AS5047P on a separate remote PCB at its measured shaft/pivot and **assemble these boards in house**. Buy loose chips and reviewed support parts separately; [purchase/assembly plan](../../hardware/sensor-boards/README.md#as5047p-in-house-purchase-and-assembly-plan). Wire SPI directly to the central sync MCU. [ADR-0008](../adr/0008-corner-sensors-to-sync-board.md) does not add a corner sensor MCU. In 3.3 V operation, follow the specified VDD / VDD3V3 connection and local decoupling. Qualify the actual harness for ≥2 kHz reads with individual chip-selects; SPI clock rate alone does not prove harness integrity. [AS5047P manufacturer datasheet, distributor mirror](https://www.mouser.com/datasheet/2/588/asset_pdf_25493104-3419339.pdf).
+**Assembly decision (ADR-0045):** place each AS5047P on a separate remote PCB at its measured shaft/pivot and **assemble these boards in house**. Buy loose chips and reviewed support parts separately; [purchase/assembly plan](../../hardware/sensor-boards/README.md#as5047p-in-house-purchase-and-assembly-plan). Wire SPI directly to the central sync MCU. [ADR-0008](../adr/0008-corner-sensors-to-sync-board.md) does not add a corner sensor MCU. In 3.3 V operation, follow the specified VDD / VDD3V3 connection and local decoupling. Qualify the actual harness for ≥2 kHz reads with individual chip-selects; SPI clock rate alone does not prove harness integrity. [AS5047P manufacturer datasheet, distributor mirror](https://www.mouser.com/datasheet/2/588/asset_pdf_25493104-3419339.pdf).
 
 ### Ride height / ground-speed scale
 
-ADR-0052 uses [our own height board](../../hardware/sensor-boards/tof/README.md) at five sites: **four corners plus one beside the ground-speed camera** for its scale (ADR-0007), all assembled in house. The IC options remain recommendations; exact local support parts, optics and assembly qualification still require review.
+ADR-0045 uses [our own height board](../../hardware/sensor-boards/tof/README.md) at five sites: **four corners plus one beside the ground-speed camera** for its scale (ADR-0007), all assembled in house. The IC options remain recommendations; exact local support parts, optics and assembly qualification still require review.
 
 | Function / choice | Qty / car | Exact manufacturer part | JLCPCB | USD each | Design notes |
 | --- | --- | --- | --- | --- | --- |
@@ -186,7 +186,7 @@ One native H723 FDCAN serves classic drive commands. The existing external MCP25
 
 ## Power and electrical sensing (motherboard)
 
-These are **new proposed MPNs**. Input is 4S LiPo (up to 16.8 V) and a 19 V wall supply for low-voltage loads. The updated main scenario uses **TBC 36–43 A aggregate pack peak at 9 m/s**, with 4–5 kg mass, 100 mm wheels and 18:1 gearing. Pack/input and individual branch ratings must be reviewed separately; final motor and measured mass remain open. See [power scenarios](../budgets/power-scenarios.md) and [ADR-0048 sizing review](../adr/0048-ee-sizing-after-custom-corners.md).
+These are **new proposed MPNs**. Input is 4S LiPo (up to 16.8 V) and a 19 V wall supply for low-voltage loads. The updated main scenario uses **TBC 36–43 A aggregate pack peak at 9 m/s**, with 4–5 kg mass, 100 mm wheels and 18:1 gearing. Pack/input and individual branch ratings must be reviewed separately; final motor and measured mass remain open. See [power scenarios](../budgets/power-scenarios.md) and [ADR-0044 sizing review](../adr/0044-ee-sizing-after-custom-corners.md).
 
 | Function / choice | Exact manufacturer part | JLCPCB | Qty / power board | USD each | Package / design notes |
 | --- | --- | --- | --- | --- | --- |
@@ -227,7 +227,7 @@ Each A50S USART3 TX (PB10) goes to its assigned H723 RX; RX (PB11) receives from
 
 ## Motor-bus clamp
 
-This remains an electrical assembly even if merged mechanically with the power board. It must operate from the **motor bus with the battery removed and the MCU / switched LV rails off**. The updated 4–5 kg / 9 m/s normal-stop model is **TBC 160–200 J total / 185–230 W peak** in [power scenarios](../budgets/power-scenarios.md). Clamp placement relative to the motor-bus switch remains open (#113). The 17.2 V turn-on threshold below is an illustrative sizing point, not a frozen requirement; the earlier resistor pair needs review under [ADR-0048](../adr/0048-ee-sizing-after-custom-corners.md).
+This remains an electrical assembly even if merged mechanically with the power board. It must operate from the **motor bus with the battery removed and the MCU / switched LV rails off**. The updated 4–5 kg / 9 m/s normal-stop model is **TBC 160–200 J total / 185–230 W peak** in [power scenarios](../budgets/power-scenarios.md). Clamp placement relative to the motor-bus switch remains open (#113). The 17.2 V turn-on threshold below is an illustrative sizing point, not a frozen requirement; the earlier resistor pair needs review under [ADR-0044](../adr/0044-ee-sizing-after-custom-corners.md).
 
 | Function / choice | Exact manufacturer part | JLCPCB | Qty | USD each | Design notes |
 | --- | --- | --- | --- | --- | --- |
@@ -254,7 +254,7 @@ Use [ICD-corner-connector Rev H](../icd/corner-connector.md) for corner-to-deck 
 | Power-side cut / steering timing | **TBD** | Final timing circuitry and quantities depend on the power sequence |
 | CSD18540 power-board / clamp candidates | **9** | 4 buck-boost + 2 main buck + 2 ORing + 1 clamp; excludes any further switch / parallel FETs |
 
-The selected **17 installed state-sensor ICs** cost **USD $69.7824 / CAD $99.59 per car**: ten loose AS5047P, two ISM330DHCXTR and five ToFs. All sensor boards are assembled in house (ADR-0052); no factory sensor assembly fees apply. Magnets, support parts, bare fabrication and shared consumables are priced separately; no populated spare sensor set is included.
+The selected **17 installed state-sensor ICs** cost **USD $69.7824 / CAD $99.59 per car**: ten loose AS5047P, two ISM330DHCXTR and five ToFs. All sensor boards are assembled in house (ADR-0045); no factory sensor assembly fees apply. Magnets, support parts, bare fabrication and shared consumables are priced separately; no populated spare sensor set is included.
 
 ## External parts and remaining schematic work
 

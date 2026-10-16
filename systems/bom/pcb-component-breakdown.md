@@ -2,7 +2,7 @@
 
 - **Status:** Draft. Complete extracted carrier reference; ARC component selections and missing schematic details recorded below
 - **Scope:** One separate Jetson carrier, one combined power/sync motherboard, three remote sensor designs and the optional separate bus-clamp design
-- **Traces to:** E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-41, E-43, E-46; ADR-0025, ADR-0044, ADR-0034, ADR-0052
+- **Traces to:** E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-41, E-43, E-46; ADR-0025, ADR-0042, ADR-0034, ADR-0045
 
 This breaks down the parts for **each physical PCB design**, following [the main selection list](pcb-parts-selection.md). **Every carrier-reference part is listed**, including all passives, in the [complete 669-reference inventory](jetson-carrier-reference-parts.md). The motherboard and remote sensor boards have no captured/released schematics yet; their exact passive values, package suffixes, connector MPNs, designators and many quantities remain **TBD**. Their tables therefore list all currently named parts and the supporting component groups that still need capture; they are not falsely presented as a finished production BOM.
 
@@ -66,7 +66,7 @@ The NX module, SSD and Wi-Fi module are bought assemblies listed in total electr
 
 ## Combined power/sync motherboard — E-30 / E-41 / E-46
 
-Power and sync are **sections of one PCB** under ADR-0044. The H723 is the only main sensor MCU. The following tables retain the current named candidates and **one steering FD link**, with classic drive commands and four A50S UARTs under ADR-0034.
+Power and sync are **sections of one PCB** under ADR-0042. The H723 is the only main sensor MCU. The following tables retain the current named candidates and **one steering FD link**, with classic drive commands and four A50S UARTs under ADR-0034.
 
 ### Sync / communications named components
 

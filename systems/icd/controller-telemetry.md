@@ -16,9 +16,9 @@ Each of the four motor controllers streams its full status to the sync MCU over 
 | Item | Value |
 | --- | --- |
 | Link | One UART per controller, point to point: the A50S's TX/RX pins (ICD-corner-connector) to a sync MCU UART |
-| Electrical | 3.3 V logic, each line twisted with a reviewed reference return; voltage/ground margins, return-current partition and unpowered-node behavior TBD under ADR-0042 |
+| Electrical | 3.3 V logic, each line twisted with a reviewed reference return; voltage/ground margins, return-current partition and unpowered-node behavior TBD under ADR-0041 |
 | Rate | 2 Mbit/s, 8N1 (baseline, set 2026-10-08; installed-harness qualification pending). It divides exactly from the A50S's 42 MHz UART clock with upstream's 16× oversampling driver; 3 Mbit/s would need 8× oversampling set up outside that driver |
-| Harness | Five conductors per controller (TBC): TX and RX, each with a reference return, plus a spare; return and reference design per ADR-0042 |
+| Harness | Five conductors per controller (TBC): TX and RX, each with a reference return, plus a spare; return and reference design per ADR-0041 |
 | Load ceiling | ≤ 50% (SYS-24, a data link) |
 | Encoding | MAVLink 2, the ARC message set in [`sync-link.xml`](sync-link.xml) (ADR-0031): one schema and one generated library for both links |
 

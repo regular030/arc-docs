@@ -1,6 +1,6 @@
 # Remote sensor carrier PCBs
 
-**Current build, ADR-0052:** ARC designs and assembles all three remote sensor PCB families **in house**: **ten AS5047P angle boards**, **two ISM330DHCXTR IMU boards** and **five ToF boards**. No schematic or layout is released. A common 2-layer design per family is the costing proposal; actual outlines, connectors, mechanical variants and stackups remain TBC/TBD.
+**Current build, ADR-0045:** ARC designs and assembles all three remote sensor PCB families **in house**: **ten AS5047P angle boards**, **two ISM330DHCXTR IMU boards** and **five ToF boards**. No schematic or layout is released. A common 2-layer design per family is the costing proposal; actual outlines, connectors, mechanical variants and stackups remain TBC/TBD.
 
 | Board family | Installed per car | Assembly plan | Release work |
 | --- | --- | --- | --- |
@@ -32,4 +32,4 @@ Follow the [manufacturer's AS5047P datasheet, v2-00, Figure 10](https://www.mous
 
 Assembly checks: inspect solder joints and shorts, confirm supply/current, read SPI diagnostics and absolute angle with a correctly aligned magnet, label location, and verify sustained ≥2 kHz reads in the actual loom. Keep signal returns separate from motor-current paths. ESD/MSL handling, magnet geometry and spare/contact policy must be in the final assembly record.
 
-Funding and cost detail: [CAD estimate for KEFC](../../systems/bom/jlc-pcba-cost-estimate.md). Grounding remains subject to ADR-0042; all designs pass the [fab gate](../../systems/reviews/fab-gate.md) before ordering.
+Funding and cost detail: [CAD estimate for KEFC](../../systems/bom/jlc-pcba-cost-estimate.md). Grounding remains subject to ADR-0041; all designs pass the [fab gate](../../systems/reviews/fab-gate.md) before ordering.

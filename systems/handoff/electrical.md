@@ -11,14 +11,14 @@ The starting point for the electrical engineer. It collects, per board, what's d
 
 ## Read first
 
-**Deferred, 2026-10-09:** grounding/isolation and power-stage component/sizing decisions remain **TBD for later review**. Existing candidate tables and ADR-0042 are retained as proposals; no approval or layout release is inferred. ADR-0034 selects four 2 Mbit/s A50S UARTs; implementation and harness qualification are tracked in the [UART readiness review](../reviews/a50s-uart-readiness.md). Carrier CAD source and conversion status are in [hardware/orin-carrier](../../hardware/orin-carrier/README.md).
+**Deferred, 2026-10-09:** grounding/isolation and power-stage component/sizing decisions remain **TBD for later review**. Existing candidate tables and ADR-0041 are retained as proposals; no approval or layout release is inferred. ADR-0034 selects four 2 Mbit/s A50S UARTs; implementation and harness qualification are tracked in the [UART readiness review](../reviews/a50s-uart-readiness.md). Carrier CAD source and conversion status are in [hardware/orin-carrier](../../hardware/orin-carrier/README.md).
 
 | What | Where |
 | --- | --- |
 | System requirements | `requirements/system.md` |
 | Decisions (ADRs) | `adr/README.md` |
 | Coloured parts options + board map | [pcb-parts-selection.md](../bom/pcb-parts-selection.md) |
-| CAD funding budget with 30% contingency, including in-house assembly of all seventeen sensor boards | [One-car PCB estimate](../bom/jlc-pcba-cost-estimate.md), [cost model](../budgets/jlc-pcba-cost.csv); final BOM/process and shipment remain TBC (ADR-0052) |
+| CAD funding budget with 30% contingency, including in-house assembly of all seventeen sensor boards | [One-car PCB estimate](../bom/jlc-pcba-cost-estimate.md), [cost model](../budgets/jlc-pcba-cost.csv); final BOM/process and shipment remain TBC (ADR-0045) |
 | A50S UART transport / operating rate | [controller-telemetry.md](../icd/controller-telemetry.md) |
 | UART firmware gaps / pin and ground review | [UART source review](../reviews/a50s-uart-readiness.md) |
 | Functional BOM + sync MCU I/O tally | `bom/electrical.md` |
@@ -30,11 +30,11 @@ The starting point for the electrical engineer. It collects, per board, what's d
 
 ## Boards
 
-**Updated sizing:** [ADR-0048](../adr/0048-ee-sizing-after-custom-corners.md) aligns this handoff with upstream custom corners, TBC 100 mm wheels / 18:1 / 4–5 kg, revised current/regen and LiDAR startup demand. Resistor value/count and the final motor remain TBD; review the current [power scenarios](../budgets/power-scenarios.md) before rating parts.
+**Updated sizing:** [ADR-0044](../adr/0044-ee-sizing-after-custom-corners.md) aligns this handoff with upstream custom corners, TBC 100 mm wheels / 18:1 / 4–5 kg, revised current/regen and LiDAR startup demand. Resistor value/count and the final motor remain TBD; review the current [power scenarios](../budgets/power-scenarios.md) before rating parts.
 
-**Current packaging, 2026-10-09 (ADR-0044):** power and sync MCU are two functional sections of one [motherboard PCB](../../hardware/motherboard/README.md); the [Jetson carrier](../../hardware/orin-carrier/README.md) remains separate. Sections 1 and 2 retain their circuit responsibilities. Internal monitor/control signals replace the power/sync stacking header. A later two-PCB split remains possible after a recorded change and physical-interface review.
+**Current packaging, 2026-10-09 (ADR-0042):** power and sync MCU are two functional sections of one [motherboard PCB](../../hardware/motherboard/README.md); the [Jetson carrier](../../hardware/orin-carrier/README.md) remains separate. Sections 1 and 2 retain their circuit responsibilities. Internal monitor/control signals replace the power/sync stacking header. A later two-PCB split remains possible after a recorded change and physical-interface review.
 
-**Sensor boards (ADR-0052):** ten angle (four wheel, four suspension, two front knuckle), two IMU and five ToF boards (four corners plus one beside the ground-speed camera), all our own and assembled in house.
+**Sensor boards (ADR-0045):** ten angle (four wheel, four suspension, two front knuckle), two IMU and five ToF boards (four corners plus one beside the ground-speed camera), all our own and assembled in house.
 
 ### 1. Power board (+ e-stop circuit) and bus clamp board
 
@@ -57,7 +57,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
   - **Inrush when the motor-bus switch closes again** after an e-stop: the anti-spark loop key (E-42) is upstream of it, so the four controllers' bulk capacitors charge through the switch. A controlled turn-on, or a switch rated for the surge
   - Low-battery thresholds (on the lowest cell) and the clean-shutdown signal to the Orin (SYS-30)
   - Cell-monitor part and balance-lead connection while the pack is installed (E-46)
-  - Internal power/sync signal and MCU pin map ([power-sync-stack draft](../icd/power-sync-stack.md)); monitor topology / levels / approval remain open. No stacking header in the current motherboard plan (ADR-0044)
+  - Internal power/sync signal and MCU pin map ([power-sync-stack draft](../icd/power-sync-stack.md)); monitor topology / levels / approval remain open. No stacking header in the current motherboard plan (ADR-0042)
   - Whether battery V/I, rail currents and cell voltages are digitised here and sent to the sync MCU over a bus, or read as analogue by the sync MCU's ADC (`bom/electrical.md` I/O tally). **Recommendation in ADR-0022 (Proposed):** monitor ICs on this board, one dedicated I2C bus, fault pins as sync MCU interrupts, analog battery V/I as a rework fallback
   - Whether this board or the sync MCU drives the clean-shutdown signal to the Orin (SYS-30). **Recommendation in ADR-0022 (Proposed):** two tiers. The sync MCU warns and requests the Orin shutdown; this board cuts the compute rail once the Orin has halted, plus an independent hardware undervoltage cutoff that protects the pack if software fails
   - Anti-spark / loop key and motor distribution parts (E-42, E-45)
@@ -72,14 +72,14 @@ The starting point for the electrical engineer. It collects, per board, what's d
   - SO-8 CAN transceivers with SIC drop-in; unpopulated split termination, common-mode choke and TVS footprints on the steering bus (ADR-0019).
   - I/O per the tally in `bom/electrical.md`:
     - 12 SPI devices (2 IMUs, 4 wheel encoders, 4 suspension angle sensors, 2 knuckle encoders), each with a data-ready or chip-select line as needed
-    - I2C + mux for 5 ride-height ToF sensors, plus at least one spare mux channel (ADR-0052)
+    - I2C + mux for 5 ride-height ToF sensors, plus at least one spare mux channel (ADR-0045)
     - 4 camera triggers + spare
     - ground-speed lighting: 3 mode outputs with current-limited drivers, including the Class 1 VCSEL with a hardware current limit
     - e-stop status input
     - status LEDs
 - **Requirements:** SYS-04, -07, -19, -22, -24, -25, -29.
 - **Open:**
-  - **Deprecated historical feasibility tally (2026-10-07):** the following example predates ADR-0052. It is retained as a feasibility reference and requires a fresh clock/pin/DMA review for four operating UARTs and five ToFs; it does not establish the current spare-pin count. Against Zephyr's pin data for the STM32H723ZG (LQFP144), with SWD, HSE and LSE reserved, everything gets its own pin with 37 to spare: Ethernet RMII, 3 FDCAN, 5 UARTs, 4 SPI buses, 2 I2C, 6 timer outputs (4 triggers, a spare, PPS) and 22 plain GPIO (12 chip-selects, 4 interrupts, e-stop in, 2 LEDs, 3 lighting). One example assignment, to show feasibility only (the pin choice is yours):
+  - **Deprecated historical feasibility tally (2026-10-07):** the following example predates ADR-0045. It is retained as a feasibility reference and requires a fresh clock/pin/DMA review for four operating UARTs and five ToFs; it does not establish the current spare-pin count. Against Zephyr's pin data for the STM32H723ZG (LQFP144), with SWD, HSE and LSE reserved, everything gets its own pin with 37 to spare: Ethernet RMII, 3 FDCAN, 5 UARTs, 4 SPI buses, 2 I2C, 6 timer outputs (4 triggers, a spare, PPS) and 22 plain GPIO (12 chip-selects, 4 interrupts, e-stop in, 2 LEDs, 3 lighting). One example assignment, to show feasibility only (the pin choice is yours):
     - Ethernet: REF_CLK PA1, MDIO PA2, MDC PC1, CRS_DV PA7, RXD0 PC4, RXD1 PC5, TX_EN PB11, TXD0 PB12, TXD1 PB13
     - FDCAN1 PA11/PA12, FDCAN2 PB5/PB6, FDCAN3 PD12/PD13
     - UARTs: USART1 PA9/PA10, USART2 PD5/PA3, USART3 PB10/PC11, USART6 PC6/PC7, USART10 PE3/PE2
@@ -89,7 +89,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
   - Connector map and pinouts for every sensor run
   - Four operating UARTs: verify A50S PB10 TX / PB11 RX contacts, assign H723 RX/TX and DMA resources, qualify 3.3 V logic and ground/reference/protection behavior. Both telemetry endpoints remain stubs; see [readiness review](../reviews/a50s-uart-readiness.md) and [UART ICD](../icd/controller-telemetry.md).
   - Recheck the earlier 37-spare-pin feasibility example against four operating UARTs + debug, steering SPI, cell-monitor SPI, all interrupts and final clocks. It is not a released pin/DMA map; the `arc_sync` board definition is still a skeleton.
-  - ISM330DHCXTR at both IMUs, AS5047P angle boards and five ToF boards, all on our own [IMU](../../hardware/sensor-boards/imu/README.md), angle and [height](../../hardware/sensor-boards/tof/README.md) boards and assembled in house (ADR-0052); capture/layout, exact ToF variant and [qualification](../bom/sensor-candidate-review.md) remain pending. ELPM remains an unselected analog alternative
+  - ISM330DHCXTR at both IMUs, AS5047P angle boards and five ToF boards, all on our own [IMU](../../hardware/sensor-boards/imu/README.md), angle and [height](../../hardware/sensor-boards/tof/README.md) boards and assembled in house (ADR-0045); capture/layout, exact ToF variant and [qualification](../bom/sensor-candidate-review.md) remain pending. ELPM remains an unselected analog alternative
   - Camera-trigger connector to the carrier ([carrier-sync draft](../icd/carrier-sync.md)); GPIO/module map and contact numbering remain open
   - Isolated vs non-isolated transceivers (follows the grounding decision)
   - Ethernet path if the optional i210/i226 is fitted: point-to-point to the Orin instead of through the switch (ADR-0021). **Recommendation in ADR-0023 (Proposed):** don't fit it in v1; the sync MCU stays on the switch
@@ -138,7 +138,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
 
 ### 5. Harness
 
-The [wiring diagram and count schedule](../bom/motherboard-wiring.md) propose 17 separate sensor runs / 111 minimum conductors including spares (94 used + 17 spares, TBC). The [remote sensor carrier workspace](../../hardware/sensor-boards/README.md) records ten angle, two IMU and five ToF boards assembled in house (ADR-0052); 2-layer layouts remain TBC, without corner MCUs; complete connector counts and non-sensor interfaces remain TBD.
+The [wiring diagram and count schedule](../bom/motherboard-wiring.md) propose 17 separate sensor runs / 111 minimum conductors including spares (94 used + 17 spares, TBC). The [remote sensor carrier workspace](../../hardware/sensor-boards/README.md) records ten angle, two IMU and five ToF boards assembled in house (ADR-0045); 2-layer layouts remain TBC, without corner MCUs; complete connector counts and non-sensor interfaces remain TBD.
 
 - **Decided:**
   - JST-GH for signal; the controllers' own XT30, MR30 and Pico-Clasp on the deck; everything locking. The Pico-Clasp housing (Molex 501189-2010) has an inner positive lock.
@@ -151,14 +151,14 @@ The [wiring diagram and count schedule](../bom/motherboard-wiring.md) propose 17
 ## Review packages prepared for the selected EE issues
 
 - **A50S integration (#100):** [UART readiness review](../reviews/a50s-uart-readiness.md), [active UART ICD](../icd/controller-telemetry.md) and [arrival/qualification procedure](../tests/a50s-arrival.md). Controller streaming, clock alignment, DMA/pins and loaded signal margins remain open; ground design is deferred TBD.
-- **Grounding (#94 / #115):** proposed ADR-0042 plus [return-path bench checks](../tests/grounding-and-signal-integrity.md). Non-isolated star proposal / complete isolation alternative require approval and measured margins; FD does not eliminate ground shift.
+- **Grounding (#94 / #115):** proposed ADR-0041 plus [return-path bench checks](../tests/grounding-and-signal-integrity.md). Non-isolated star proposal / complete isolation alternative require approval and measured margins; FD does not eliminate ground shift.
 - **Missing interfaces (#102):** [power-rails](../icd/power-rails.md), [power-sync-stack](../icd/power-sync-stack.md), [carrier-sync](../icd/carrier-sync.md). Logical contracts exist; ratings, physical pins and technical sign-off remain open.
 
 ## Cross-cutting open questions
 
 | Question | Who decides | Blocks |
 | --- | --- | --- |
-| **Grounding approval:** proposed ADR-0042 recommends a controlled power-return star with non-isolated communications, retaining a complete isolation alternative. Approve the return map / reference conductors and verify loaded ground offsets, CAN common-mode margins and UART logic/reference behavior using [bench checks](../tests/grounding-and-signal-integrity.md). Operating UART needs logic-level and parallel-return review; steering FD still needs common-mode qualification | EE (kunshpreet); separate safety reviewer TBD | Harness, transceiver choice, all boards |
+| **Grounding approval:** proposed ADR-0041 recommends a controlled power-return star with non-isolated communications, retaining a complete isolation alternative. Approve the return map / reference conductors and verify loaded ground offsets, CAN common-mode margins and UART logic/reference behavior using [bench checks](../tests/grounding-and-signal-integrity.md). Operating UART needs logic-level and parallel-return review; steering FD still needs common-mode qualification | EE (kunshpreet); separate safety reviewer TBD | Harness, transceiver choice, all boards |
 | **Mass and CG** (SYS-16) | Mechanical | Power scenarios, bus clamp, pack choice |
 | Steering motor peak current | Mechanical (actuator design) | Steering switched output |
 | Aero fan power (SYS-15) | Capstone | Motor bus reserve |
