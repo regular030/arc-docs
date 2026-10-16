@@ -2,13 +2,13 @@
 
 - **Status:** Proposed (alignment with upstream planning inputs; parts, ratings and layout remain unapproved)
 - **Date:** 2026-10-09
-- **Deciders:** kunshpreet; component sizing review pending
+- **Deciders:** Kunshpreet Baweja (proposer); component sizing review pending
 - **Traces to:** SYS-01, SYS-02, SYS-03, SYS-05, SYS-14, SYS-16, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, E-10, E-40, E-41, E-43, E-50, E-51, ADR-0040, ADR-0044, ADR-0045, RSK-04, RSK-08, RSK-18, RSK-21, RSK-22
 - **Related:** ADR-0034 retains the bought A50S choice; its original small-wheel sizing is historical. This proposal records updated review inputs, not a new controller or motor selection.
 
 ## Context
 
-Upstream main at `67392fac4bd2ad705ddf723508b0ed09570f4078` adds accepted custom-corner ADR-0040, vendor envelopes and revised drive/power scenarios. The EE draft previously used smaller wheels and lower mass/current/regen estimates. The owner asked to bring in the updated files and align our decisions.
+Upstream main at `67392fac4bd2ad705ddf723508b0ed09570f4078` adds accepted custom-corner ADR-0040, vendor envelopes and revised drive/power scenarios. The EE draft previously used smaller wheels and lower mass/current/regen estimates. This brings the EE review in line with those files.
 
 Upstream ADR-0040 is the custom-corner record. No upstream ID or accepted decision body is rewritten.
 

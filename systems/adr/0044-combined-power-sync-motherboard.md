@@ -1,15 +1,15 @@
 # ADR-0044: Power and sync MCU share one motherboard PCB
 
-- **Status:** Accepted (owner working packaging plan; circuit design and layout remain draft)
+- **Status:** Accepted (circuit design and layout remain draft)
 - **Date:** 2026-10-09
-- **Deciders:** Kunshpreet Baweja, through the explicit instruction to combine power and sync MCU while keeping the Jetson carrier separate
+- **Deciders:** Shrikar Vempati, Kunshpreet Baweja
 - **Traces to:** SYS-05, SYS-07, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, E-30, E-41, E-46, ADR-0011, ADR-0022, ADR-0025
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-12
 
 ## Context
 
-The BOM, handoff and mechanical brief previously described separate power and sync boards, with a stacking header. The owner now wants to develop one combined PCB; a later two-PCB implementation remains possible. This changes packaging, while the recorded power, timing, communications and safety functions still apply.
+The BOM, handoff and mechanical brief previously described separate power and sync boards, with a stacking header. The EE proposed developing one combined PCB; a later two-PCB implementation remains possible. This changes packaging, while the recorded power, timing, communications and safety functions still apply.
 
 ## Decision
 

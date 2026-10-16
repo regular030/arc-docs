@@ -2,12 +2,12 @@
 
 - **Status:** Proposed (TBC estimates for CAD block planning; no board outline or cooling solution approved)
 - **Date:** 2026-10-09
-- **Deciders:** kunshpreet; review of the estimated dimensions pending
+- **Deciders:** Kunshpreet Baweja (proposer); review of the estimated dimensions pending
 - **Traces to:** SYS-02, SYS-05, SYS-07, SYS-08, SYS-14, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, E-01, E-02, E-03, E-30, E-41, E-46, ADR-0025, ADR-0044, RSK-01, RSK-08
 
 ## Context
 
-The current plan combines power and sync MCU on one motherboard, with a separate Jetson carrier (ADR-0044). The owner requested size estimates here. Motherboard capture/layout has not started and its power-stage parts and grounding remain open. The imported Antmicro carrier provides a known reference footprint, but ARC's four CSI connectors and other adaptations have not been laid out.
+The current plan combines power and sync MCU on one motherboard, with a separate Jetson carrier (ADR-0044). These estimates feed the chassis block layout. Motherboard capture/layout has not started and its power-stage parts and grounding remain open. The imported Antmicro carrier provides a known reference footprint, but ARC's four CSI connectors and other adaptations have not been laid out.
 
 These estimates support the SYS-02 chassis block layout. They are packaging proposals, not requirements or fabrication dimensions. All dimensions below are in **millimetres**, shown as **long side × short side × total height** where a height is given. Installed blocks include the PCB and fitted parts; they do not prescribe orientation in the chassis.
 

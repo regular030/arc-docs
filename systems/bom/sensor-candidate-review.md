@@ -1,6 +1,6 @@
 # Sensor candidate review: ISM330DHCX and ELPM
 
-- **Status:** Draft. Qualification review; owner selections are recorded in the ADRs.
+- **Status:** Draft. Qualification review; selections are recorded in the ADRs.
 - **Updated:** 2026-10-12
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-12
@@ -20,7 +20,7 @@ The genuine ST part is **ISM330DHCXTR**, JLCPCB **C2655101**. The live JLC page 
 | Bias and vibration for velocity-through-slip | Rev 7 lists typical gyro bias instability 3 °/h, typical high-performance gyro noise 5 mdps/√Hz and accel noise 60 µg/√Hz | Useful industrial-IMU specifications; typical values are not guaranteed navigation performance on a vibrating car |
 | Packaging | LGA-14, 2.5 × 3 × 0.83 mm typical; −40 to +105 °C | Suitable for a small sensor PCB; check exact pin assignment / land pattern and vibration-isolated mounting |
 
-**Owner selection (ADR-0052):** use ISM330DHCXTR for E-20 at the body/CG and E-21 at the front axle. One common board serves both sites. Calibration, thermal/vibration testing and measured velocity-through-slip performance still need qualification. Murata's SCH16T-K10 (±2000 °/s, ±16 g, ~2 °/h, about USD 47) is the candidate for a better CG IMU in v1.1 if testing shows this one limits slip estimation.
+**Selection (ADR-0052):** use ISM330DHCXTR for E-20 at the body/CG and E-21 at the front axle. One common board serves both sites. Calibration, thermal/vibration testing and measured velocity-through-slip performance still need qualification. Murata's SCH16T-K10 (±2000 °/s, ±16 g, ~2 °/h, about USD 47) is the candidate for a better CG IMU in v1.1 if testing shows this one limits slip estimation.
 
 Before release, test the real SPI harness, sustained full-rate acquisition without FIFO loss, clipping, stationary bias / Allan behavior, warm-up / temperature drift, motor-on vibration and the estimator's slip intervals. Record actual filter bandwidth/delay; output data rate is not measurement bandwidth. The selected 17 installed state-sensor ICs cost **USD $69.7824 / CAD $99.59 per car**: two loose ISM330DHCXTR at $5.7392, ten loose AS5047P at the $4.231 tier and five loose ToFs at $3.1988. This excludes support parts, bare sensor PCBs, shared in-house consumables and shipping; see the [CAD funding estimate](jlc-pcba-cost-estimate.md).
 

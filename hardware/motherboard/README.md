@@ -16,7 +16,7 @@ This folder is the working location for the combined motherboard design. Schemat
 
 The four bought A50S controllers stay separate and send telemetry over four 2 Mbit/s UARTs under ADR-0034. UART firmware, pin/DMA assignment, references and protection still need qualification. The bus clamp’s placement remains open.
 
-Grounding/isolation, power-stage parts and sizing remain **TBD for later owner review**. Combining the circuits does not remove noise, return-current, power-loss or independent-stop requirements. Board envelope, copper stack, connectors, pin map, layout and verification remain TBD. Refer to the [parts list](../../systems/bom/pcb-parts-selection.md) for candidates; the sync and power component sections belong to this same PCB and must not be counted as two boards.
+Grounding/isolation, power-stage parts and sizing remain **TBD for later review**. Combining the circuits does not remove noise, return-current, power-loss or independent-stop requirements. Board envelope, copper stack, connectors, pin map, layout and verification remain TBD. Refer to the [parts list](../../systems/bom/pcb-parts-selection.md) for candidates; the sync and power component sections belong to this same PCB and must not be counted as two boards.
 
 Native Altium files will live here once capture starts. Use Git LFS for large CAD binaries, preserve source attribution, and release fabrication outputs only after the [fab gate](../../systems/reviews/fab-gate.md).
 

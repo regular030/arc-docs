@@ -14,7 +14,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
 
 ## Read first
 
-**Owner deferral, 2026-10-09:** grounding/isolation and power-stage component/sizing decisions remain **TBD for later review**. Existing candidate tables and ADR-0042 are retained as proposals; no approval or layout release is inferred. ADR-0034 selects four 2 Mbit/s A50S UARTs; implementation and harness qualification are tracked in the [UART readiness review](../reviews/a50s-uart-readiness.md). Carrier CAD source and conversion status are in [hardware/orin-carrier](../../hardware/orin-carrier/README.md).
+**Deferred, 2026-10-09:** grounding/isolation and power-stage component/sizing decisions remain **TBD for later review**. Existing candidate tables and ADR-0042 are retained as proposals; no approval or layout release is inferred. ADR-0034 selects four 2 Mbit/s A50S UARTs; implementation and harness qualification are tracked in the [UART readiness review](../reviews/a50s-uart-readiness.md). Carrier CAD source and conversion status are in [hardware/orin-carrier](../../hardware/orin-carrier/README.md).
 
 | What | Where |
 | --- | --- |
