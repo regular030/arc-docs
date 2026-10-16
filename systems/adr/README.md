@@ -17,7 +17,7 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0009](0009-single-classic-can-bus.md) | One classic CAN bus to the four corner VESCs | Accepted, amended by 0011 and 0034 |
 | [0010](0010-compute-orin-nx.md) | Orin NX 16GB for v1, all inference onboard | Accepted |
 | [0011](0011-vesc-telemetry-link.md) | VESC 6.4 fork; telemetry on two CAN-FD buses, commands on the classic bus | Superseded by 0034 |
-| [0012](0012-estop-controlled-braking.md) | E-stop: controlled braked stop, then hardware torque cut | Superseded by 0047 |
+| [0012](0012-estop-controlled-braking.md) | E-stop: controlled braked stop, then hardware torque cut | Accepted, amended by 0019 and 0034 |
 | [0013](0013-canfd-physical-layer.md) | CAN-FD physical layer: daisy-chain, discrete transceivers, rework-only fallbacks | Superseded by 0036 |
 | [0014](0014-ground-speed-event-camera.md) | Ground speed: downward event camera with three lighting modes; dead-wheel pod as fallback | Superseded by 0053; illumination and fallback retained |
 | [0015](0015-ground-link.md) | Ground link: team router (Flint 3), laptop gateway, button hotspot, wired service port | Accepted |
@@ -39,7 +39,7 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0031](0031-sync-link-encoding.md) | Sync link encoded as MAVLink 2 with our own message set | Accepted |
 | [0032](0032-simulator.md) | Simulators as pluggable backends: Gazebo Harmonic, Webots, F1TENTH gym | Accepted |
 | [0033](0033-vesc-firmware-vendored.md) | VESC firmware vendored as an upstream snapshot, updated by script (GPL-3.0 subdirectory) | Accepted, amended by 0034 and 0037 |
-| [0034](0034-off-the-shelf-motor-controllers.md) | Off-the-shelf motor controllers (A50S) on the deck; telemetry over UART; top speed 9 m/s | Accepted, amended by 0035, 0047 and 0054; sizing review in 0048 |
+| [0034](0034-off-the-shelf-motor-controllers.md) | Off-the-shelf motor controllers (A50S) on the deck; telemetry over UART; top speed 9 m/s | Accepted, amended by 0035 and 0054; sizing review in 0048 |
 | [0035](0035-corner-state-and-command-timeout.md) | Each corner reports its state in its telemetry; the controllers brake on command loss | Accepted, amended by 0039 |
 | [0036](0036-steering-bus-physical-layer.md) | Steering CAN-FD bus physical layer: discrete transceiver, rework-only fallbacks | Accepted |
 | [0037](0037-vesc-modules-in-arc.md) | Our VESC firmware code lives in `firmware/vesc/arc/`, joined to upstream by small hooks | Accepted |
@@ -50,7 +50,6 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0044](0044-combined-power-sync-motherboard.md) | Power and sync MCU share one motherboard PCB; Jetson carrier stays separate | Accepted (owner working packaging plan) |
 | [0045](0045-board-size-estimates.md) | Preliminary motherboard and Jetson PCB / installed-envelope size estimates | Proposed (TBC; placement and thermal review pending) |
 | [0046](0046-built-in-motor-temperature.md) | Buy motors with compatible built-in temperature sensors; remove separate can-mounted thermistors | Accepted (owner procurement requirement; exact motor TBD) |
-| [0047](0047-estop-full-stop-with-controller-fault.md) | E-stop reaches physical standstill with halted A50S firmware; independent brake remains open | Accepted (user requirement) |
 | [0048](0048-ee-sizing-after-custom-corners.md) | Align EE review with 100 mm wheels, 18:1 gearing and the revised current/regen estimates; resistor sizing reopened | Proposed (ratings and parts review pending) |
 | [0050](0050-common-imus-and-in-house-angle-boards.md) | ISM330DHCXTR at both IMU sites; separate AS5047P boards assembled in house; CAD funding basis | Superseded by 0052; selected parts retained |
 | [0051](0051-custom-imu-and-height-sensor-pcbs.md) | ARC-designed remote IMU and ground/ride-height PCBs; existing sensor quantities and assembly cost assumptions retained | Superseded by 0052; ARC PCB ownership retained |

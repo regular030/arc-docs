@@ -41,7 +41,6 @@ Model every component as a box first. TBD: needs a datasheet or drawing. TBC: fr
 | Orin NX + heatsink/fan (E-03) on the carrier | 1 | Carrier 120 × 60 × 36 with the module; the heatsink adds 17–30 (TBC, E-03 not chosen) | TBD | Real airflow path; NVMe reachable for swapping |
 | Combined power/sync motherboard — one PCB (ADR-0044) | 1 | TBD | TBD | Close to the motor controllers on the deck (classic commands, four UART runs and separate steering FD; mapping TBC) and the battery; e-stop and service connectors reachable |
 | Bus clamp board + resistor | 1 | TBD | TBD | On the motor bus; resistor needs airflow or a heatsink |
-| Independent full-stop brake E-34 | 1 system; actuator count TBD | TBD | TBD | Mechanism not selected (ADR-0047); reserve interfaces / envelope after joint EE and mechanical review. Qualify stopping energy, reaction torque, wear, heat and all-travel clearance |
 | Ethernet switch | 1 | TBD | TBD | Near the Orin and sync board |
 | Hokuyo UST-10LX | 1 | 50 × 50 × 70 | 130 without cable | High, clear 270°+ view, crash guard |
 | Stereo AR0234 bar | 1 | Two 40 × 40 boards (TBC); bar length = baseline, TBD | TBD | Front, rigid, forward view |

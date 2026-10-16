@@ -33,7 +33,7 @@ Keep measured/vendor reference sizes separate from ARC estimates. Include room f
 
 **Motherboard growth allowance:** if the reviewed power stage, UART connector placement, copper/thermal requirements or connector bank cannot fit the initial target, use **180 × 120 mm PCB — TBC** as a second block-planning case, with **200 × 140 × 40 mm installed block — TBC**. These are contingency estimates under the same power/sync requirements, not a second PCB or an approved maximum. A larger outline remains possible after actual placement.
 
-The motherboard estimate excludes the four bought A50S controllers and their heatsinks, external dump resistors, the Ethernet switch, remote sensors and the unselected E-34 brake actuator. Bus-clamp circuitry placement remains open; substantial clamp circuitry or brake-driver hardware on this PCB requires a revised estimate. UART connector/cable access and loaded signal margins still need qualification.
+The motherboard estimate excludes the four bought A50S controllers and their heatsinks, external dump resistors, the Ethernet switch, and remote sensors. Bus-clamp circuitry placement remains open; substantial clamp circuitry on this PCB requires a revised estimate. UART connector/cable access and loaded signal margins still need qualification.
 
 **Updated sizing input (ADR-0048):** recheck motherboard copper, connectors, switching parts, cooling and growth allowance against the TBC 36–43 A pack / 16–20 A per-corner scenario. The proposed envelopes do not establish those ratings. The carrier height sources describe different configurations; do not add heights or assume the earlier installed block is sufficient without assembly CAD.
 

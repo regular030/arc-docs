@@ -3,14 +3,14 @@
 - **Status:** Proposed (alignment with upstream planning inputs; parts, ratings and layout remain unapproved)
 - **Date:** 2026-10-09
 - **Deciders:** kunshpreet; component sizing review pending
-- **Traces to:** SYS-01, SYS-02, SYS-03, SYS-05, SYS-14, SYS-16, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, E-10, E-34, E-40, E-41, E-43, E-50, E-51, ADR-0040, ADR-0044, ADR-0045, ADR-0046, ADR-0047, RSK-04, RSK-08, RSK-18, RSK-21, RSK-22
+- **Traces to:** SYS-01, SYS-02, SYS-03, SYS-05, SYS-14, SYS-16, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, E-10, E-40, E-41, E-43, E-50, E-51, ADR-0040, ADR-0044, ADR-0045, ADR-0046, RSK-04, RSK-08, RSK-18, RSK-21, RSK-22
 - **Related:** ADR-0034 retains the bought A50S choice; its original small-wheel sizing is historical. This proposal records updated review inputs, not a new controller or motor selection.
 
 ## Context
 
 Upstream main at `67392fac4bd2ad705ddf723508b0ed09570f4078` adds accepted custom-corner ADR-0040, vendor envelopes and revised drive/power scenarios. The EE draft previously used smaller wheels and lower mass/current/regen estimates. The owner asked to bring in the updated files and align our decisions.
 
-Upstream ADR-0040 is the custom-corner record. Our unpublished full-stop record was moved to ADR-0047 before integrating main, so both decisions have distinct IDs. No upstream ID or accepted decision body is rewritten.
+Upstream ADR-0040 is the custom-corner record. No upstream ID or accepted decision body is rewritten.
 
 ## Recorded upstream inputs
 
@@ -22,7 +22,7 @@ Upstream ADR-0040 is the custom-corner record. Our unpublished full-stop record 
 | Mass | TBC 4–5 kg | SYS-16 / [power scenarios](../budgets/power-scenarios.md); replace with completed mass/CG budget |
 | Pack peak at 9 m/s | TBC 36–43 A, including low-voltage loads | SYS-01, SYS-31; pack/input rating basis, not a released limit for every branch |
 | Phase current per corner at 1 g | TBC 16–20 A | E-50/E-51, SYS-01; assumes the inherited 4400 kV motor model and equal wheel loading |
-| Electrical stop with pack disconnected | TBC 160–200 J total / 185–230 W peak from 9 m/s | SYS-05, SYS-14; normal regen model, not qualification of independent full-stop braking |
+| Electrical stop with pack disconnected | TBC 160–200 J total / 185–230 W peak from 9 m/s | SYS-05, SYS-14; normal regen model |
 | LiDAR supply | UST-10LX: 12 or 24 V nominal, 10–30 V operating range; up to 150 mA running and 450 mA startup | E-10, SYS-08, SYS-14; now recorded in upstream electrical BOM/power budget. Switch demand is additional |
 
 ## Proposed review direction
@@ -35,8 +35,7 @@ Use the current upstream scenario as the EE review input, retaining every TBC ca
 - **Motor model:** ADR-0046 requires compatible built-in temperature sensing and leaves the exact motor TBD. Recheck kV, pole count/eRPM, current, gearing, mounting and the temperature curve together when that motor is selected; the inherited Castle model does not qualify a different motor.
 - **Packaging:** keep the motherboard estimates in proposed ADR-0045, conditional on current/thermal/connector placement. The new mechanical brief describes a carrier/module stack and additional cooler heights that may exceed the earlier compute-block height estimate; reconcile these with the pinned cooled Antmicro CAD before freezing an installed height.
 - **Sensor boards:** the custom corners must provide the sensor/magnet mounts. ADR-0052 updates the inventory to 16 direct sensor runs / 106-conductor minimum TBC; passive 2-layer carriers do not add corner MCUs. Mechanical layout, extra returns and final sensor functions can increase the count.
-- **Safety:** E-34 independent braking remains required under ADR-0047. The updated regen energy is one input to its sizing, not proof of a fault stop with halted firmware or retained PWM. Implementation, supply/inhibition and standstill verification remain open.
 
 ## Evidence needed to accept sizing
 
-Attach measured mass/CG and rolling diameter, the selected motor/gear/thermal model, complete per-rail load/rating and contact schedule, installed CAD/keep-outs, and clamp pulse/overshoot/repeated-stop measurements. Qualify runtime, sag/handover, sensor timing, UART rate and steering FD and full-stop fault cases separately through the [fab gate](../reviews/fab-gate.md) and [interface approvals](../icd/signoff.md). This document records the updated review baseline; it does not close those decisions or tests.
+Attach measured mass/CG and rolling diameter, the selected motor/gear/thermal model, complete per-rail load/rating and contact schedule, installed CAD/keep-outs, and clamp pulse/overshoot/repeated-stop measurements. Qualify runtime, sag/handover, sensor timing, UART rate and steering FD and e-stop cases separately through the [fab gate](../reviews/fab-gate.md) and [interface approvals](../icd/signoff.md). This document records the updated review baseline; it does not close those decisions or tests.

@@ -35,4 +35,4 @@ The [firmware overview](../../firmware/README.md), [sync MCU README](../../firmw
 
 Use four separate TX/reference and RX/reference pairs at the 2 Mbit/s baseline. The proposed budget includes one spare per run: **five conductors per A50S / 20 for all four, TBC**. Final returns, shielding, isolation/protection and pinouts remain TBD under ADR-0042; a UART reference must not become a motor-current path. Motor phases and Hall/built-in-temperature connections still bypass the motherboard sensor banks. See the [wire schedule](../bom/motherboard-wiring.md) and [qualification procedure](../tests/a50s-arrival.md).
 
-Ground shift, DMA/driver ownership, timing, protocol identity, fault handling and independent full-stop hardware remain open. This review records source evidence and calculated capacity, not completed firmware or bench acceptance.
+Ground shift, DMA/driver ownership, timing, protocol identity and fault handling remain open. This review records source evidence and calculated capacity, not completed firmware or bench acceptance.

@@ -19,9 +19,9 @@ drive,A50S V2.3c motor controllers with heatsinks (4 corners + 2 spares),6,810,1
 drive,Gearboxes (steel gears) + bearings + CVDs,4 corners,400,700,estimate,
 steering,moteus-c1 controller,1,69,69,"mjbots list $69",ADR-0019
 steering,Steering actuator mechanics (gimbal motor + belt + pulleys + mount),1,80,200,estimate,ADR-0019
-power,Combined power/sync motherboard fab + assembly + parts,1 installed; 2 JLC assembled; 5 bare total,541.85,791.85,jlc-pcba-cost.csv; base estimate 2026-10-12,ADR-0044 / ADR-0052 one combined PCB installed; minimum two JLC-populated units retained. Power/sync population included once; before 30%; E-34 brake excluded.
+power,Combined power/sync motherboard fab + assembly + parts,1 installed; 2 JLC assembled; 5 bare total,541.85,791.85,jlc-pcba-cost.csv; base estimate 2026-10-12,ADR-0044 / ADR-0052 one combined PCB installed; minimum two JLC-populated units retained. Power/sync population included once; before 30%.
 sync,Sync MCU board (STM32H723 + PHY + transceivers),included in motherboard,0,0,Included; ADR-0044,"Functional E-30 scope, not another PCB/build charge"
-power,Optional separate bus-clamp PCB batch,1 optional installed; 2 JLC assembled; 5 bare total,65,115,jlc-pcba-cost.csv; base estimate 2026-10-12,One-car optional clamp; two-unit factory-minimum costing scenario retained. Omit if integrated; external resistors/heatsink and E-34 brake excluded; before 30%.
+power,Optional separate bus-clamp PCB batch,1 optional installed; 2 JLC assembled; 5 bare total,65,115,jlc-pcba-cost.csv; base estimate 2026-10-12,One-car optional clamp; two-unit factory-minimum costing scenario retained. Omit if integrated; external resistors/heatsink excluded; before 30%.
 power,4S LiPo hardcase packs,3-4,250,450,estimate,charging station is a separate system
 power,"Harness (JST-GH, XT30, MR30 and Pico-Clasp connectors, wire, crimp tools)",1,150,350,estimate,
 power,E-stop button + loop key + misc,1,50,100,estimate,

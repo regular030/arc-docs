@@ -9,7 +9,6 @@ Run before ordering any PCB, machined part, or purchase over the spending thresh
 - [ ] Mass, power and cost entries in `budgets/` are updated, and the budgets still close
 - [ ] Any risk this item depends on has had its spike test run, or the reason it's acceptable is written down
 - [ ] Open `TBD`s affecting this item are listed, each with why it's safe to build anyway
-- [ ] For e-stop / drive / brake items: independent full-stop path E-34 and its interfaces are defined; halted-controller and retained-PWM analysis supports SYS-05 (ADR-0047). Gate cut alone cannot close this item
 - [ ] For drive telemetry: four independent 2 Mbit/s UART links, full ≥1 kHz coherent status, ≤50% measured load, qualified driver/DMA ownership, source timestamps/clock mapping, installed signal/ground margins and SYS-25 fault handling (SYS-07, SYS-24, SYS-29, ADR-0034). See [UART readiness](a50s-uart-readiness.md). The separate steering FD link retains its 1 / 5 Mbit/s baseline and ≤70% CAN load
 
 ## PCBs (add)

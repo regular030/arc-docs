@@ -43,10 +43,9 @@ flowchart TB
     SYNC <-->|Separate CAN-FD steering link: 5 Mbit/s data| STEER["moteus-c1 steering controller"]
     POWER -->|Steering power| STEER
     POWER -.->|Placement and interfaces TBD| CLAMP["Autonomous bus clamp / external dump load"]
-    POWER -.->|Hardware and interfaces TBD| BRAKE["Independent full-stop brake E-34"]
 ```
 
-This is a functional connection map, not a connector pinout or a released e-stop circuit. The independent brake and hardware drive inhibition remain unresolved under ADR-0047. Four camera CSI interfaces belong to the carrier; their FFCs do not enter the motherboard sensor banks.
+This is a functional connection map, not a connector pinout or a released e-stop circuit. Four camera CSI interfaces belong to the carrier; their FFCs do not enter the motherboard sensor banks.
 
 ## What the wire counts mean
 
@@ -107,7 +106,7 @@ These figures are **functional wire budgets, TBC**, unless the existing ICD alre
 | Classic motor-command CAN and ESTOP | Motherboard / deck loom ↔ four A50S | CAN differential pair and hardware ESTOP distribution; physical total TBD | Trunk topology/reference and independently driven stop routing TBD; [corner connector](../icd/corner-connector.md), SYS-05, SYS-25 |
 | Steering | Motherboard switched power + dedicated FD bus → E-31 | Power pair + FD differential pair; reference/spares and harness total TBD | Remains a separate steering FD bus at exactly 5 Mbit/s; SYS-08, SYS-22 |
 | LiDAR and switch supplies | Motherboard protected branches → E-10 / E-06 | 2 power conductors per load before additional contacts/spares | Actual switch supply TBD; rail and current qualification in [power-rails](../icd/power-rails.md), SYS-14, SYS-19 |
-| E-stop button and independent full-stop brake | E-32 / motherboard / E-34 | **TBD** | Brake selection, independent supply, inhibition, interlocks and connector count unresolved; full physical standstill remains mandatory (ADR-0047), SYS-05 |
+| E-stop button | E-32 / motherboard | **TBD** | Contacts, connector and run TBD (SYS-05, ADR-0012) |
 | Lighting, off-board status LEDs, dump resistors | Motherboard / reviewed drivers / clamp → remote loads | **TBD** | Driver location, load connections and clamp placement not selected; E-29, E-33, E-43, SYS-10, SYS-14, SYS-19 |
 
 Power/sync monitor buses and alerts are **internal PCB nets**, not an extra external stacking cable (ADR-0044). Four CSI interfaces belong on the separate carrier; camera FFCs do not enter the motherboard and are not included in the sensor count. Debug/programming leads are service connections, with header mapping TBD.
@@ -122,6 +121,6 @@ Each motor sends **three phase leads to its A50S**, plus its Hall/built-in-tempe
 
 ## Before schematic/harness release
 
-Freeze the exact sensor/motor variants and board locations; then publish a connector/contact/net/cable schedule and MCU pin map. Confirm supply/reference partitioning, remote reset/interrupt needs, ToF pull-ups and every spare. Verify installed harness behavior, acquisition timestamps and full-rate sensor reads; qualify all four A50S UARTs, the separate steering FD link and independent standstill separately. The [interface approvals](../icd/signoff.md) and [fab gate](../reviews/fab-gate.md) still apply.
+Freeze the exact sensor/motor variants and board locations; then publish a connector/contact/net/cable schedule and MCU pin map. Confirm supply/reference partitioning, remote reset/interrupt needs, ToF pull-ups and every spare. Verify installed harness behavior, acquisition timestamps and full-rate sensor reads; qualify all four A50S UARTs, the separate steering FD link and the e-stop separately. The [interface approvals](../icd/signoff.md) and [fab gate](../reviews/fab-gate.md) still apply.
 
 Interface references: [AS5047P manufacturer datasheet, distributor mirror](https://www.mouser.com/datasheet/2/588/asset_pdf_25493104-3419339.pdf), [ISM330DHCX datasheet](https://www.st.com/resource/en/datasheet/ism330dhcx.pdf), [VL53L4CD datasheet](https://www.st.com/resource/en/datasheet/vl53l4cd.pdf), and [A50S supplier connections](https://teamtriforceuk.com/a50s-v2/). Both IMU pin maps now follow the ISM330DHCXTR datasheet (ADR-0050); the final SPI/DRDY connector assignments remain TBC.

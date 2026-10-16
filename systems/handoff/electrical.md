@@ -48,7 +48,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
   - Per-rail fuse, switch and current sense; battery V/I monitoring.
   - Wall (19 V) / battery ideal-diode OR-ing with no reboot.
   - Regulators rated ≥ 30 V with TVS.
-  - E-stop circuit sourcing ESTOP to the four A50S; independent braking E-34 must reach chassis standstill with halted controller firmware (ADR-0047). Drive inhibition must override retained PWM; cut alone is insufficient.
+  - E-stop circuit sourcing ESTOP to the four A50S (ADR-0012).
   - **Switched motor bus to the four drive controllers, cut by the delayed e-stop line at T (TBC 2.4 s: after the ~1.9 s stop from 9 m/s, with margin), rated for peak pack current (`budgets/power-scenarios.md`).** This is the hardware torque cut (ADR-0034). **It opens when unpowered**, so a dead e-stop circuit also cuts the bus. A broken ESTOP wire to one controller brakes that corner, which reports it in its telemetry, and the sync MCU stops the car (SYS-25, ADR-0035) without the cut; accepted, so no per-line wire detection is needed.
   - Switched, fused motor-bus output for steering, cut at T + ~1 s (ADR-0019).
   - Bus clamp on the motor distribution bus.
@@ -57,9 +57,8 @@ The starting point for the electrical engineer. It collects, per board, what's d
 - **Open:**
   - Rail current ratings and regulator choices (yours, from `power.csv`)
   - ESTOP logic level, driver and current per controller; the motor-bus switch part
-  - E-34 independent brake, supply / interlocks, standstill detection and fault-stop sequence. Inherited TBC 2.4 s normal cut must be coordinated; no coasting fallback (ADR-0047)
   - Bus clamp threshold and resistor sizing (energy and peak power in `budgets/power-scenarios.md`)
-  - **Bus clamp position relative to the motor-bus switch.** The topology draws the clamp on the battery side of the switch, but it's sized for braking with the pack disconnected. If the switch opens while the controllers are still braking (the switch opens when unpowered, or T comes early) and it blocks reverse current (back-to-back FETs, a relay), the braking energy goes only into the controllers' input capacitors: they reach overvoltage, fault, and those corners coast. Options: the clamp on the controllers' side of the switch; a switch that conducts in reverse (a single high-side FET's body diode); or another qualified protection arrangement. Accepting uncontrolled coasting cannot meet ADR-0047; placement remains an EE decision
+  - **Bus clamp position relative to the motor-bus switch.** The topology draws the clamp on the battery side of the switch, but it's sized for braking with the pack disconnected. If the switch opens while the controllers are still braking (the switch opens when unpowered, or T comes early) and it blocks reverse current (back-to-back FETs, a relay), the braking energy goes only into the controllers' input capacitors: they reach overvoltage, fault, and those corners coast. Options: the clamp on the controllers' side of the switch; a switch that conducts in reverse (a single high-side FET's body diode); or accept it. Yours to decide
   - **Inrush when the motor-bus switch closes again** after an e-stop: the anti-spark loop key (E-42) is upstream of it, so the four controllers' bulk capacitors charge through the switch. A controlled turn-on, or a switch rated for the surge
   - Low-battery thresholds (on the lowest cell) and the clean-shutdown signal to the Orin (SYS-30)
   - Cell-monitor part and balance-lead connection while the pack is installed (E-46)

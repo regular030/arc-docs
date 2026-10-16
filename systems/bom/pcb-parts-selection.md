@@ -13,20 +13,18 @@ This is the main-component selection list for schematic capture. It supplements 
 
 **Controller baseline:** four A50S V2.3c on the deck plus two spares under ADR-0034, with **four independent 2 Mbit/s UARTs**, full ≥1 kHz status per controller, with classic CAN commands kept separate. The moteus steering FD link remains separate. Controllers are bought from Triforce (ADR-0034); landed quote TBD.
 
-**Latest main reconciled, 2026-10-12:** upstream `5a59c53` selects custom corners (ADR-0040), **100 mm wheels / 18:1 gearing / TBC 4–5 kg**. Review **TBC 36–43 A pack peak, 16–20 A phase current per corner, and 160–200 J / 185–230 W regen** in [ADR-0048](../adr/0048-ee-sizing-after-custom-corners.md). Dump-resistor sizing remains open. One power/sync motherboard, separate carrier, compatible built-in motor temperature and independent full-stop ADR-0047 remain required.
+**Latest main reconciled, 2026-10-12:** upstream `5a59c53` selects custom corners (ADR-0040), **100 mm wheels / 18:1 gearing / TBC 4–5 kg**. Review **TBC 36–43 A pack peak, 16–20 A phase current per corner, and 160–200 J / 185–230 W regen** in [ADR-0048](../adr/0048-ee-sizing-after-custom-corners.md). Dump-resistor sizing remains open. One power/sync motherboard, separate carrier and compatible built-in motor temperature remain required.
 
 **UART readiness:** calculated status-stream load is **29.5% per 2 Mbit/s link at 1 kHz**. Both firmware endpoints are still stubs; clock alignment, DMA ownership, fault handling, forwarding and loaded ground/reference margins need qualification. PB10/PB11 are the A50S's USART3 TX/RX. See [UART ICD](../icd/controller-telemetry.md), [source review](../reviews/a50s-uart-readiness.md) and [arrival checks](../tests/a50s-arrival.md).
 
 **Sensor decisions (ADR-0052):** one car uses **10 AS5047P angle boards (4 wheel + 4 suspension + 2 front knuckle), 2 ISM330DHCXTR IMU boards and 4 corner-height ToF boards**. All **16 custom sensor PCBs are assembled in house** from JLC bare boards and separately purchased loose chips/support parts. No populated spare sensor set or dedicated fifth ground-camera ToF is included. Ground-camera scale derivation remains TBD. See the [assembly purchase plan](../../hardware/sensor-boards/README.md#as5047p-in-house-purchase-and-assembly-plan) and [sensor review](sensor-candidate-review.md). Grounding/isolation and power-stage selections remain TBD for later owner review.
 
-> [!IMPORTANT]
-> **Full-stop hardware is still open.** E-34 must stop the vehicle even with halted VESC firmware. The gate-cut timer does not complete that function. Its independent brake parts, interfaces and price remain TBD under ADR-0047.
 
 **Motherboard packaging, 2026-10-09 (ADR-0044):** [power and sync share one PCB](../../hardware/motherboard/README.md); the Jetson carrier stays separate. The sync MCU and power sections below list components for that same motherboard, not separate bare boards. A stacking header is not required in this plan.
 
 ## JLC PCBA cost estimate
 
-**KEFC working PCB estimate, 2026-10-12: CAD $3,000 before tax, including 30% contingency**, for **one car**. Working base **CAD $2,252.94**; midpoint with contingency **CAD $2,928.82**, rounded up to the next CAD $100. The planning range with 30% is **CAD $2,361.49–3,496.15**. One carrier and one power/sync motherboard are installed; JLC's minimum two assembled units per core design are costed separately as production surplus, not a second car. All 16 sensor boards are assembled in house. Includes loose sensor parts, shared consumables, optional clamp and shipping; bought compute/controllers, cameras, LiDAR, magnets/mechanics, external dump load and E-34 brake remain excluded. See the [CAD estimate and JLC pricing screenshots](jlc-pcba-cost-estimate.md#fabrication-evidence-and-design-assumptions) and [USD/CAD model](../budgets/jlc-pcba-cost.csv); final BOM/CPL quotes remain TBC.
+**KEFC working PCB estimate, 2026-10-12: CAD $3,000 before tax, including 30% contingency**, for **one car**. Working base **CAD $2,252.94**; midpoint with contingency **CAD $2,928.82**, rounded up to the next CAD $100. The planning range with 30% is **CAD $2,361.49–3,496.15**. One carrier and one power/sync motherboard are installed; JLC's minimum two assembled units per core design are costed separately as production surplus, not a second car. All 16 sensor boards are assembled in house. Includes loose sensor parts, shared consumables, optional clamp and shipping; bought compute/controllers, cameras, LiDAR, magnets/mechanics and external dump load remain excluded. See the [CAD estimate and JLC pricing screenshots](jlc-pcba-cost-estimate.md#fabrication-evidence-and-design-assumptions) and [USD/CAD model](../budgets/jlc-pcba-cost.csv); final BOM/CPL quotes remain TBC.
 
 The estimate separates [bare PCB fabrication, purchased parts and assembly costs](jlc-pcba-cost-estimate.md#bare-pcb-parts-and-assembly-cost-breakdown), with CAD working totals and the 30% contingency shown by category.
 
@@ -40,7 +38,7 @@ Green selection markers below mean existing or recommended choices; alternatives
 | --- | --- | --- | --- |
 | **Jetson carrier** | **1** | Module / M.2 / CSI sockets, SiC431 local power, AXC level translation, optional debug bridge, port protection | Orin NX module, NVMe, Wi-Fi, Ethernet switch, sync PPS / GPIO |
 | **Motherboard — sync section** | **1 shared PCB** | H723, LAN8742 PHY, steering MCP2518FD, 1 FD + 1 classic transceivers, 40 MHz crystal, TCA9548 mux, quiet sensor LDOs | Remote IMUs / angle / ToF sensors, power-board monitors, classic command CAN, steering FD, four A50S UARTs, Ethernet switch |
-| **Motherboard — power section** | **Same PCB** | LM5176 / LM5146 / TPS54360 rails, ORing, INA226 monitors / shunts, LTC6810 cell monitor, steering switch, protection | Battery / wall input, carrier / sensor / logic branches, steering, e-stop and independent brake interfaces TBD |
+| **Motherboard — power section** | **Same PCB** | LM5176 / LM5146 / TPS54360 rails, ORing, INA226 monitors / shunts, LTC6810 cell monitor, steering switch, protection | Battery / wall input, carrier / sensor / logic branches, steering, and e-stop interfaces TBD |
 | **Bought A50S controllers** | **4 installed + 2 spares** | Bought power stages, Hall/built-in-temperature inputs and USART3 | Motor phases / Hall / built-in temperature to deck; classic command trunk; four 2 Mbit/s UARTs to motherboard |
 | **Bus clamp** | **1 assembly** | Comparator, reference, gate driver, dump FET, autonomous local supply | Motor bus; external chassis-mounted dump resistors; **quantity TBD**. May share the power-board assembly |
 | **ARC angle-sensor PCBs** | **10 per car** | AS5047P and reviewed local support; assembled in house | Separate remote PCBs → motherboard SPI/individual CS; mounting and 2-layer layout TBC |
@@ -222,13 +220,13 @@ These are **new proposed MPNs**. Input is 4S LiPo (up to 16.8 V) and a 19 V wall
 
 | Function / choice | Exact manufacturer part | JLCPCB | Qty / car | USD each | Package / design notes |
 | --- | --- | --- | --- | --- | --- |
-| Drive controller — 🟢 **Existing** | Team Triforce **A50S V2.3c 12S** | Bought controller; not JLC | **4 + 2 spares** | **TBD**; retained GBP £100 each | Heatsink / signal connector baseline; classic CAN commands + own 2 Mbit/s UART. Qualify firmware, temperature input, harness and full-stop interfaces |
+| Drive controller — 🟢 **Existing** | Team Triforce **A50S V2.3c 12S** | Bought controller; not JLC | **4 + 2 spares** | **TBD**; retained GBP £100 each | Heatsink / signal connector baseline; classic CAN commands + own 2 Mbit/s UART. Qualify firmware, temperature input, harness and e-stop interfaces |
 
 The steering FD controller, crystal and transceiver are in the sync MCU section. UART connector contacts, grounding/isolation/protection and any added interface parts/prices remain TBD; no replacement buffer or isolator is selected here.
 
 Each A50S USART3 TX (PB10) goes to its assigned H723 RX; RX (PB11) receives from that H723 TX. The proposed harness is **five conductors per run / 20 across four runs, TBC**, including paired references and one spare per run. Do not parallel controller supply outputs or release the return wiring before the grounding review. See [wire schedule](motherboard-wiring.md), [UART ICD](../icd/controller-telemetry.md) and [readiness review](../reviews/a50s-uart-readiness.md).
 
-**E-stop — unresolved hardware selection:** [ADR-0047](../adr/0047-estop-full-stop-with-controller-fault.md) requires a full vehicle stop even with one or all A50S firmwares halted. Independent braking E-34, its drive-inhibit interface, supply/interlocks, near-zero-speed behavior and standstill verification remain TBD; its parts and JLC price remain TBD. Firmware braking or a delayed power cut alone cannot satisfy this requirement. Buy motors with compatible built-in temperature sensing under ADR-0046; verify their pinouts, conversion curves and A50S telemetry before release.
+**E-stop:** a standard latching button (E-32) pulls ESTOP low on all four A50S; their firmware brakes on the ramp and the power section cuts the motor bus after T (SYS-05, ADR-0012, ADR-0034). Buy motors with compatible built-in temperature sensing under ADR-0046; verify their pinouts, conversion curves and A50S telemetry before release.
 
 ## Motor-bus clamp
 
@@ -247,7 +245,7 @@ At the illustrative 17.2 V threshold, the former 1.5 Ω pair dissipates **197.2 
 
 ## Connectors and installed quantities
 
-Use [ICD-corner-connector Rev H](../icd/corner-connector.md) for corner-to-deck phases / Hall wiring and A50S Pico-Clasp assignments. Actual circuit numbering still needs verification. UART connectors/references, E-34 interfaces, Pico-Clasp crimps and power/balance plugs require an exact harness / mechanical BOM; remaining part numbers and JLC prices are TBD.
+Use [ICD-corner-connector Rev H](../icd/corner-connector.md) for corner-to-deck phases / Hall wiring and A50S Pico-Clasp assignments. Actual circuit numbering still needs verification. UART connectors/references, Pico-Clasp crimps and power/balance plugs require an exact harness / mechanical BOM; remaining part numbers and JLC prices are TBD.
 
 | Shared part / function | Installed per car | Count derivation |
 | --- | --- | --- |
@@ -256,7 +254,7 @@ Use [ICD-corner-connector Rev H](../icd/corner-connector.md) for corner-to-deck 
 | MCP2518FD controllers / 40 MHz crystals | **1 each** | Existing sync steering baseline only; no A50S-local circuits |
 | ARC-added TJA1051 command transceivers | **1** | Sync board only; the four bought A50S include their own classic-CAN hardware |
 | TJA1462 FD transceivers | **1** | Steering only |
-| Power-side cut / steering timing | **TBD** | Final timing circuitry and quantities depend on the power / independent-brake sequence; E-34 coordination remains open |
+| Power-side cut / steering timing | **TBD** | Final timing circuitry and quantities depend on the power sequence |
 | CSD18540 power-board / clamp candidates | **9** | 4 buck-boost + 2 main buck + 2 ORing + 1 clamp; excludes any further switch / parallel FETs |
 
 The selected **16 installed state-sensor ICs** cost **USD $66.5836 / CAD $95.02 per car**: ten loose AS5047P, two ISM330DHCXTR and four ToFs. All sensor boards are assembled in house (ADR-0052); no factory sensor assembly fees apply. Motor temperature remains built into the motors (ADR-0046). Magnets, support parts, bare fabrication and shared consumables are priced separately; no populated spare sensor set is included.
@@ -282,7 +280,7 @@ Before exporting an orderable assembly BOM, finish these specific items:
 1. **Carrier:** frozen Antmicro revision and full inherited BOM, module power mode / input path, GbE magnetics / RJ45, all local rail currents, EEPROM / sequencing / reset / fan parts, connectors and mounting heights. Confirm the four CSI connector pinouts even though camera procurement is out of scope.
 2. **Sync:** complete MCU pin map; HSE / PHY clock scheme; main MCU supply / decoupling; ToF pull-ups; sensor connectors / satellite PCBs; power-board bus and logic levels; CAN terminations / protection / optional chokes. Verify harnessed SPI before routing long runs.
 3. **Power:** branch-current peaks and steering regen path; exact converter FET suitability, inductors, diodes, compensation and capacitors; branch shunt values; branch fuses / switches; cell-tap protection / off-state isolation; internal power/sync connections and test access. A current-limit IC does not remove the physical-fuse requirement.
-4. **A50S / UART / e-stop:** retain the `a50s_v23c_12s` target and qualify bought-controller cooling / phase current; qualify four 2 Mbit/s UARTs, source timestamps/clock mapping, driver/DMA ownership and actual contacts, logic/reference/protection behavior. Preserve Hall / ESTOP / recovery. See the [readiness review](../reviews/a50s-uart-readiness.md) and [arrival checks](../tests/a50s-arrival.md). Select independent full-stop path E-34 and its electrical / mechanical interfaces, hardware drive inhibition and fault-stop / re-arm sequence (ADR-0047 / ADR-0039). Confirm built-in motor temperature compatibility/curves and Aux-power behavior. Timer-only coasting fallback cannot pass the fab gate.
+4. **A50S / UART / e-stop:** retain the `a50s_v23c_12s` target and qualify bought-controller cooling / phase current; qualify four 2 Mbit/s UARTs, source timestamps/clock mapping, driver/DMA ownership and actual contacts, logic/reference/protection behavior. Preserve Hall / ESTOP / recovery. See the [readiness review](../reviews/a50s-uart-readiness.md) and [arrival checks](../tests/a50s-arrival.md). Define the fault-stop / re-arm sequence (ADR-0039). Confirm built-in motor temperature compatibility/curves and Aux-power behavior. Timer-only coasting fallback cannot pass the fab gate.
 5. **Clamp / assembly:** independent startup supply and protection, final threshold, resistor pulse data and heatsink; exact power connectors, switch / loop key, wire gauges and harness crimps; sensor magnets; prototype spare quantities. Recheck price / stock through the JLC BOM tool using the final reference-designator BOM.
 
 Items in this list are required schematic / mechanical selections; their exact MPN, quantity and JLC cost remain **TBD**. A complete board total becomes meaningful once those are filled in; the tables above price the selected main components only.

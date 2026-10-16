@@ -2,7 +2,7 @@
 
 - **Status:** Draft. Complete extracted carrier reference; ARC component selections and missing schematic details recorded below
 - **Scope:** One separate Jetson carrier, one combined power/sync motherboard, three remote sensor designs and the optional separate bus-clamp design
-- **Traces to:** E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-34, E-41, E-43, E-46; ADR-0025, ADR-0044, ADR-0047, ADR-0034, ADR-0052
+- **Traces to:** E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-41, E-43, E-46; ADR-0025, ADR-0044, ADR-0034, ADR-0052
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-12
 
@@ -99,7 +99,7 @@ Power and sync are **sections of one PCB** under ADR-0044. The H723 is the only 
 | Steering delayed cut timer | **TLC555IDR**; [JLC reference C6987](https://jlcpcb.com/partdetail/TexasInstruments-TLC555IDR/C6987) | 1 candidate | Timing network and fail-safe behavior TBD; use current ICD policy | $0.3749 / $0.54 |
 | Raw low-voltage input TVS | **SMCJ24A**; [JLC reference C2996490](https://jlcpcb.com/partdetail/SETsafe_SETfuse-SMCJ24A/C2996490) | TBD protected inputs | Candidate; rating coordination and quantity pending | $0.1000 / $0.14 |
 
-These are candidates/recommendations where marked, not a released high-current stage. The eight listed converter/ORing FETs do not include the unselected high-current drive-bus cut or the independent brake. Branch shunts are additional to the battery shunt but their actual values/counts are not frozen.
+These are candidates/recommendations where marked, not a released high-current stage. The eight listed converter/ORing FETs do not include the unselected high-current drive-bus cut. Branch shunts are additional to the battery shunt but their actual values/counts are not frozen.
 
 ### Supporting components to capture
 
@@ -134,7 +134,6 @@ Each line below still needs actual reference-designator entries; no blanket “p
 | Low-battery shutdown | Request/acknowledgement and final cutoff logic, analog rework fallback if chosen, pulls/protection: TBD |
 | Ground-speed illumination | Exact constant-current LED driver/control, mode selection and certified module interface: TBD after final optics/loads |
 | Physical board I/O | Input, regulated branches, balance lead, service/debug, sensor and controller connector MPNs/contact ratings/quantities: TBD |
-| E-34 independent full-stop hardware | Required circuit/actuator/interlock/drive-inhibit components and supply independence: **all unselected/TBD**, excluded from current PCB allowance |
 
 The cell-monitor supply, quiet LDOs and MCU supply are distinct functions. External magnets, battery packs, wall brick, power wire/mating crimps and bought controllers/motors stay in total electrical cost; avoid buying them again as motherboard parts.
 
@@ -214,7 +213,7 @@ The five named local IC/FET candidates, excluding the unselected external resist
 | Integration / power routing | Clamp location relative to drive-bus switch and merged-versus-separate population TBD; retain autonomous operation from generated bus energy |
 | Test / assembly features | Bus/gate/supply test access and minimum-run panel/assembly setup TBD |
 
-This clamp is **not** the independent E-34 brake. If integrated into the motherboard, transfer these parts into that board's final BOM and remove the separate-clamp build charge; do not leave two copies of the same function in procurement.
+If integrated into the motherboard, transfer these parts into that board's final BOM and remove the separate-clamp build charge; do not leave two copies of the same function in procurement.
 
 ## Bought boards and final BOM closure
 

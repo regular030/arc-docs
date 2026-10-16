@@ -6,7 +6,7 @@
 - **Last edited:** 2026-10-12
 - **Side A:** corner assembly: motor (E-51), gearbox (owner kunshpreet)
 - **Side B:** chassis harness, the motor controllers on the deck (E-50), sync board, power board e-stop circuit (owner kunshpreet)
-- **Traces to:** ADR-0042, SYS-05, SYS-13, SYS-19, SYS-25, ADR-0008, ADR-0009, ADR-0012, ADR-0034, ADR-0047, ADR-0046, ADR-0052, RSK-11
+- **Traces to:** ADR-0042, SYS-05, SYS-13, SYS-19, SYS-25, ADR-0008, ADR-0009, ADR-0012, ADR-0034, ADR-0046, ADR-0052, RSK-11
 
 The wheel, suspension and front knuckle angle boards and four corner-height ToF boards do not pass through the motor interface below; they wire directly to the motherboard's sync section (ADR-0008, ADR-0052). The [wiring schedule](../bom/motherboard-wiring.md) budgets four sensor runs / 26 conductors per front corner and three runs / 19 conductors per rear corner, including spares (TBC). All sixteen remote sensor boards, including both IMUs, are assembled in house.
 
@@ -55,7 +55,7 @@ How the car uses it:
 
 ### ESTOP behaviour
 
-Physical chassis standstill even with one or all A50S firmwares halted (SYS-05, ADR-0047). Normal firmware braking and the motor-bus cut remain, but E-34 independent braking and its interface / sequence are TBD. Torque cut or coasting alone is not a pass.
+Controlled braked stop, then a hardware torque cut (SYS-05, ADR-0012 as amended by ADR-0034).
 
 - **Fail-safe:** our firmware enables the MCU's internal pull-down on the ESTOP input (TBC that the board adds no pull-up), so an unplugged connector, a broken wire or an unpowered e-stop circuit reads as e-stop.
 - **Stage 1, braking (firmware):** when ESTOP is low, the controller ignores commands on the command bus and ramps brake current to the target deceleration until the wheel stops.
@@ -76,5 +76,5 @@ Physical chassis standstill even with one or all A50S firmwares halted (SYS-05, 
 3. Whether the Aux power input is fed from an always-on rail (telemetry and logging survive the motor-bus cut).
 4. Compliant built-in-temperature motor choice, sensor type/curve, Hall/temp pinout and the corner connectors; lengths from the CAD layout (ADR-0046).
 5. Grounding review under proposed ADR-0042: rated return branches / collection point, no accidental parallel motor return through communication wiring, UART reference currents/logic margins and measured CAN common-mode margins. See [grounding proposal](../adr/0042-grounding-and-isolation.md); acceptance remains pending.
-6. Brake ramp, target deceleration, delay T and independent-brake / drive-inhibit sequence under ADR-0047.
+6. Brake ramp, target deceleration and delay T (ADR-0012).
 7. Four operating UARTs: actual PB10/PB11 contacts, H723 pin/DMA assignment, source-clock alignment, 3.3 V ground/reference margins and power-off behavior remain unqualified. See [UART readiness](../reviews/a50s-uart-readiness.md).

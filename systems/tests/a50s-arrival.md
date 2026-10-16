@@ -4,7 +4,7 @@
 - **Status:** Not run; hardware unavailable for this source audit
 - **Verifies:** SYS-05, SYS-13, SYS-19, SYS-24, SYS-29; integration items from [#100](https://github.com/Autonomous-Robotics-Carleton/arc-monorepo/issues/100)
 - **Rigs:** R2 loaded motor bench; progressive vehicle tests only after the bench passes
-- **Read first:** [UART readiness review](../reviews/a50s-uart-readiness.md), [corner connector](../icd/corner-connector.md), [UART ICD](../icd/controller-telemetry.md), [full-stop requirement](../adr/0047-estop-full-stop-with-controller-fault.md)
+- **Read first:** [UART readiness review](../reviews/a50s-uart-readiness.md), [corner connector](../icd/corner-connector.md), [UART ICD](../icd/controller-telemetry.md)
 
 ## Unpowered inspection
 
@@ -27,7 +27,7 @@ Verify the active UART assignment under ADR-0034: PB10 is USART3 TX and PB11 RX.
 
 - Confirm phase/Hall order, sensored FOC, bidirectional operation, current calibration, loaded speed under the retained 9 m/s / 75,000 eRPM cap and temperature / airflow in the final deck envelope (ADR-0034). Record gearing / tire size and the actual limits; a no-load spin does not pass.
 - Qualify four simultaneous 2 Mbit/s 8N1 UART streams on the final harness: full ≥1 kHz status per controller, unsigned baseline load 29.515% before additional traffic, measured UART ≤50%, coherent sample stamps, controller-to-sync clock alignment and ≤2 ms p99 sampling-to-Orin-driver latency. Verify ≤0.25 ms sync forwarding separately. Retain the ≥1 h full-load soak from the telemetry review; include framing/CRC errors, sequence gaps, RX overrun and reviewed stale/version/corrupt-frame injections. Steering FD has its [separate procedure](rsk-03-canfd-bench.md).
-- Verify ESTOP, command/telemetry loss, steering loss and latched reset under SYS-25 / ADR-0039. Independent E-34 brake / drive inhibition must also pass halted firmware and retained-PWM cases; this document does not approve a brake circuit.
+- Verify ESTOP, command/telemetry loss, steering loss and latched reset under SYS-25 / ADR-0039.
 - Confirm Hall / phase extensions, locking connectors, strain relief, separation from data wiring and cooled CAD clearances before harness release.
 
 ## Evidence record
@@ -41,6 +41,6 @@ Verify the active UART assignment under ADR-0034: PB10 is USART3 TX and PB11 RX.
 | Spare flash and SWD recovery | TBD | TBD | Correct target; recovery demonstrated; calibration preserved | Not run |
 | Loaded FOC, speed and cooling | TBD | TBD | ADR-0034 / RSK-02 limits met | Not run |
 | Four UART streams / grounding / clock mapping | TBD | TBD | SYS-07 / SYS-24 / SYS-29 and RX electrical margins pass | Not run |
-| Stop / independent brake / reset | TBD | TBD | Chassis standstill and reset criteria under ADR-0047 / ADR-0039 | Not run |
+| Stop / reset | TBD | TBD | Braked stop and reset criteria under SYS-05 / ADR-0039 | Not run |
 
 kunshpreet records the measurements and signs the interface result. A separate safety reviewer remains **TBD**; naming the interface owner does not satisfy the second-reviewer rule.
