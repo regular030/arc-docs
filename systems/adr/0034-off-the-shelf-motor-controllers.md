@@ -2,7 +2,6 @@
 
 - **Status:** Accepted, amended by ADR-0035 (the telemetry reports each controller's state; the controllers brake on command loss). Set on 2026-10-08: telemetry link rate 2 Mbit/s, not 3 Mbit/s (ICD-controller-telemetry); T 2.4 s (TBC), since the ~1.8 s below is the stop time without the ramp and T must come after the stop (ICD-corner-connector).
 - **Date:** 2026-10-07
-- **Purchase scope:** Amended by ADR-0054: four installed drive controllers, no purchased controller spares.
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-13
 - **Deciders:** Shrikar Vempati

@@ -39,7 +39,7 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0031](0031-sync-link-encoding.md) | Sync link encoded as MAVLink 2 with our own message set | Accepted |
 | [0032](0032-simulator.md) | Simulators as pluggable backends: Gazebo Harmonic, Webots, F1TENTH gym | Accepted |
 | [0033](0033-vesc-firmware-vendored.md) | VESC firmware vendored as an upstream snapshot, updated by script (GPL-3.0 subdirectory) | Accepted, amended by 0034 and 0037 |
-| [0034](0034-off-the-shelf-motor-controllers.md) | Off-the-shelf motor controllers (A50S) on the deck; telemetry over UART; top speed 9 m/s | Accepted, amended by 0035 and 0054; sizing review in 0048 |
+| [0034](0034-off-the-shelf-motor-controllers.md) | Off-the-shelf motor controllers (A50S) on the deck; telemetry over UART; top speed 9 m/s | Accepted, amended by 0035; sizing review proposed in 0048 |
 | [0035](0035-corner-state-and-command-timeout.md) | Each corner reports its state in its telemetry; the controllers brake on command loss | Accepted, amended by 0039 |
 | [0036](0036-steering-bus-physical-layer.md) | Steering CAN-FD bus physical layer: discrete transceiver, rework-only fallbacks | Accepted |
 | [0037](0037-vesc-modules-in-arc.md) | Our VESC firmware code lives in `firmware/vesc/arc/`, joined to upstream by small hooks | Accepted |
@@ -54,4 +54,3 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0050](0050-common-imus-and-in-house-angle-boards.md) | ISM330DHCXTR at both IMU sites; separate AS5047P boards assembled in house; CAD funding basis | Superseded by 0052; selected parts retained |
 | [0051](0051-custom-imu-and-height-sensor-pcbs.md) | ARC-designed remote IMU and ground/ride-height PCBs; existing sensor quantities and assembly cost assumptions retained | Superseded by 0052; ARC PCB ownership retained |
 | [0052](0052-one-car-sensor-counts-and-in-house-assembly.md) | One-car funding scope; ten angle, two IMU and four corner-height boards, all sensors assembled in house | Accepted (owner quantities/locations/process; design and ground-camera scale qualification pending) |
-| [0054](0054-no-motor-controller-spares.md) | One-car procurement: four A50S drive controllers and one steering controller; no purchased controller spares | Accepted (owner procurement scope) |

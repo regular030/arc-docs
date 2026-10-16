@@ -99,10 +99,10 @@ The starting point for the electrical engineer. It collects, per board, what's d
   - Ethernet path if the optional i210/i226 is fitted: point-to-point to the Orin instead of through the switch (ADR-0021). **Recommendation in ADR-0023 (Proposed):** don't fit it in v1; the sync MCU stays on the switch
   - Lighting driver design
 
-### 3. Motor controllers: A50S V2.3c (×4, off the shelf)
+### 3. Motor controllers: A50S V2.3c (×4 + 2 spares, off the shelf)
 
 - **Decided** (ADR-0034):
-  - Purchase four drive controllers, one per motor; no purchased motor-controller spares under ADR-0054.
+  - Purchase four drive controllers, one per motor, plus two spares (ADR-0034).
   - Team Triforce A50S V2.3c, 12S version, bought, not designed. Mounted on the lower deck, not on the motors.
   - Runs our build of the vendored VESC firmware (ADR-0033); per-unit current calibration stays in the board's EEPROM.
   - Commands remain on classic CAN (ADR-0009); full ≥1 kHz drive telemetry uses one 2 Mbit/s UART per controller (ADR-0034). Firmware transmit/receive and clock mapping remain unimplemented.
