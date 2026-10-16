@@ -38,4 +38,4 @@ Use the current upstream scenario as the EE review input, retaining every TBC ca
 
 ## Evidence needed to accept sizing
 
-Attach measured mass/CG and rolling diameter, the selected motor/gear/thermal model, complete per-rail load/rating and contact schedule, installed CAD/keep-outs, and clamp pulse/overshoot/repeated-stop measurements. Qualify runtime, sag/handover, sensor timing, UART rate and steering FD and e-stop cases separately through the [fab gate](../reviews/fab-gate.md) and [interface approvals](../icd/signoff.md). This document records the updated review baseline; it does not close those decisions or tests.
+Attach measured mass/CG and rolling diameter, the selected motor/gear/thermal model, complete per-rail load/rating and contact schedule, installed CAD/keep-outs, and clamp pulse/overshoot/repeated-stop measurements. Qualify runtime, sag/handover, sensor timing, UART rate and steering FD and e-stop cases separately through the [fab gate](../reviews/fab-gate.md) and ICD approvals. This document records the updated review baseline; it does not close those decisions or tests.

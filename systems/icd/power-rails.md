@@ -2,8 +2,8 @@
 
 - **Revision:** A (2026-10-08)
 - **Status:** Draft contract; ratings, connector contacts and sequencing values remain open. No layout release or sign-off recorded.
-- **Side A:** power board / motor distribution, E-41 (owner kunshpreet)
-- **Side B:** carrier, sync, sensors, steering and drive loads (owner kunshpreet)
+- **Side A:** power board / motor distribution, E-41 (owner TBD)
+- **Side B:** carrier, sync, sensors, steering and drive loads (owner TBD)
 - **Traces to:** SYS-03, SYS-05, SYS-14, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, E-41, ADR-0019, ADR-0022, ADR-0034, ADR-0039, ADR-0042, RSK-06, RSK-11
 - **Related work:** [#102](https://github.com/Autonomous-Robotics-Carleton/arc-monorepo/issues/102); ratings / schematic depend on #96, stop hardware on #95
 
@@ -49,4 +49,4 @@ Power / cell data and interrupts cross [power-sync-stack](power-sync-stack.md). 
 
 Before sign-off, attach the per-rail load/rating sheet, schematic and connector map; verify handover, sag, load/inrush steps, power-on/off, low-battery shutdown, faults/backfeed, regen and stop states. Measure at the load rather than only the regulator. Define acceptable voltage/ripple/transient margins from the selected load datasheets. Stop hardware requires its own tests and a second reviewer.
 
-Approvals and open decisions are recorded in [interface review matrix](signoff.md). Both side-role approvals are pending; kunshpreet's ownership assignment is not a recorded electrical approval.
+Both sides' owners and approvals are pending.

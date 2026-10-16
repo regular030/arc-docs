@@ -2,8 +2,8 @@
 
 - **Revision:** B (2026-10-09)
 - **Status:** Draft internal motherboard interface; clock/pin map and monitor topology TBD. No stacking header in the current plan (ADR-0044)
-- **Side A:** motherboard power section, E-41 / E-46 (owner kunshpreet)
-- **Side B:** motherboard sync MCU section / firmware, E-30 (owner kunshpreet)
+- **Side A:** motherboard power section, E-41 / E-46 (owner TBD)
+- **Side B:** motherboard sync MCU section / firmware, E-30 (owner TBD)
 - **Traces to:** SYS-05, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, ADR-0022, ADR-0039, ADR-0042, ADR-0044
 - **Related work:** [#102](https://github.com/Autonomous-Robotics-Carleton/arc-monorepo/issues/102); physical release depends on #96 / #98
 
@@ -38,4 +38,4 @@ There is **no inter-board power/sync connector** in the current plan. MCU pins a
 
 The power and sync designs must define which side supplies pull-ups, what each signal does before its rail is ready, when interrupts become valid, and how inputs are protected when either functional section is reset or unpowered. Shutdown request / handshake and the compute switch follow [power-rails](power-rails.md); driving stays latched off under ADR-0039 until valid checks and re-arm.
 
-Review internal connectivity / test access, monitor data path, logic limits, pin mux, rail/current budget and reset / partial-power behavior in both sections. Any future board split also requires connector/contact and unplug-behavior review. Test cell accuracy/rate, source timing, fault identification, ground shift, bus-stuck recovery, shutdown handshake and power loss. The [review matrix](signoff.md) records pending approvals; a draft logical inventory does not release the motherboard layout or a future header pinout.
+Review internal connectivity / test access, monitor data path, logic limits, pin mux, rail/current budget and reset / partial-power behavior in both sections. Any future board split also requires connector/contact and unplug-behavior review. Test cell accuracy/rate, source timing, fault identification, ground shift, bus-stuck recovery, shutdown handshake and power loss. A draft logical inventory does not release the motherboard layout or a future header pinout.

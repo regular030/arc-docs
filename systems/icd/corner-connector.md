@@ -4,8 +4,8 @@
 - **Status:** Draft. Needs Molex pin numbering against Triforce's pinout layout, and sign-off from both owners.
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-12
-- **Side A:** corner assembly: motor (E-51), gearbox (owner kunshpreet)
-- **Side B:** chassis harness, the motor controllers on the deck (E-50), sync board, power board e-stop circuit (owner kunshpreet)
+- **Side A:** corner assembly: motor (E-51), gearbox (owner TBD)
+- **Side B:** chassis harness, the motor controllers on the deck (E-50), sync board, power board e-stop circuit (owner TBD)
 - **Traces to:** ADR-0042, SYS-05, SYS-13, SYS-19, SYS-25, ADR-0008, ADR-0009, ADR-0012, ADR-0034, ADR-0052, RSK-11
 
 The wheel, suspension and front knuckle angle boards and the corner ToF boards do not pass through the motor interface below; they wire directly to the motherboard's sync section (ADR-0008, ADR-0052). The [wiring schedule](../bom/motherboard-wiring.md) budgets four sensor runs / 26 conductors per front corner and three runs / 19 conductors per rear corner, including spares (TBC).

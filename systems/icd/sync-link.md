@@ -1,9 +1,9 @@
 # ICD-sync-link
 
 - **Revision:** draft (2026-10-07). The message catalogue is drafted in [`sync-link.xml`](sync-link.xml) (MAVLink 2, ADR-0031); code is generated from it by `tools/gen-interfaces.sh`.
-- **Status:** Draft. Owner kunshpreet on both sides; technical approvals pending.
-- **Side A:** sync MCU firmware (`firmware/sync-mcu/`, the `sync_link` module; E-30) (owner kunshpreet)
-- **Side B:** the sync bridge on the Orin (`ros/src/arc_backend_car/`, the car backend of the car interface; ADR-0028) (owner kunshpreet)
+- **Status:** Draft. Needs an owner on each side and their sign-off.
+- **Side A:** sync MCU firmware (`firmware/sync-mcu/`, the `sync_link` module; E-30) (owner TBD)
+- **Side B:** the sync bridge on the Orin (`ros/src/arc_backend_car/`, the car backend of the car interface; ADR-0028) (owner TBD)
 - **Traces to:** SYS-04, SYS-07, SYS-19, SYS-22, SYS-23, SYS-24, SYS-29, SYS-32, ADR-0021, ADR-0024, ADR-0028, ADR-0031, ADR-0034
 
 Everything that passes between the sync MCU and the Orin, apart from time synchronisation, which uses standard PTP in software-timestamping mode with a PPS cross-check (ADR-0021). The same protocol runs on every target: the sync MCU's `native_sim` build speaks it to the bridge on a laptop (ADR-0028).
@@ -57,4 +57,4 @@ Commands are "latest wins": a dropped command is replaced by the next one, never
 2. Addresses: the car's fixed addresses. Ports proposed (TBC): 52000 and 52001.
 3. ~~Heartbeat path~~ **Decided (2026-10-07):** via the Orin, never straight from the laptop. A hung Orin stops forwarding it, so the car stops (fail-safe).
 4. Command rate and the safety-state rate.
-5. Owners assigned: kunshpreet; both side-role approvals remain pending in [review record](signoff.md).
+5. Owners on both sides.

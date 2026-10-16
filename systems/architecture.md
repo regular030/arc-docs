@@ -84,7 +84,7 @@ The [updated EE sizing review](adr/0048-ee-sizing-after-custom-corners.md) uses 
   - regulators rated ≥ 30 V with TVS
   - the e-stop circuit
 - **Low battery:** the lowest cell triggers a warning, then a clean Orin shutdown before cutoff (SYS-30). Voltage sag at peak current must never reset anything (SYS-31).
-- **Interfaces / returns:** [power-rails](icd/power-rails.md), [power-sync-stack](icd/power-sync-stack.md) and [carrier-sync](icd/carrier-sync.md) are draft logical contracts. Proposed ADR-0042 records the grounding / isolation review; physical assignments and approvals remain pending in the [review matrix](icd/signoff.md).
+- **Interfaces / returns:** [power-rails](icd/power-rails.md), [power-sync-stack](icd/power-sync-stack.md) and [carrier-sync](icd/carrier-sync.md) are draft logical contracts. Proposed ADR-0042 records the grounding / isolation review; physical assignments and approvals are pending.
 - **Sizing inputs:** `budgets/power.csv` and `budgets/power-scenarios.md`. The tires limit useful peak current (`budgets/power-scenarios.md`), not the old 120 A figure. Rail sizing is the EE's.
 
 ## Compute and software

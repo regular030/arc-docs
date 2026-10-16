@@ -1,6 +1,6 @@
 # Interface Control Documents
 
-One file per interface. An ICD names an owner on **each** side. Changes need both owners' approval on the PR. Ownership and pending approvals are recorded in the [review matrix](signoff.md).
+One file per interface. An ICD names an owner on **each** side. Changes need both owners' approval on the PR.
 
 | ICD | Side A | Side B | Format | Status |
 | --- | --- | --- | --- | --- |
@@ -20,4 +20,4 @@ One file per interface. An ICD names an owner on **each** side. Changes need bot
 
 The `.dbc` and MAVLink `.xml` files are the single source for their interfaces; code is generated from them by `tools/gen-interfaces.sh` (cantools, mavgen), never hand-written, and CI fails if it's stale.
 
-The three power/carrier drafts define logical interfaces; final monitor transport, pinouts, ratings and physical tests remain open. Interface owners are kunshpreet under the [review record](signoff.md); this assignment does not approve any technical revision or replace a separate safety reviewer.
+The three power/carrier drafts define logical interfaces; final monitor transport, pinouts, ratings and physical tests remain open.

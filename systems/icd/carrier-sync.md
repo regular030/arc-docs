@@ -2,8 +2,8 @@
 
 - **Revision:** B (2026-10-13)
 - **Status:** Draft logical interface; carrier revision, module contacts, GPIO mapping and connector pinout TBD
-- **Side A:** custom Orin carrier / Orin platform, E-02 (owner kunshpreet)
-- **Side B:** sync MCU board / firmware, E-30 (owner kunshpreet)
+- **Side A:** custom Orin carrier / Orin platform, E-02 (owner TBD)
+- **Side B:** sync MCU board / firmware, E-30 (owner TBD)
 - **Traces to:** SYS-05, SYS-07, SYS-08, SYS-19, SYS-24, SYS-29, SYS-30, ADR-0021, ADR-0022, ADR-0023, ADR-0025, ADR-0031, ADR-0039, RSK-01
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-13
@@ -40,4 +40,4 @@ Physical pin numbers / connector MPNs are **TBD**. GPIO-level translation must m
 
 Freeze the carrier source revision and attach a logical-net-to-MCU/module/contact map, translator/protection schematic and device-tree mapping. Confirm the four camera groups' trigger breakouts and drivers under RSK-01. Measure trigger/PPS latency/jitter and frame/sequence pairing; test loaded Ethernet, source timestamps and SYS-29 latency; test lost PPS, missing triggers, unplug/replug, asymmetric power, low-battery request and actual halted/power-removal handshake.
 
-Approvals are in [interface review matrix](signoff.md). Assignments can become baselined only after electrical and platform sides approve the concrete connector and measured behavior. Camera-driver evidence / physical pin release remain outside this draft's completion claim.
+Assignments can become baselined only after electrical and platform sides approve the concrete connector and measured behavior. Camera-driver evidence / physical pin release remain outside this draft's completion claim.

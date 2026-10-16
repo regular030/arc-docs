@@ -153,7 +153,6 @@ The [wiring diagram and count schedule](../bom/motherboard-wiring.md) propose 17
 
 ## Review packages prepared for the selected EE issues
 
-- **Owner:** kunshpreet, as identified for the electrical, firmware/Orin and mechanical/harness interfaces. [Interface review matrix](../icd/signoff.md) records pending approvals; a separate safety reviewer remains TBD.
 - **A50S integration (#100):** [UART readiness review](../reviews/a50s-uart-readiness.md), [active UART ICD](../icd/controller-telemetry.md) and [arrival/qualification procedure](../tests/a50s-arrival.md). Controller streaming, clock alignment, DMA/pins and loaded signal margins remain open; ground design is deferred TBD.
 - **Grounding (#94 / #115):** proposed ADR-0042 plus [return-path bench checks](../tests/grounding-and-signal-integrity.md). Non-isolated star proposal / complete isolation alternative require approval and measured margins; FD does not eliminate ground shift.
 - **Missing interfaces (#102):** [power-rails](../icd/power-rails.md), [power-sync-stack](../icd/power-sync-stack.md), [carrier-sync](../icd/carrier-sync.md). Logical contracts exist; ratings, physical pins and technical sign-off remain open.
@@ -162,8 +161,8 @@ The [wiring diagram and count schedule](../bom/motherboard-wiring.md) propose 17
 
 | Question | Who decides | Blocks |
 | --- | --- | --- |
-| **Grounding approval:** proposed ADR-0042 recommends a controlled power-return star with non-isolated communications, retaining a complete isolation alternative. Approve the return map / reference conductors and verify loaded ground offsets, CAN common-mode margins and UART logic/reference behavior using [bench checks](../tests/grounding-and-signal-integrity.md). Operating UART needs logic-level and parallel-return review; steering FD still needs common-mode qualification | kunshpreet; separate safety reviewer TBD | Harness, transceiver choice, all boards |
+| **Grounding approval:** proposed ADR-0042 recommends a controlled power-return star with non-isolated communications, retaining a complete isolation alternative. Approve the return map / reference conductors and verify loaded ground offsets, CAN common-mode margins and UART logic/reference behavior using [bench checks](../tests/grounding-and-signal-integrity.md). Operating UART needs logic-level and parallel-return review; steering FD still needs common-mode qualification | EE (kunshpreet); separate safety reviewer TBD | Harness, transceiver choice, all boards |
 | **Mass and CG** (SYS-16) | Mechanical | Power scenarios, bus clamp, pack choice |
 | Steering motor peak current | Mechanical (actuator design) | Steering switched output |
 | Aero fan power (SYS-15) | Capstone | Motor bus reserve |
-| **ICD review:** power-rails, power-sync-stack and carrier-sync now have draft logical contracts. Named roles belong to kunshpreet; physical pins / ratings and both side-role approvals remain pending in the [review matrix](../icd/signoff.md). Operator / charging-station owners and separate safety reviewer remain TBD | kunshpreet / remaining interface owners | Fab gate |
+| ICD owners and sign-offs (corner connector, controller telemetry, can-command, sync link, corner mechanical, deck grid, power-rails, power-sync-stack and carrier-sync; the last three now have draft logical contracts) | Team | Fab gate |
