@@ -34,7 +34,7 @@ Use the current upstream scenario as the EE review input, retaining every TBC ca
 - **Runtime:** upstream explicitly leaves the average hard-driving/capacity calculation at the older mass. Recompute it for measured mass, actual motors, gearing and electrical loads before accepting a pack for SYS-03. The starting 5 Ah pack is not a verified runtime solution.
 - **Motor model:** ADR-0046 requires compatible built-in temperature sensing and leaves the exact motor TBD. Recheck kV, pole count/eRPM, current, gearing, mounting and the temperature curve together when that motor is selected; the inherited Castle model does not qualify a different motor.
 - **Packaging:** keep the motherboard estimates in proposed ADR-0045, conditional on current/thermal/connector placement. The new mechanical brief describes a carrier/module stack and additional cooler heights that may exceed the earlier compute-block height estimate; reconcile these with the pinned cooled Antmicro CAD before freezing an installed height.
-- **Sensor boards:** the custom corners must provide the sensor/magnet mounts. ADR-0052 updates the inventory to 16 direct sensor runs / 106-conductor minimum TBC; passive 2-layer carriers do not add corner MCUs. Mechanical layout, extra returns and final sensor functions can increase the count.
+- **Sensor boards:** the custom corners must provide the sensor/magnet mounts. ADR-0052 sets the inventory at 17 direct sensor runs / 111-conductor minimum TBC; passive 2-layer carriers do not add corner MCUs. Mechanical layout, extra returns and final sensor functions can increase the count.
 
 ## Evidence needed to accept sizing
 

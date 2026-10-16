@@ -18,10 +18,10 @@ Use these files together: [total electrical cost](total-electrical-cost.md) incl
 | Combined power/sync motherboard — E-30 / E-41 / E-46 | 1 | 5 | 2 | 0 | One PCB containing both functional sections |
 | AS5047P angle PCB — E-22 / E-23 / E-24 | 10 | 10 | 0 | 10 | 4 wheel + 4 suspension + 2 front-knuckle sites |
 | ISM330DHCXTR IMU PCB — E-20 / E-21 | 2 | 5 | 0 | 2 | Body/CG + front axle |
-| Corner-height ToF PCB — E-26 | 4 | 5 | 0 | 4 | No fifth camera-scale board |
+| Ride-height ToF PCB — E-26 | 5 | 5 | 0 | 5 | 4 corners + 1 beside the ground-speed camera |
 | Optional separate clamp PCB — E-43 | 1 if separate | 5 | 2 | 0 | Integrate only after reviewed motherboard repricing; do not duplicate parts |
 
-Per-PCB quantities below are for **one populated board**, not the entire minimum factory batch. Multiply a confirmed population by two for each retained JLC core/clamp design, by ten for angle boards, by two for IMUs and by four for ToFs. Bare unused boards do not receive components. Attrition/rework extras, MOQ excess and replacement-design deltas require separate final quotes; no spare sensing ICs are added.
+Per-PCB quantities below are for **one populated board**, not the entire minimum factory batch. Multiply a confirmed population by two for each retained JLC core/clamp design, by ten for angle boards, by two for IMUs and by five for ToFs. Bare unused boards do not receive components. Attrition/rework extras, MOQ excess and replacement-design deltas require separate final quotes; no spare sensing ICs are added.
 
 ## Price and population basis
 
@@ -187,7 +187,7 @@ Two fitted IMU chips cost **USD $11.4784 / CAD $16.38** at the 1+ loose tier. Th
 | I²C / supply protection and filtering | ESD/series/filter parts and values/counts TBD after real-harness review |
 | Test pads / optical keepout / mounting | Electrical test access and clean optical aperture/cover-window geometry TBD; cover/window/mechanics cost separately |
 
-Four fitted preferred ICs cost **USD $12.7952 / CAD $18.26** at the 1+ loose tier. The model fabricates five bare PCBs, populates four and allows **USD $4–12** total support TBC. The chip remains preferred/TBC pending installed glossy-floor/clearance/optical tests. No fifth camera-scale board or local MCU/CAN node is added.
+Five fitted preferred ICs cost **USD $15.9940 / CAD $22.83** at the 1+ loose tier. The model fabricates five bare PCBs, populates all five and allows **USD $5–15** total support TBC. The chip remains preferred/TBC pending installed glossy-floor/clearance/optical tests. No local MCU/CAN node is added.
 
 ## Optional motor-bus clamp PCB — E-43
 

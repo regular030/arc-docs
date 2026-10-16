@@ -3,17 +3,17 @@
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-12
 
-**Current build, ADR-0052:** ARC designs and assembles all three remote sensor PCB families **in house**: **ten AS5047P angle boards**, **two ISM330DHCXTR IMU boards** and **four corner-height ToF boards** for one car. No schematic or layout is released. A common 2-layer design per family is the costing proposal; actual outlines, connectors, mechanical variants and stackups remain TBC/TBD.
+**Current build, ADR-0052:** ARC designs and assembles all three remote sensor PCB families **in house**: **ten AS5047P angle boards**, **two ISM330DHCXTR IMU boards** and **five ToF boards**. No schematic or layout is released. A common 2-layer design per family is the costing proposal; actual outlines, connectors, mechanical variants and stackups remain TBC/TBD.
 
 | Board family | Installed per car | Assembly plan | Release work |
 | --- | --- | --- | --- |
 | AS5047P angle carrier | **10**: four wheel + four suspension + two front knuckle | JLC bare PCB; loose components bought separately; **in-house assembly** | Magnet/shaft alignment, local support circuit, locking connector, SPI/individual CS, installed-harness noise |
 | [Custom ARC ISM330DHCXTR PCB](imu/README.md) | **2**: body/CG + front axle | JLC bare PCB; loose components bought separately; **in-house assembly** | Pinout/rails, separate CS and DRDY, mounts, timestamps, bias/thermal/vibration and slip qualification |
-| [Custom ARC corner-height ToF PCB](tof/README.md) | **4**: one per corner | JLC bare PCB; loose components bought separately; **in-house assembly**; VL53L4CD remains preferred/TBC | Optical aperture/recess, window crosstalk, mux-channel/reset/pull-up design |
+| [Height ToF board](tof/README.md) | **5**: one per corner + one beside the ground-speed camera | JLC bare PCB; loose components bought separately; **in-house assembly**; VL53L4CD remains preferred/TBC | Optical aperture/recess, window crosstalk, mux-channel/reset/pull-up design |
 
-The [wiring plan and diagram](../../systems/bom/motherboard-wiring.md) now budget **sixteen sensor runs / 106 minimum conductors TBC**: ten angle runs / 70 conductors, two IMU runs / 16 and four ToF runs / 20. A common PCB design is reused at different locations; it does not combine signals or remove dedicated chip selects. These boards add **no corner MCU or CAN node** (ADR-0006 / ADR-0008). Motor Hall and built-in temperature go to each A50S (ADR-0046).
+The [wiring plan and diagram](../../systems/bom/motherboard-wiring.md) now budget **seventeen sensor runs / 111 minimum conductors TBC**: ten angle runs / 70 conductors, two IMU runs / 16 and five ToF runs / 25. A common PCB design is reused at different locations; it does not combine signals or remove dedicated chip selects. These boards add **no corner MCU or CAN node** (ADR-0006 / ADR-0008). Motor Hall and built-in temperature go to each A50S (ADR-0046).
 
-The dedicated [IMU](imu/README.md) and [corner-height](tof/README.md) folders are the workspaces for schematic capture and layout. Wheel, suspension and knuckle sensor sites remain selected. **Ground-camera scale derived from the four corner-height readings remains TBD** after removal of the fifth dedicated ToF; this quantity decision does not establish ground-speed performance (ADR-0052).
+The dedicated [IMU](imu/README.md) and [corner-height](tof/README.md) folders are the workspaces for schematic capture and layout. Wheel, suspension and knuckle sensor sites remain selected.
 
 ## AS5047P in-house purchase and assembly plan
 
@@ -26,7 +26,7 @@ For the one-car build, populate **ten separate angle boards**: four wheel, four 
 | Local supply decoupling | Manufacturer 3.3 V example uses **100 nF per IC**; stock/rework extras TBD | Loose capacitors from LCSC, DigiKey Canada or Mouser Canada | Exact MPN, package, rating and any extra bulk capacitance completed in schematic |
 | Locking PCB connector | 1 per populated board; mating harness contacts counted separately | Same distributors; within support-parts allowance | 7-conductor minimum cable TBC: supply, GND, SCK, MOSI, MISO, dedicated CS, spare. Contact count may grow with returns/protection |
 | Reviewed straps, damping and protection parts | BOM quantities TBD | Same loose-component order; included in the [one-car support-parts allowance](../../systems/bom/jlc-pcba-cost-estimate.md) | Values/MPNs need signal-integrity and grounding review; do not order invented resistor/TVS values |
-| Solder/flux, cleaning and optional stencil | Shared across **all sixteen sensor boards** | Shared in-house allowance in the [funding model](../../systems/budgets/jlc-pcba-cost.csv) | No JLC sensor assembly/setup fee or paid labour included; do not charge shared supplies again per family |
+| Solder/flux, cleaning and optional stencil | Shared across **all seventeen sensor boards** | Shared in-house allowance in the [funding model](../../systems/budgets/jlc-pcba-cost.csv) | No JLC sensor assembly/setup fee or paid labour included; do not charge shared supplies again per family |
 | Diametric magnet and mounting hardware | 1 magnet per installed angle sensor | Supplier, geometry and quote TBD | Required to operate; **excluded from this PCB funding total** pending mechanical selection |
 
 Retained LCSC pricing inspected 2026-10-12: AS5047P is **USD $4.231 at 10+**, ISM330DHCXTR **USD $5.7392 at 1+**, and the preferred VL53L4CDV0DH/1 **USD $3.1988 at 1+**. The one-car order uses **ten / two / four loose chips**, with no extra ICs for unused bare boards. Stock and prices are snapshots, not reserved; recheck every cart. JLC's parts entries are PCBA-library references and **cannot supply loose chips for our in-house assembly**. All families need separate reviewed support BOMs, locking connectors and manufacturer assembly/handling instructions.

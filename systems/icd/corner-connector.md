@@ -8,7 +8,7 @@
 - **Side B:** chassis harness, the motor controllers on the deck (E-50), sync board, power board e-stop circuit (owner kunshpreet)
 - **Traces to:** ADR-0042, SYS-05, SYS-13, SYS-19, SYS-25, ADR-0008, ADR-0009, ADR-0012, ADR-0034, ADR-0046, ADR-0052, RSK-11
 
-The wheel, suspension and front knuckle angle boards and four corner-height ToF boards do not pass through the motor interface below; they wire directly to the motherboard's sync section (ADR-0008, ADR-0052). The [wiring schedule](../bom/motherboard-wiring.md) budgets four sensor runs / 26 conductors per front corner and three runs / 19 conductors per rear corner, including spares (TBC). All sixteen remote sensor boards, including both IMUs, are assembled in house.
+The wheel, suspension and front knuckle angle boards and the corner ToF boards do not pass through the motor interface below; they wire directly to the motherboard's sync section (ADR-0008, ADR-0052). The [wiring schedule](../bom/motherboard-wiring.md) budgets four sensor runs / 26 conductors per front corner and three runs / 19 conductors per rear corner, including spares (TBC).
 
 ## At the corner boundary
 

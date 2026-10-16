@@ -8,7 +8,7 @@ Board designs and mechanical exports. One folder per board, added when its desig
 | Bus clamp assembly — PCB placement TBD | §1 |
 | Motor controllers | §3: off-the-shelf A50S, so no board here (ADR-0034) |
 | [Orin carrier](orin-carrier/README.md) (fork of Antmicro's baseboard) | §4 |
-| [Remote sensor PCBs](sensor-boards/README.md) — custom angle, IMU and height/scale designs; layers TBC | §2 / §5; ADR-0050, ADR-0051; no corner MCU |
+| [Remote sensor PCBs](sensor-boards/README.md) — custom angle, IMU and height/scale designs; layers TBC | §2 / §5; ADR-0052; no corner MCU |
 | Harness | §5; [wiring/count schedule](../systems/bom/motherboard-wiring.md) |
 
 Mechanical CAD lives in Fusion. `mechanical/` here holds STEP and drawing exports, committed per release.

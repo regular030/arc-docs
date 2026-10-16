@@ -17,14 +17,14 @@ This is the main-component selection list for schematic capture. It supplements 
 
 **UART readiness:** calculated status-stream load is **29.5% per 2 Mbit/s link at 1 kHz**. Both firmware endpoints are still stubs; clock alignment, DMA ownership, fault handling, forwarding and loaded ground/reference margins need qualification. PB10/PB11 are the A50S's USART3 TX/RX. See [UART ICD](../icd/controller-telemetry.md), [source review](../reviews/a50s-uart-readiness.md) and [arrival checks](../tests/a50s-arrival.md).
 
-**Sensor decisions (ADR-0052):** one car uses **10 AS5047P angle boards (4 wheel + 4 suspension + 2 front knuckle), 2 ISM330DHCXTR IMU boards and 4 corner-height ToF boards**. All **16 custom sensor PCBs are assembled in house** from JLC bare boards and separately purchased loose chips/support parts. No populated spare sensor set or dedicated fifth ground-camera ToF is included. Ground-camera scale derivation remains TBD. See the [assembly purchase plan](../../hardware/sensor-boards/README.md#as5047p-in-house-purchase-and-assembly-plan) and [sensor review](sensor-candidate-review.md). Grounding/isolation and power-stage selections remain TBD for later owner review.
+**Sensor decisions (ADR-0052):** one car uses **10 AS5047P angle boards (4 wheel + 4 suspension + 2 front knuckle), 2 ISM330DHCXTR IMU boards and 5 ToF boards (4 corners + 1 beside the ground-speed camera)**. All **17 sensor PCBs are assembled in house** from JLC bare boards and separately purchased loose chips/support parts. No populated spare sensor set is included. See the [assembly purchase plan](../../hardware/sensor-boards/README.md#as5047p-in-house-purchase-and-assembly-plan) and [sensor review](sensor-candidate-review.md). Grounding/isolation and power-stage selections remain TBD for later owner review.
 
 
 **Motherboard packaging, 2026-10-09 (ADR-0044):** [power and sync share one PCB](../../hardware/motherboard/README.md); the Jetson carrier stays separate. The sync MCU and power sections below list components for that same motherboard, not separate bare boards. A stacking header is not required in this plan.
 
 ## JLC PCBA cost estimate
 
-**KEFC working PCB estimate, 2026-10-12: CAD $3,000 before tax, including 30% contingency**, for **one car**. Working base **CAD $2,252.94**; midpoint with contingency **CAD $2,928.82**, rounded up to the next CAD $100. The planning range with 30% is **CAD $2,361.49–3,496.15**. One carrier and one power/sync motherboard are installed; JLC's minimum two assembled units per core design are costed separately as production surplus, not a second car. All 16 sensor boards are assembled in house. Includes loose sensor parts, shared consumables, optional clamp and shipping; bought compute/controllers, cameras, LiDAR, magnets/mechanics and external dump load remain excluded. See the [CAD estimate and JLC pricing screenshots](jlc-pcba-cost-estimate.md#fabrication-evidence-and-design-assumptions) and [USD/CAD model](../budgets/jlc-pcba-cost.csv); final BOM/CPL quotes remain TBC.
+**KEFC working PCB estimate, 2026-10-12: CAD $3,000 before tax, including 30% contingency**, for **one car**. Working base **CAD $2,252.94**; midpoint with contingency **CAD $2,928.82**, rounded up to the next CAD $100. The planning range with 30% is **CAD $2,361.49–3,496.15**. One carrier and one power/sync motherboard are installed; JLC's minimum two assembled units per core design are costed separately as production surplus, not a second car. All 17 sensor boards are assembled in house. Includes loose sensor parts, shared consumables, optional clamp and shipping; bought compute/controllers, cameras, LiDAR, magnets/mechanics and external dump load remain excluded. See the [CAD estimate and JLC pricing screenshots](jlc-pcba-cost-estimate.md#fabrication-evidence-and-design-assumptions) and [USD/CAD model](../budgets/jlc-pcba-cost.csv); final BOM/CPL quotes remain TBC.
 
 The estimate separates [bare PCB fabrication, purchased parts and assembly costs](jlc-pcba-cost-estimate.md#bare-pcb-parts-and-assembly-cost-breakdown), with CAD working totals and the 30% contingency shown by category.
 
@@ -47,7 +47,7 @@ Green selection markers below mean existing or recommended choices; alternatives
 
 ## Wiring diagram
 
-**Proposed sensor harness: 16 cable runs / 106 minimum conductors, including one spare per run.** The sensors sit on our custom remote PCBs at their measurement locations: 10 angle, 2 IMU and 4 corner-height boards per car, all assembled in house, with no corner MCU. Two-layer implementations remain TBC. The complete motherboard wire total remains TBD because power, controller placement, grounding and brake interfaces are still open.
+**Proposed sensor harness: 17 cable runs / 111 minimum conductors, including one spare per run.** The sensors sit on our custom remote PCBs at their measurement locations: 10 angle, 2 IMU and 5 ToF boards, all assembled in house, with no corner MCU. Two-layer implementations remain TBC. The complete motherboard wire total remains TBD because power, controller placement, grounding and brake interfaces are still open.
 
 The [Markdown wiring plan](motherboard-wiring.md#board-and-harness-diagram) contains the board diagram and detailed cable schedule.
 
@@ -58,7 +58,8 @@ The [Markdown wiring plan](motherboard-wiring.md#board-and-harness-diagram) cont
 | RL | 3 | 19 |
 | RR | 3 | 19 |
 | IMU | 2 | 16 |
-| Sensor-only total | 16 | 106 minimum, TBC |
+| Ground camera | 1 | 5 |
+| Sensor-only total | 17 | 111 minimum, TBC |
 
 [Detailed cable/net schedule and remaining interfaces](motherboard-wiring.md) · [Remote sensor PCB workspace](../../hardware/sensor-boards/README.md)
 
@@ -76,7 +77,7 @@ Use this summary for the first schematic pass; detailed alternatives, sourcing a
 | Corner ride height | **4** | VL53L4CDV0DH/1 | **$3.1988 loose / 1+** | Four corners → sync I²C |
 | LiDAR | **1** | Hokuyo UST-10LX | **$1,600–2,200 team estimate; not JLC** | Chassis → Ethernet switch |
 
-**Installed state-sensor chips: USD $66.5836 / CAD $95.02 per car**: `(10 × $4.231 AS5047P) + (2 × $5.7392 ISM330DHCXTR) + (4 × $3.1988 VL53L4CD)`, from loose LCSC purchasing at the actual 10+ / 1+ / 1+ tiers. Conversion uses 1.4271 CAD/USD dated 2026-10-09. These 16 fitted chips are included in the funding model; support parts, magnets, PCB fabrication, shared assembly consumables and shipping are separate.
+**Installed state-sensor chips: USD $69.7824 / CAD $99.59 per car**: `(10 × $4.231 AS5047P) + (2 × $5.7392 ISM330DHCXTR) + (5 × $3.1988 VL53L4CD)`, from loose LCSC purchasing at the actual 10+ / 1+ / 1+ tiers. Conversion uses 1.4271 CAD/USD dated 2026-10-09. These 17 fitted chips are included in the funding model; support parts, magnets, PCB fabrication, shared assembly consumables and shipping are separate.
 
 **Motor procurement — 🟢 owner requirement (ADR-0046):** buy all four drive motors with **built-in temperature sensors compatible with the A50S input**. No separate motor-can thermistor, temperature PCB or motherboard ADC channel is required. The exact motor, sensor type/curve, pinout and price remain **TBD**; Castle 1010 is not approved for purchase until its built-in sensing is established. See [the recorded decision](../adr/0046-built-in-motor-temperature.md).
 
@@ -101,7 +102,7 @@ Both use [our custom ARC IMU PCB](../../hardware/sensor-boards/imu/README.md) un
 
 | Role / choice | Exact manufacturer part | JLCPCB | USD each | Package / interface | Reason and remaining check |
 | --- | --- | --- | --- | --- | --- |
-| Both IMUs, qty 2 — 🟢 **Selected (ADR-0052)** | ST **ISM330DHCXTR** | [C2655101](https://jlcpcb.com/partdetail/Stmicroelectronics-ISM330DHCXTR/C2655101) | **$5.7392 loose each**, [LCSC C2655101](https://www.lcsc.com/product-detail/C2655101.html), 1+ tier | LGA-14, 2.5 × 3 mm; SPI; DRDY; 3.3 V domain | Same part/carrier at body/CG and front. ≥4 kHz requirement: 6.667 kHz setting available; ±16 g / up to ±4000 °/s. Calibration, vibration, timestamps and velocity-through-slip qualification remain pending. Selected for in-house assembly; JLC's Standard-only catalog condition applies to its factory service, which is not used for these sensors. |
+| Both IMUs, qty 2 — 🟢 **Selected (ADR-0052)** | ST **ISM330DHCXTR** | [C2655101](https://jlcpcb.com/partdetail/Stmicroelectronics-ISM330DHCXTR/C2655101) | **$5.7392 loose each**, [LCSC C2655101](https://www.lcsc.com/product-detail/C2655101.html), 1+ tier | LGA-14, 2.5 × 3 mm; SPI; DRDY; 3.3 V domain | Same part and board at body/CG and front; industrial grade, 3 °/h typical gyro bias instability (DS13012 Rev 7). ≥4 kHz requirement: 6.667 kHz setting available; ±16 g / up to ±4000 °/s. Calibration, vibration, timestamps and velocity-through-slip qualification remain pending. Selected for in-house assembly; JLC's Standard-only catalog condition applies to its factory service, which is not used for these sensors. |
 | Historical precision CG alternative — 🟡 **Not in current build** | Murata **SCH16T-K10-1** | [C46817724](https://jlcpcb.com/partdetail/MurataElectronics-SCH16T_K101/C46817724) | **~$64.78**, retained preorder estimate | Inverted SOIC-24; SafeSPI | Earlier recommendation replaced by the owner's common-ISM selection; not included in quantities or cost. Revisit only through a new sensor decision. |
 | Both-role alternative — 🟡 **Not selected** | TDK **ICM-42688-P** | [C1850418](https://jlcpcb.com/partdetail/ICM-42688-P/C1850418) | **$20.64**, retained snapshot | LGA-14; SPI; data ready | Different timing/registers/pin map; qualifies only after owner substitution and installed performance review. |
 | Legacy CG candidate — 🔴 **Fails existing targets** | Analog Devices **ADIS16505-3BMLZ** | [C1235471](https://jlcpcb.com/partdetail/AnalogDevices-ADIS165053BMLZ/C1235471) | **~$234.71**, historical estimate | Packaged module; SPI | 2 kSPS / ±8 g miss the ≥4 kHz / ±16 g targets; excluded. |
@@ -133,7 +134,7 @@ The same preferred sensor and alternative apply to **all three roles** below. To
 
 ### Ride height / ground-speed scale
 
-ADR-0052 retains [our custom ARC height PCB](../../hardware/sensor-boards/tof/README.md), with **four corner-height boards assembled in house**. There is no dedicated fifth ToF at the ground-speed camera; scale derivation from the installed measurements and geometry remains TBD. The IC options remain recommendations; exact local support parts, optics and assembly qualification still require review.
+ADR-0052 uses [our own height board](../../hardware/sensor-boards/tof/README.md) at five sites: **four corners plus one beside the ground-speed camera** for its scale (ADR-0007), all assembled in house. The IC options remain recommendations; exact local support parts, optics and assembly qualification still require review.
 
 | Function / choice | Qty / car | Exact manufacturer part | JLCPCB | USD each | Design notes |
 | --- | --- | --- | --- | --- | --- |
@@ -257,7 +258,7 @@ Use [ICD-corner-connector Rev H](../icd/corner-connector.md) for corner-to-deck 
 | Power-side cut / steering timing | **TBD** | Final timing circuitry and quantities depend on the power sequence |
 | CSD18540 power-board / clamp candidates | **9** | 4 buck-boost + 2 main buck + 2 ORing + 1 clamp; excludes any further switch / parallel FETs |
 
-The selected **16 installed state-sensor ICs** cost **USD $66.5836 / CAD $95.02 per car**: ten loose AS5047P, two ISM330DHCXTR and four ToFs. All sensor boards are assembled in house (ADR-0052); no factory sensor assembly fees apply. Motor temperature remains built into the motors (ADR-0046). Magnets, support parts, bare fabrication and shared consumables are priced separately; no populated spare sensor set is included.
+The selected **17 installed state-sensor ICs** cost **USD $69.7824 / CAD $99.59 per car**: ten loose AS5047P, two ISM330DHCXTR and five ToFs. All sensor boards are assembled in house (ADR-0052); no factory sensor assembly fees apply. Motor temperature remains built into the motors (ADR-0046). Magnets, support parts, bare fabrication and shared consumables are priced separately; no populated spare sensor set is included.
 
 ## External parts and remaining schematic work
 

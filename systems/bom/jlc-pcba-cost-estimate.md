@@ -3,7 +3,7 @@
 - **Status:** Draft (TBC planning estimate)
 - **Updated:** 2026-10-12
 - **Currency:** CAD funding figures; USD supplier evidence
-- **Traces to:** SYS-02, SYS-07, SYS-08, SYS-14, SYS-19, SYS-24, E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-41, E-43, E-46, ADR-0044, ADR-0045, ADR-0046, ADR-0047, ADR-0034, ADR-0050, ADR-0051, ADR-0052.
+- **Traces to:** SYS-02, SYS-07, SYS-08, SYS-14, SYS-19, SYS-24, E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-41, E-43, E-46, ADR-0044, ADR-0045, ADR-0046, ADR-0047, ADR-0034, ADR-0052.
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-12
 
