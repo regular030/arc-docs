@@ -7,7 +7,9 @@ The starting point for the electrical engineer. It collects, per board, what's d
 - `systems/` is the source of truth. `architecture.md` is the overview; where it disagrees with an ADR, ICD or requirement, those win.
 - Changes go through PRs. A change to an ICD needs sign-off from the owners on both sides.
 - Nothing is fabbed until it passes `reviews/fab-gate.md`.
-- **Funding is a single order**, so there's no early hardware testing. Design in rework-only fallbacks (unpopulated footprints, jumpers, harness options), and order extra bare PCBs of every custom board.
+- **Funding comes in orders, one per build (v1.0, then v1.1; ADR-0046)**, so there's no early hardware testing. Design in rework-only fallbacks (unpopulated footprints, jumpers, harness options), and order extra bare PCBs of every custom board.
+
+**Builds (ADR-0046, [builds](../builds.md)):** v1.0 runs on the Orin Nano developer kit (its own carrier and module) with a UST-20LX, the stereo pair and a downward B0223; v1.1 adds the NX on the Antmicro carrier and the remaining cameras. **The motherboard you design is the v1.1 board**: all four camera trigger groups plus the spare, every sensor connector, and a compute rail sized for the NX whose voltage also suits the dev kit's barrel input (range TBC from NVIDIA SP-11324-001). On v1.0, PPS, the hotspot button and LED and the shutdown request use the dev kit's 40-pin header, and the camera triggers go straight to the cameras.
 
 ## Read first
 

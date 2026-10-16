@@ -3,7 +3,8 @@
 - **Status:** Draft
 - **Rule:** every system requirement maps to at least one verification activity with a pass criterion. A requirement is "met" only when its activity has passed and the result is recorded (link the log, data or report in the Status column).
 - **Methods:** **A** analysis · **I** inspection · **D** demonstration · **T** test
-- **Funding constraint:** hardware arrives in one order, so everything that can be verified by analysis or simulation (stage S0) is done **before** the order. Bench and vehicle stages follow delivery.
+- **Funding constraint:** hardware arrives with each funded order (v1.0, then v1.1; ADR-0046), so everything that can be verified by analysis or simulation (stage S0) is done **before** each order. Bench and vehicle stages follow delivery.
+- **Builds:** v1.0 verifies every requirement except SYS-08's learned-policy part (LIM-09) and SYS-10 at full speed (LIM-11), which are verified on v1.1.
 
 ## Stages
 

@@ -77,7 +77,8 @@ Sources for the envelopes (checked 2026-10-09):
 3. **Corners:** staggered motors, gearboxes, CVDs, wheel encoders. Check the front at full steering lock and full bump with the steering actuator in place.
 4. **Lower deck:** the four motor controllers, one combined power/sync motherboard, bus clamp.
 5. **Underfloor:** aero volume, ground-speed window and shroud, ToF sensors, the dead-wheel pod's reserved space.
-6. **Upper deck:** hole grid; compute bay with airflow; IMU at the CG.
+6. **Upper deck:** hole grid; compute bay with airflow, sized for both the v1.0 developer kit and the v1.1 Antmicro assembly with the NX cooler (ADR-0043, ADR-0046); IMU at the CG.
+7. **v1.1 mounts kept in v1.0:** the quad side/rear cameras and the forward event camera aren't fitted in v1.0 (ADR-0046), but their mounts and sightlines are part of the first build.
 7. **Sensor mounts:** LiDAR height and crash guard, stereo bar, side/rear cameras, forward event camera, antennas.
 8. **Access:** battery swap, NVMe swap, corner swap, buttons and ports.
 9. **First CG and mass estimate.**

@@ -26,6 +26,15 @@ The carrier is the Antmicro fork under ADR-0025. Freeze its revision before assi
 
 Physical pin numbers / connector MPNs are **TBD**. GPIO-level translation must match the frozen module/carrier guide and each sensor module; do not connect sync's 3.3 V outputs to an unverified carrier or camera input. Resolve load capacitance, edge rate, protection and both-side power-off behavior before routing.
 
+## v1.0: the developer kit carrier
+
+v1.0 uses the Orin Nano developer kit's own carrier (P3768) instead of E-02 (ADR-0046). The same logical signals apply:
+
+- **Ethernet:** the dev kit's GbE port to the switch (E-06).
+- **PPS_SYNC, ORIN_SHUTDOWN_REQ and the hotspot button and LED:** 40-pin header GPIOs (3.3 V, TBC from NVIDIA's carrier specification); pins and device tree TBD.
+- **Camera triggers:** from the motherboard straight to the stereo kit's and the B0223's trigger inputs, not through the carrier.
+- **Power:** the motherboard's compute rail into the dev kit's barrel jack (input range TBC).
+
 ## Timing and platform contract
 
 - Sync records trigger acquisition time and sequence before forwarding to Orin. Orin arrival time does not replace trigger time. The camera pipeline pairs each frame to the correct sequence; missing edges/frames and time-map drift are logged. The frame cameras use frame triggers; the two GenX320s get a periodic pulse on Trigger In (ADR-0021).

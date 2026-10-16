@@ -1,6 +1,6 @@
 # ARC Orin carrier source and Altium conversion
 
-The Antmicro carrier CAD source is imported for the ARC carrier work (v1.1). The current source is an unchanged reference design; ARC power, four 22-pin CSI ports and sync/trigger changes have not been made.
+The Antmicro carrier CAD source is imported for the ARC carrier work. The custom carrier is a v1.1 item; v1.0 runs on the Orin Nano developer kit's own carrier (ADR-0046). The current source is an unchanged reference design; ARC power, four 22-pin CSI ports and sync/trigger changes have not been made.
 
 The carrier remains separate from the combined [power/sync motherboard](../motherboard/README.md) under ADR-0042.
 

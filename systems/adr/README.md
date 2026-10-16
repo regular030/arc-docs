@@ -51,3 +51,4 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0043](0043-board-size-estimates.md) | Preliminary motherboard and Jetson PCB / installed-envelope size estimates | Proposed (TBC; placement and thermal review pending) |
 | [0044](0044-ee-sizing-after-custom-corners.md) | Align EE review with 100 mm wheels, 18:1 gearing and the revised current/regen estimates; resistor sizing reopened | Proposed (ratings and parts review pending) |
 | [0045](0045-vehicle-state-sensor-boards.md) | Vehicle-state sensors on our own small boards (AS5047P, ISM330DHCXTR, five ToF), assembled in house | Accepted |
+| [0046](0046-v1-builds.md) | The v1 car is built twice: v1.0 on borrowed compute and LiDAR with fewer cameras, then v1.1, the full design | Accepted |
