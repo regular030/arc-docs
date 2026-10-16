@@ -3,8 +3,6 @@
 - **Status:** Draft. Complete extracted carrier reference; ARC component selections and missing schematic details recorded below
 - **Scope:** One separate Jetson carrier, one combined power/sync motherboard, three remote sensor designs and the optional separate bus-clamp design
 - **Traces to:** E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-41, E-43, E-46; ADR-0025, ADR-0044, ADR-0034, ADR-0052
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
 
 This breaks down the parts for **each physical PCB design**, following [the main selection list](pcb-parts-selection.md). **Every carrier-reference part is listed**, including all passives, in the [complete 669-reference inventory](jetson-carrier-reference-parts.md). The motherboard and remote sensor boards have no captured/released schematics yet; their exact passive values, package suffixes, connector MPNs, designators and many quantities remain **TBD**. Their tables therefore list all currently named parts and the supporting component groups that still need capture; they are not falsely presented as a finished production BOM.
 

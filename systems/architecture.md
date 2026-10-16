@@ -2,9 +2,6 @@
 
 Rewritten 2026-10-03 from the original interface spec (Sep 23, 2026, @shrikar vempati). This is the narrative overview. The decisions and numbers live in `requirements/`, `adr/`, `icd/`, `bom/` and `budgets/`; where this page and those disagree, those win. The diagram version is the topology page (`topology.html`).
 
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-13
-
 ## What the car is
 
 A 1/10-scale 4WD autonomy research platform: a sandbox where the team's engineers try ideas in software without building hardware first. Classical pipelines come first (state estimation, localization, planning, MPC), then learned and embodied-AI policies (VLAs). Hardware should never be the reason an experiment fails, and should never limit what software can try. Every sensor runs at its full useful rate, timestamped and logged (SYS-24). The accepted limits on v1 hardware are listed in `requirements/system.md`.

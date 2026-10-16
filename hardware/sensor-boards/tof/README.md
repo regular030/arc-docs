@@ -1,8 +1,5 @@
 # ARC remote ground-height sensor PCB
 
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
-
 **Current build under ADR-0052:** design and assemble our own remote ground-height sensor PCBs **in house**, separate from the motherboard. Use **five populated boards under E-26**: one at each corner and one beside the downward ground-speed camera for its scale (ADR-0007). A common PCB design is the current proposal; no schematic, layout or fabrication package is released.
 
 | Item | Current plan / status |

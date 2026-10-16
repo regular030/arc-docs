@@ -1,8 +1,6 @@
 # Mechanical layout brief (v1)
 
 - **Status:** Draft; mechanical design starting 2026-10-03
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
 - **How the work is done:** [`cad-workflow.md`](cad-workflow.md) (Fusion hub structure, parameters, releases). Parts: [`bom/mechanical.md`](../bom/mechanical.md). Mass: [`budgets/mass.csv`](../budgets/mass.csv)
 - **Goal of the first pass:** a **CAD block layout**: every component as a simple envelope box, placed in the car. It settles wheelbase, track and length (RSK-16), front-corner fit (RSK-04), the battery and compute bays, deck heights, and a first CG estimate, before any part is designed in detail.
 

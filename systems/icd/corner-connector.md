@@ -2,8 +2,6 @@
 
 - **Revision:** F (2026-10-09). Records the A50S UART pins, the sensor-board runs that bypass this interface (ADR-0052) and the grounding review (ADR-0042). Rev E and earlier are superseded. Motor phases and the Hall cable still run from each corner to its controller on the deck; actual contacts and motor sensor mapping remain TBD.
 - **Status:** Draft. Needs Molex pin numbering against Triforce's pinout layout, and sign-off from both owners.
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
 - **Side A:** corner assembly: motor (E-51), gearbox (owner TBD)
 - **Side B:** chassis harness, the motor controllers on the deck (E-50), sync board, power board e-stop circuit (owner TBD)
 - **Traces to:** ADR-0042, SYS-05, SYS-13, SYS-19, SYS-25, ADR-0008, ADR-0009, ADR-0012, ADR-0034, ADR-0052, RSK-11

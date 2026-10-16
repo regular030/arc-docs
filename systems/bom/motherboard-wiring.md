@@ -2,8 +2,6 @@
 
 - **Status:** Draft. Proposed wiring budget (TBC); connector pinouts are not released.
 - **Date:** 2026-10-09
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
 
 This accompanies the [parts decision list](pcb-parts-selection.md). Power and sync MCU share one motherboard; the Jetson carrier stays separate (ADR-0044). Motor temperature reaches each A50S from the motor's sensor cable, or from an E-28 thermistor on the can. The sensor inventory is ten angle (four wheel, four suspension, two front knuckle), two IMU and five ToF boards, all assembled in house (ADR-0052).
 
@@ -117,7 +115,6 @@ Power/sync monitor buses and alerts are **internal PCB nets**, not an extra exte
 ## Motor wiring bypasses the motherboard sensor banks
 
 Each motor sends **three phase leads to its A50S**, plus its 6-pin Hall sensor cable: Hall A/B/C, 5 V, GND and, if the Castle has one, its thermistor. If it doesn't, an E-28 thermistor on the can adds one lead sharing the cable's ground; meter the sensor port on arrival. Controller supply outputs must not be paralleled. Motor temperature adds **zero direct motherboard sensor runs**; it arrives in controller telemetry.
-
 
 ## Before schematic/harness release
 

@@ -4,8 +4,6 @@
 - **Date:** 2026-10-13
 - **Currency:** CAD totals; CAD, USD and GBP supplier prices
 - **Traces to:** SYS-01, SYS-03, SYS-05, SYS-06, SYS-07, SYS-08, SYS-09, SYS-10, SYS-13, SYS-14, SYS-19, SYS-23, SYS-24, SYS-29, SYS-30, SYS-32; ADR-0034, ADR-0044, ADR-0046, ADR-0047, ADR-0048, ADR-0034, ADR-0052, ADR-0053, ADR-0054
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-13
 
 The priced electrical estimate is **CAD $11,502.52**, including estimated Ontario HST and a 30% allowance on the PCB package only. Round to **CAD $11,600.00 for the priced KEFC scope**. The independent full-stop brake E-34, Class 1 ground-lighting module and unresolved camera-interface work are additional costs, **TBD**; this is not a complete release quote.
 

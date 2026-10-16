@@ -1,8 +1,5 @@
 # Remote sensor carrier PCBs
 
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
-
 **Current build, ADR-0052:** ARC designs and assembles all three remote sensor PCB families **in house**: **ten AS5047P angle boards**, **two ISM330DHCXTR IMU boards** and **five ToF boards**. No schematic or layout is released. A common 2-layer design per family is the costing proposal; actual outlines, connectors, mechanical variants and stackups remain TBC/TBD.
 
 | Board family | Installed per car | Assembly plan | Release work |

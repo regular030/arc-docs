@@ -4,8 +4,6 @@
 - **Updated:** 2026-10-12
 - **Currency:** CAD funding figures; USD supplier evidence
 - **Traces to:** SYS-02, SYS-07, SYS-08, SYS-14, SYS-19, SYS-24, E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-41, E-43, E-46, ADR-0044, ADR-0045, ADR-0046, ADR-0047, ADR-0034, ADR-0052.
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
 
 The scope is **one car: one installed Jetson carrier, one installed combined power/sync motherboard, ten angle boards, two IMU boards and four corner-height ToF boards** under ADR-0052. **All sixteen sensor boards are assembled in house** from bare PCBs and separately bought loose components. JLC factory assembly is retained for the carrier and motherboard. No populated spare sensor set or spare sensor ICs are funded. The owner requested **30% leeway** and CAD figures for KEFC.
 

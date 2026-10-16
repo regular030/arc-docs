@@ -3,8 +3,6 @@
 - **Status:** Draft. This is a functional BOM: what each item is, what it must achieve, and what it connects to. Part numbers come later. Rows where a part is already decided name it.
 - **Selection:** `Decided` (ADR or spec), `Planned` (named in the spec, not confirmed), `Custom` (our own board, designed by the EE) or `TBD`. A dropped item keeps its ID and row, marked *Deleted*.
 - `TBC` values are engineering proposals for the owner to confirm. `TBD` values wait on a SYS requirement.
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-13
 
 **PCB packaging (ADR-0044, 2026-10-09):** E-30 sync circuitry and E-41 / E-46 power circuitry share one [motherboard PCB](../../hardware/motherboard/README.md). Their rows remain functional BOM entries, not two physical boards. E-02 Jetson carrier remains separate. Power/sync signals are internal PCB connections; a stacking header is not required in this plan.
 
@@ -50,7 +48,6 @@
 
 **E-25 selection** is recorded in ADR-0014, including the rejected candidates (PMW3901 0.58 m/s, PAA5100JE 1.14 m/s, SparkFun OTOS 2.5 m/s, mouse chips, radar, Correvit). Fallback: the dead-wheel pod design in ADR-0014, with its underfloor space and sync-board channels reserved.
 
-
 ## Sync and control
 
 | ID | Item | Qty | Selection | Requirements | Connects to | Rail | Traces to |
@@ -88,7 +85,6 @@
 | 5 V / 3.3 V | Cameras, E-30, vehicle-state sensors, E-29, E-33, E-46 | Low noise for the IMUs and ADC reference |
 
 Loads per rail are in `budgets/power.csv` and the sizing scenarios in `budgets/power-scenarios.md`. Rail currents and regulator choices are the EE's.
-
 
 Drive-telemetry and motherboard part choices are in the [UART ICD](../icd/controller-telemetry.md), the [parts options](pcb-parts-selection.md) and the [sensor review](sensor-candidate-review.md).
 

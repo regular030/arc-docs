@@ -1,8 +1,5 @@
 # ARC motherboard
 
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
-
 **Current plan, 2026-10-09:** one PCB combines the power circuitry and sync MCU circuitry. The Jetson carrier remains a separate PCB in [orin-carrier](../orin-carrier/README.md). Owner: **Kunshpreet Baweja** (`kunshpreet`). ADR-0044 records this packaging direction; a later split into two PCBs remains possible after review.
 
 This folder is the working location for the combined motherboard design. Schematic capture and layout have not started here; the imported Antmicro Altium project remains the separate carrier reference.

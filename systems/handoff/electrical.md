@@ -1,8 +1,5 @@
 # Electrical handoff
 
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-13
-
 The starting point for the electrical engineer. It collects, per board, what's decided, where the details live, and what's still open. Circuit-level choices (regulators, fuse values, layout, part selection within the stated requirements) are yours.
 
 ## How this repo works

@@ -1,8 +1,5 @@
 # ARC remote IMU PCB
 
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
-
 **Current build under ADR-0052:** design and assemble our own remote IMU PCB **in house**, separate from the motherboard. Both measurement sites use **ST ISM330DHCXTR**: one at the body/CG and one at the front axle. Reuse a common PCB design at the two locations; each populated board has its own cable, chip select and data-ready input. No schematic, layout or fabrication package is released.
 
 | Item | Current plan / status |

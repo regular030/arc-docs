@@ -2,8 +2,6 @@
 
 - **Status:** Draft. Qualification review; selections are recorded in the ADRs.
 - **Updated:** 2026-10-12
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
 - **Traces to:** E-20, E-21, E-23, SYS-06, SYS-07, SYS-10, SYS-18, SYS-19, SYS-24, SYS-29
 
 ADR-0052 selects ISM330DHCXTR at both IMU sites and in-house assembly for all 17 sensor PCBs: ten angle, two IMU and five ToF boards. ELPM remains an unselected evaluation option; qualification is pending.

@@ -4,8 +4,6 @@
 - **Date:** 2026-10-09
 - **Deciders:** Shrikar Vempati, Kunshpreet Baweja
 - **Traces to:** SYS-05, SYS-07, SYS-19, SYS-24, SYS-30, SYS-31, SYS-32, E-30, E-41, E-46, ADR-0011, ADR-0022, ADR-0025
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
 
 ## Context
 

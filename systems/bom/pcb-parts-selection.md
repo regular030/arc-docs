@@ -4,8 +4,6 @@
 - **Prepared:** 2026-10-03
 - **Prices checked:** 2026-10-12 (selected parts; other dated snapshots are retained)
 - **Currency:** USD supplier prices; CAD funding budget
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
 
 Scope: one car with **one custom Jetson carrier, one combined power/sync motherboard, four bought A50S controllers using UART telemetry**, and the autonomous motor-bus clamp. Cameras, camera modules and lenses are excluded; the carrier's four CSI connectors are included because they affect PCB design.
 
@@ -18,7 +16,6 @@ This is the main-component selection list for schematic capture. It supplements 
 **UART readiness:** calculated status-stream load is **29.5% per 2 Mbit/s link at 1 kHz**. Both firmware endpoints are still stubs; clock alignment, DMA ownership, fault handling, forwarding and loaded ground/reference margins need qualification. PB10/PB11 are the A50S's USART3 TX/RX. See [UART ICD](../icd/controller-telemetry.md), [source review](../reviews/a50s-uart-readiness.md) and [arrival checks](../tests/a50s-arrival.md).
 
 **Sensor decisions (ADR-0052):** one car uses **10 AS5047P angle boards (4 wheel + 4 suspension + 2 front knuckle), 2 ISM330DHCXTR IMU boards and 5 ToF boards (4 corners + 1 beside the ground-speed camera)**. All **17 sensor PCBs are assembled in house** from JLC bare boards and separately purchased loose chips/support parts. No populated spare sensor set is included. See the [assembly purchase plan](../../hardware/sensor-boards/README.md#as5047p-in-house-purchase-and-assembly-plan) and [sensor review](sensor-candidate-review.md). Grounding/isolation and power-stage selections remain TBD for later review.
-
 
 **Motherboard packaging, 2026-10-09 (ADR-0044):** [power and sync share one PCB](../../hardware/motherboard/README.md); the Jetson carrier stays separate. The sync MCU and power sections below list components for that same motherboard, not separate bare boards. A stacking header is not required in this plan.
 
@@ -109,7 +106,6 @@ Both use [our custom ARC IMU PCB](../../hardware/sensor-boards/imu/README.md) un
 | Lower-cost alternative — 🟡 **Not selected** | ST **LSM6DSOTR** | [C2655100](https://jlcpcb.com/partdetail/STMicroelectronics-LSM6DSOTR/C2655100) | **$3.88**, historical snapshot | LGA-14; SPI; interrupt | Different registers/pins need review; not added to the selected BOM. |
 
 Mount both selected IMUs away from switching currents and on vibration-isolated mounts. Configure and measure actual bandwidth, delay, clipping, temperature drift and installed timestamps; selecting the part does not close SYS-06 / SYS-07 / SYS-10 qualification. [ST datasheet](https://www.st.com/resource/en/datasheet/ism330dhcx.pdf) and [sensor review](sensor-candidate-review.md).
-
 
 ### Wheel, suspension and steering position
 

@@ -5,8 +5,6 @@
 - **Side A:** custom Orin carrier / Orin platform, E-02 (owner TBD)
 - **Side B:** sync MCU board / firmware, E-30 (owner TBD)
 - **Traces to:** SYS-05, SYS-07, SYS-08, SYS-19, SYS-24, SYS-29, SYS-30, ADR-0021, ADR-0022, ADR-0023, ADR-0025, ADR-0031, ADR-0039, RSK-01
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-13
 - **Related work:** [#102](https://github.com/Autonomous-Robotics-Carleton/arc-monorepo/issues/102); physical release depends on #98 / #101
 
 The carrier is the Antmicro fork under ADR-0025. Freeze its revision before assigning module / connector contacts. This interface controls timing, Ethernet and the proposed shutdown handshake; CSI camera data, motor commands and the power-board stack have separate interfaces. This document does not choose camera modules or approve a device tree.

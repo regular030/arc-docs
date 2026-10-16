@@ -4,8 +4,6 @@
 - **Source:** Antmicro board revision 1.3.4, commit `34f0e7f5fbca441191e20ed55d93cf8614e12bed`; [source lock](../../hardware/orin-carrier/upstream-lock.json), [source schematics](../../hardware/orin-carrier/upstream/jetson-orin-baseboard.kicad_sch)
 - **Source licence:** Apache-2.0; [upstream licence](../../hardware/orin-carrier/upstream/LICENSE)
 - **Traces to:** E-02, ADR-0025, SYS-07, SYS-08, SYS-24, RSK-01
-- **Last editor:** Kunshpreet Baweja
-- **Last edited:** 2026-10-12
 
 This table contains **every unique component reference** in the ten pinned KiCad schematic sheets. Multi-unit symbols are counted once per reference: **678 symbol instances → 669 unique references → 121 grouped rows**. References remain explicit so every resistor/capacitor/IC/connector can be found. Grouping requires matching value, manufacturer, MPN, footprint and population flags; different DNP options stay separate.
 
