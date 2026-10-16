@@ -1,6 +1,6 @@
 # ARC 4WD Car: Architecture Overview (v1)
 
-Rewritten 2026-10-03 from the original interface spec (Sep 23, 2026, @shrikar vempati). This is the narrative overview. The decisions and numbers live in `requirements/`, `adr/`, `icd/`, `bom/` and `budgets/`; where this page and those disagree, those win. Current EE parts, board ownership and wiring are in the [parts list](bom/pcb-parts-selection.md) and [wiring plan](bom/motherboard-wiring.md). The existing topology page (`topology.html`) is retained at its upstream revision; newer EE decisions, including the sensor inventory in ADR-0052 and camera/storage selection in ADR-0053, are recorded in these Markdown documents.
+Rewritten 2026-10-03 from the original interface spec (Sep 23, 2026, @shrikar vempati). This is the narrative overview. The decisions and numbers live in `requirements/`, `adr/`, `icd/`, `bom/` and `budgets/`; where this page and those disagree, those win. The diagram version is the topology page (`topology.html`).
 
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-13
@@ -89,7 +89,7 @@ The [updated EE sizing review](adr/0048-ee-sizing-after-custom-corners.md) uses 
 
 ## Compute and software
 
-- **Orin NX 16GB** on a fork of Antmicro's open baseboard: four 22-pin CSI ports, a trigger connector to the sync board, a fixed compute-rail input, M.2 key M (swappable 500 GB NVMe under ADR-0053) and key E (MT7922 Wi-Fi), GbE, and expansion GPIO for the hotspot button. Optional Intel i210/i226 NIC if a PCIe lane is free (ADR-0021).
+- **Orin NX 16GB** on a fork of Antmicro's open baseboard: four 22-pin CSI ports, a trigger connector to the sync board, a fixed compute-rail input, M.2 key M (swappable 4 TB NVMe) and key E (MT7922 Wi-Fi), GbE, and expansion GPIO for the hotspot button. Optional Intel i210/i226 NIC if a PCIe lane is free (ADR-0021).
 - **JetPack 7.2.1** (Ubuntu 24.04, kernel 6.8), **ROS 2 Jazzy**, **PREEMPT_RT**. Platform software runs on reserved cores; experiments run in containers with resource limits (ADR-0016, SYS-21).
 - **Layered control:** learned policies send targets to the classical controller. The safety envelope is enforced on the sync MCU (SYS-22).
 - **Bench reference:** the Traxxas car's Orin Nano dev kit takes the NX module, so cameras and software come up there first.
@@ -103,8 +103,8 @@ The sync MCU (STM32H723, Zephyr) owns the car's time base. It timestamps sensors
 | 2D LiDAR | Hokuyo UST-10LX (10 m, 0.25°) | 40 Hz | Ethernet switch |
 | Forward stereo | Arducam AR0234 (global shutter) | Native | CSI 1, triggered |
 | Side/rear cameras | Arducam quad OV9281 | Native | CSI 2, triggered |
-| Forward mono camera | Arducam B0223 OV9281 (ADR-0053) | TBC: 1280 × 800 at 80 fps | CSI 3, frame trigger |
-| Ground-speed camera | B0223, downward; cross-polarized LED, grazing LED and Class 1 speckle options retained (ADR-0053) | TBC: 640 × 400 at 240 fps | CSI 4, frame trigger |
+| Forward event camera | Prophesee GenX320 | Continuous | CSI 3, Trigger In |
+| Ground-speed camera | Second GenX320, pointing down, three lighting modes (cross-polarized LED, grazing LED, Class 1 laser speckle) | Continuous | CSI 4, Trigger In (ADR-0014) |
 | IMU at CG | ST ISM330DHCXTR on our custom IMU PCB (ADR-0050, ADR-0051) | ≥ 4 kHz | Sync SPI + DRDY |
 | IMU, front axle | ST ISM330DHCXTR, same custom IMU PCB (ADR-0050, ADR-0051) | ≥ 4 kHz | Sync SPI + DRDY |
 | Wheel encoders ×4 | AS5047 on the wheel output shaft | 2 kHz | Sync SPI |
@@ -116,7 +116,7 @@ The sync MCU (STM32H723, Zephyr) owns the car's time base. It timestamps sensors
 
 Latency from sample to the Orin is ≤ 2 ms for sync-board sensors and VESC telemetry (SYS-29, `budgets/latency.csv`).
 
-ADR-0050 selects ISM330DHCXTR for both IMU sites and separate AS5047P angle boards; ADR-0052 selects in-house assembly for all sixteen sensor boards on one car. [Sensor qualification](bom/sensor-candidate-review.md) still needs installed timing, calibration, vibration and slip-estimation evidence. ELPM remains an unselected suspension alternative. Deriving the downward camera's scale from the four corner-height ToFs requires a reviewed mounting/geometry model (TBD); corner ride height alone does not establish the camera's local scale. [PCB estimate](bom/jlc-pcba-cost-estimate.md) retains the 30% allowance. The [total electrical estimate](bom/total-electrical-cost.md) adds bought hardware and estimated HST. ADR-0053 selects eight frame cameras and a 500 GB NVMe; ground-speed accuracy, packed logging and installed sustained writes remain unqualified.
+ADR-0050 selects ISM330DHCXTR for both IMU sites and separate AS5047P angle boards; ADR-0052 selects in-house assembly for all sixteen sensor boards on one car. [Sensor qualification](bom/sensor-candidate-review.md) still needs installed timing, calibration, vibration and slip-estimation evidence. ELPM remains an unselected suspension alternative. Deriving the downward camera's scale from the four corner-height ToFs requires a reviewed mounting/geometry model (TBD); corner ride height alone does not establish the camera's local scale. [PCB estimate](bom/jlc-pcba-cost-estimate.md) retains the 30% allowance. The [total electrical estimate](bom/total-electrical-cost.md) adds bought hardware and estimated HST.
 
 ## Communication
 
@@ -150,7 +150,7 @@ Mechanical design is at the block layout (`mechanical/layout-brief.md`, `mechani
 - **Mass:** heavy parts (battery, motors, motor controllers) on the lower deck. The upper deck carries a hole grid for sensors.
 - **Front corners must fit:** staggered motors, both gear stages, CVDs, wheel encoders, suspension sensors, knuckle encoders and the steering actuator, at full lock and full bump (RSK-04).
 - **Underfloor:** reserve a flat volume for the active-aero suction fan, plus the ground-speed camera's floor window and shroud, and the 4 corner ToF sensors. The dead-wheel pod's space is reserved as the ground-speed fallback.
-- **Clear sightlines:** LiDAR with a clear 270°+ field of view and a crash guard; rigid stereo bar; positions for side/rear and forward mono cameras; Wi-Fi antennas high and clear of carbon-filled parts.
+- **Clear sightlines:** LiDAR with a clear 270°+ field of view and a crash guard; rigid stereo bar; positions for side/rear and event cameras; Wi-Fi antennas high and clear of carbon-filled parts.
 - **Mounting:** IMU at the CG and the second IMU near the front axle, both vibration-isolated.
 - **Access:** service port, hotspot button and e-stop button on the chassis.
 - **Cooling:** for the Orin, and airflow over the motor controllers on the deck (the per-corner current in `budgets/power-scenarios.md` against 40 A continuous with the heatsink; airflow is sized once the deck is modelled).

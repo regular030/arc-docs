@@ -41,7 +41,7 @@ Known first users (from `architecture.md`, TBC): MPC research, head-to-head raci
 | SYS-07 | All sensor samples carry timestamps on one time base, aligned to within ≤ 10 µs between any two sensors (LiDAR ≤ 1 ms); µs-critical sensors are timestamped in the sync MCU's clock (ADR-0021) | Sensor fusion and MPC (mission 1); aligned training data (mission 2) | T | Draft |
 | SYS-08 | Onboard compute, while running a learned policy that fits in 16 GB alongside the platform software (ADR-0010) at ≥ 5 Hz, also runs localization at 40 Hz, camera perception at ≥ 30 Hz with ≤ 50 ms camera-to-output latency, and MPC at ≥ 100 Hz with < 0.1% missed deadlines | Missions 1 and 2; the parent for the compute module choice | T | Draft |
 | SYS-09 | All sensor streams are logged onboard for a full run (≥ SYS-03) | Training data (mission 2) and fault attribution (mission 3) | D | Draft |
-| SYS-10 | Measure ground velocity directly, forward and sideways (ADR-0053), and per-wheel speed, well enough to estimate slip ratio and sideslip to within ±2% (TBC) | MPC on a low-grip surface (mission 1) | T | Draft |
+| SYS-10 | Measure ground velocity directly, forward and sideways (ADR-0014), and per-wheel speed, well enough to estimate slip ratio and sideslip to within ±2% (TBC) | MPC on a low-grip surface (mission 1) | T | Draft |
 | SYS-11 | Manual teleop latency, gamepad event to wheel response, ≤ 20 ms p95 and ≤ 50 ms p99 | Demonstration data quality (mission 2) | T | Draft |
 | SYS-12 | LiDAR and cameras survive a frontal impact at `TBD` m/s with no damage | Testing will crash the car | T | Draft |
 | SYS-13 | Swapping one corner (motor, gearbox; the motor controller stays on the deck, ADR-0034) takes ≤ `TBD` min, with no code changes (config only: the controller loads that motor's saved configuration) | Modularity, serviceability | D | Draft |
@@ -74,13 +74,12 @@ Places where v1 hardware deliberately limits what software can do. Each was chos
 | --- | --- | --- | --- | --- |
 | LIM-01 | Onboard models must fit in the Orin NX's 16 GB alongside the platform software; 7B-class VLAs are out | Carrier, power and cost for v1; the classical stack comes first | ADR-0010 | v2 compute (Thor T4000 class) |
 | LIM-02 | 2D LiDAR: one plane, 40 Hz, 10 m, ±40 mm | Standard for 1/10 racing; 3D scanners are slower and bigger | ADR-0001 | v2 if 3D perception becomes a goal |
-| LIM-03 | *Deleted:* event cameras are 320 × 320 | GenX320 pair replaced by frame cameras; event capability now covered by LIM-09 | ADR-0014, ADR-0053 | — |
+| LIM-03 | Event cameras are 320 × 320 | Only small, low-power MIPI event sensor | ADR-0014 | Higher-resolution event sensors in v2 |
 | LIM-04 | Ride height from ToF: ~10–20 ms per reading, mm-level noise | Laser triangulation rejected on cost | ADR-0007, BOM E-26 | If aero needs µm-level ride height |
-| LIM-05 | No room to add hardware without a change: all four CSI ports used. (The CAN controllers were all used too until ADR-0034 freed two) | Tight integration in v1; modularity is a v2 goal | ADR-0053, ADR-0034 | v2 modular car |
+| LIM-05 | No room to add hardware without a change: all four CSI ports used. (The CAN controllers were all used too until ADR-0034 freed two) | Tight integration in v1; modularity is a v2 goal | ADR-0014, ADR-0034 | v2 modular car |
 | LIM-06 | The sync MCU is a single point of failure: if it dies, data stops, steering holds, and the VESCs time out and brake | Fails safe; redundancy isn't worth the complexity in v1 | ADR-0017, ADR-0019 | If S5 shows sync-MCU failures |
 | LIM-07 | Wheel forces and tire temperature aren't measured directly (forces are estimated from suspension angle × spring rate and motor current; tire temperature dropped). The A50S's ±~165 A current full scale makes the motor-current signal coarse at the currents in `budgets/power-scenarios.md` (ADR-0034) | No requirement needed them in v1 | ADR-0006, ADR-0034 | If vehicle-dynamics research needs them |
 | LIM-08 | Raw data from a full run can't be streamed live over Wi-Fi; it comes off on the swappable NVMe | Wi-Fi bandwidth; everything is still logged onboard at full rate | ADR-0015 | — |
-| LIM-09 | No event-camera output: E-13 and E-25 are global-shutter frame cameras | B0223 pair selected on purchase cost; timing, ground-speed and full-run logging requirements still apply | ADR-0053 | Event-vision experiments need a hardware change |
 
 ## Spec items with no parent yet
 
@@ -88,6 +87,6 @@ Mission 4 (sensors already there) gives the sensor suite a parent. The rule stil
 
 | Spec item | Parent | Question to answer |
 | --- | --- | --- |
-| Four CSI ports, forward mono camera, quad side/rear cameras | SYS-08, mission 4 | Which first experiment uses the forward mono and side/rear views? |
+| Four CSI ports, event camera, quad side/rear cameras | SYS-08, mission 4 | Which first experiment uses side/rear views and the event camera? |
 | Second IMU | SYS-06, mission 4 | Which experiment uses it? |
 | Steering torque (moteus-c1 q-axis current, ADR-0019) as a grip proxy | SYS-10, mission 4 | Used in v1 or just logged? |

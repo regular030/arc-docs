@@ -19,18 +19,18 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0011](0011-vesc-telemetry-link.md) | VESC 6.4 fork; telemetry on two CAN-FD buses, commands on the classic bus | Superseded by 0034 |
 | [0012](0012-estop-controlled-braking.md) | E-stop: controlled braked stop, then hardware torque cut | Accepted, amended by 0019 and 0034 |
 | [0013](0013-canfd-physical-layer.md) | CAN-FD physical layer: daisy-chain, discrete transceivers, rework-only fallbacks | Superseded by 0036 |
-| [0014](0014-ground-speed-event-camera.md) | Ground speed: downward event camera with three lighting modes; dead-wheel pod as fallback | Superseded by 0053; illumination and fallback retained |
+| [0014](0014-ground-speed-event-camera.md) | Ground speed: downward event camera with three lighting modes; dead-wheel pod as fallback | Accepted |
 | [0015](0015-ground-link.md) | Ground link: team router (Flint 3), laptop gateway, button hotspot, wired service port | Accepted |
 | [0016](0016-orin-software-platform.md) | Orin: JetPack 7.2.1, Ubuntu 24.04, ROS 2 Jazzy, PREEMPT_RT, experiments in containers | Accepted |
 | [0017](0017-sync-mcu-rtos.md) | Sync MCU firmware on Zephyr | Accepted |
 | [0018](0018-steering-actuator.md) | Steering: VESC-driven brushless actuator, belt reduction, return-to-centre on e-stop | Superseded by 0019 |
 | [0019](0019-steering-off-the-shelf-controller.md) | Steering: moteus-c1 + belt actuator on its own CAN-FD bus; integrated actuator (CubeMars AK class) as fallback | Accepted, amended by 0034 and 0038 |
 | [0020](0020-time-sync-ptp.md) | Time sync: PTP with hardware timestamping through a PTP-aware switch | Superseded by 0021 |
-| [0021](0021-time-sync-sync-mcu-domain.md) | Time sync: µs-critical sensors timestamped in the sync MCU's clock; Orin synced in software; optional i210/i226 | Accepted; camera scope amended by 0053 |
+| [0021](0021-time-sync-sync-mcu-domain.md) | Time sync: µs-critical sensors timestamped in the sync MCU's clock; Orin synced in software; optional i210/i226 | Accepted |
 | [0022](0022-power-board-telemetry-and-shutdown.md) | Power-board data to the sync MCU over I2C with fault interrupts; two-tier low-battery shutdown | Proposed (recommendation) |
 | [0023](0023-no-orin-i210-nic.md) | No i210/i226 network card on the Orin carrier in v1; sync MCU stays on the switch | Proposed (recommendation) |
 | [0024](0024-telemetry-latency.md) | Telemetry stamped at sampling, forwarded within 0.25 ms; SYS-29 measured at the driver process, p99 | Accepted, amended by 0034 |
-| [0025](0025-orin-carrier-antmicro-fork.md) | Orin carrier is a fork of Antmicro's open Jetson baseboard | Accepted (backfilled); camera scope amended by 0053 |
+| [0025](0025-orin-carrier-antmicro-fork.md) | Orin carrier is a fork of Antmicro's open Jetson baseboard | Accepted (backfilled) |
 | [0026](0026-staggered-transverse-motors.md) | One motor per wheel; transverse, inboard, staggered fore and aft | Superseded by 0046; layout carried forward |
 | [0027](0027-suspension-family.md) | Suspension, steering and wheel parts from a competition touring car (XRAY X4 family) | Superseded by 0040 (never accepted) |
 | [0028](0028-software-targets.md) | Every software component builds for simulation, development hardware and the car, from one source | Accepted, amended by 0034 |
@@ -54,5 +54,4 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0050](0050-common-imus-and-in-house-angle-boards.md) | ISM330DHCXTR at both IMU sites; separate AS5047P boards assembled in house; CAD funding basis | Superseded by 0052; selected parts retained |
 | [0051](0051-custom-imu-and-height-sensor-pcbs.md) | ARC-designed remote IMU and ground/ride-height PCBs; existing sensor quantities and assembly cost assumptions retained | Superseded by 0052; ARC PCB ownership retained |
 | [0052](0052-one-car-sensor-counts-and-in-house-assembly.md) | One-car funding scope; ten angle, two IMU and four corner-height boards, all sensors assembled in house | Accepted (owner quantities/locations/process; design and ground-camera scale qualification pending) |
-| [0053](0053-b0223-frame-cameras-and-500gb-storage.md) | B0223 frame cameras replace both GenX320 modules; 500 GB swappable NVMe | Accepted; driver, ground-speed and logging qualification pending |
 | [0054](0054-no-motor-controller-spares.md) | One-car procurement: four A50S drive controllers and one steering controller; no purchased controller spares | Accepted (owner procurement scope) |

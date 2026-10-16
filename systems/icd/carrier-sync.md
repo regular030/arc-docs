@@ -4,7 +4,7 @@
 - **Status:** Draft logical interface; carrier revision, module contacts, GPIO mapping and connector pinout TBD
 - **Side A:** custom Orin carrier / Orin platform, E-02 (owner kunshpreet)
 - **Side B:** sync MCU board / firmware, E-30 (owner kunshpreet)
-- **Traces to:** SYS-05, SYS-07, SYS-08, SYS-19, SYS-24, SYS-29, SYS-30, ADR-0021, ADR-0022, ADR-0023, ADR-0025, ADR-0031, ADR-0039, ADR-0053, RSK-01
+- **Traces to:** SYS-05, SYS-07, SYS-08, SYS-19, SYS-24, SYS-29, SYS-30, ADR-0021, ADR-0022, ADR-0023, ADR-0025, ADR-0031, ADR-0039, RSK-01
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-13
 - **Related work:** [#102](https://github.com/Autonomous-Robotics-Carleton/arc-monorepo/issues/102); physical release depends on #98 / #101
@@ -19,8 +19,8 @@ The carrier is the Antmicro fork under ADR-0025. Freeze its revision before assi
 | PPS_SYNC | Sync → carrier GPIO → Orin timestamp capture | PPS cross-check of software clock alignment; Orin mapping ≤1 ms under ADR-0021. Store observed edges in the timing evidence | Module/carrier GPIO, voltage domain / translator, polarity, pulse width, termination/filtering and device tree TBD |
 | FRAME_TRIGGER_STEREO | Sync → carrier routing → stereo module trigger | Sync timestamp/sequence paired to camera frame; part of four trigger outputs plus spare | Exact module input, level / polarity / pulse width, shared stereo triggering and cable contacts TBD |
 | FRAME_TRIGGER_QUAD | Sync → carrier routing → quad kit trigger | Same acquisition-time/sequence contract | Exact kit trigger access / synchronization, levels and contacts TBD |
-| FRAME_TRIGGER_FRONT | Sync → carrier routing → forward B0223 frame-trigger input | Sync timestamp/sequence paired with each frame under ADR-0021 / ADR-0053; rate/mode TBC | Delivered module trigger breakout, voltage, polarity, pulse timing, contacts and driver support TBD; RSK-01 |
-| FRAME_TRIGGER_DOWN | Sync → carrier routing → downward B0223 frame-trigger input | Same acquisition-time/sequence contract; exposure/lighting timing TBC | Delivered module trigger breakout, translator, connector and ground-optics timing TBD; RSK-01 / RSK-07 |
+| EVENT_SYNC_FRONT | Sync → carrier routing → forward GenX320 Trigger In | Periodic pulse (~100 Hz) timestamped in sync-MCU time (ADR-0021) | Module Trigger In breakout, voltage, polarity, pulse width, contacts and driver support TBD; RSK-01 |
+| EVENT_SYNC_DOWN | Sync → carrier routing → downward GenX320 Trigger In | Same contract as the forward event camera; lighting timing TBC | Module Trigger In breakout, translator, connector and ground-optics timing TBD; RSK-01 / RSK-07 |
 | TRIGGER_SPARE | Sync → reserved contact | Spare in the sync I/O tally | No load or pin assignment selected |
 | ORIN_SHUTDOWN_REQ | Sync → reviewed carrier input | Proposed ADR-0022 low-battery shutdown request, plus platform message | Confirm actual module/carrier power-button or equivalent input and allowed levels; driver, polarity and duration TBD |
 | ORIN_HALTED / POWER_REMOVE_OK | Reviewed carrier/platform output → power board; sync observes if required | Proposed confirmation before normal compute-rail removal under SYS-30 | Confirm actual signal and whether it means halt / shutdown request / power removal permission. Module contact, translation, route and timeout TBD |
@@ -30,11 +30,11 @@ Physical pin numbers / connector MPNs are **TBD**. GPIO-level translation must m
 
 ## Timing and platform contract
 
-- Sync records trigger acquisition time and sequence before forwarding to Orin. Orin arrival time does not replace trigger time. The camera pipeline pairs each frame to the correct sequence; missing edges/frames and time-map drift are logged. All four camera groups use frame triggers under ADR-0053; periodic event-clock sync pulses are removed from the installed interface.
+- Sync records trigger acquisition time and sequence before forwarding to Orin. Orin arrival time does not replace trigger time. The camera pipeline pairs each frame to the correct sequence; missing edges/frames and time-map drift are logged. The frame cameras use frame triggers; the two GenX320s get a periodic pulse on Trigger In (ADR-0021).
 - Use the sync-MCU time domain. Orin follows in software to ≤1 ms, with PPS as cross-check; camera/vehicle-state alignment remains governed by SYS-07 and end-to-end sample delivery by SYS-29. Exact GPIO capture and translator delays must be measured and accounted for.
 - Optional Intel NIC / point-to-point Ethernet remains governed by ADR-0021 and proposed ADR-0023. This draft does not select it or silently reroute the baseline through a direct Ethernet header.
 - UDP ports, MAVLink messages, schema version and link counters remain in [sync-link](sync-link.md) / `sync-link.xml`. No encoding change or generated-code edit is made here.
-- GPIOs start in documented safe states, do not back-power an unpowered peer and never grant drive permission. The independent stop path remains separate; shutdown/reboot/network recovery cannot clear the ADR-0039 fault latch.
+- GPIOs start in documented safe states, do not back-power an unpowered peer and never grant drive permission. The e-stop path remains separate; shutdown/reboot/network recovery cannot clear the ADR-0039 fault latch.
 
 ## Verification and release
 
