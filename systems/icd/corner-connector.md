@@ -1,12 +1,12 @@
 # ICD-corner-connector
 
-- **Revision:** F (2026-10-09). Records the A50S UART pins, the sensor-board runs that bypass this interface (ADR-0052) and the grounding review (ADR-0042). Rev E and earlier are superseded. Motor phases and Hall/built-in-temperature wiring still run from each corner to its controller on the deck; actual contacts and motor sensor mapping remain TBD.
+- **Revision:** F (2026-10-09). Records the A50S UART pins, the sensor-board runs that bypass this interface (ADR-0052) and the grounding review (ADR-0042). Rev E and earlier are superseded. Motor phases and the Hall cable still run from each corner to its controller on the deck; actual contacts and motor sensor mapping remain TBD.
 - **Status:** Draft. Needs Molex pin numbering against Triforce's pinout layout, and sign-off from both owners.
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-12
 - **Side A:** corner assembly: motor (E-51), gearbox (owner kunshpreet)
 - **Side B:** chassis harness, the motor controllers on the deck (E-50), sync board, power board e-stop circuit (owner kunshpreet)
-- **Traces to:** ADR-0042, SYS-05, SYS-13, SYS-19, SYS-25, ADR-0008, ADR-0009, ADR-0012, ADR-0034, ADR-0046, ADR-0052, RSK-11
+- **Traces to:** ADR-0042, SYS-05, SYS-13, SYS-19, SYS-25, ADR-0008, ADR-0009, ADR-0012, ADR-0034, ADR-0052, RSK-11
 
 The wheel, suspension and front knuckle angle boards and the corner ToF boards do not pass through the motor interface below; they wire directly to the motherboard's sync section (ADR-0008, ADR-0052). The [wiring schedule](../bom/motherboard-wiring.md) budgets four sensor runs / 26 conductors per front corner and three runs / 19 conductors per rear corner, including spares (TBC).
 
@@ -18,7 +18,7 @@ Two connections per corner, both crossing the suspension.
 | --- | --- |
 | Motor phases | 3 leads, motor to its controller on the deck. Connector at the corner boundary `TBD` (the A50S end is an MR30) |
 | Phase current | Per corner at 1 g: `budgets/power-scenarios.md` (TBC); bursts set by the controller's current limit |
-| Hall / built-in temperature cable | Buy a motor with a compatible built-in temperature sensor (ADR-0046). Hall A/B/C, Hall supply, GND and temperature use six conductors only if the verified sensor shares that return (TBC); otherwise the exact compatible cable/interface is TBD. Sensor type/curve and contacts must be documented before buying. No E-28 fallback. Routed away from phase leads |
+| Hall sensor cable | The Castle 1010's 6-pin sensor cable (210 mm supplied), extended to the deck. Halls A, B, C, 5 V and GND; whether it carries a motor thermistor is undocumented (the 1010 isn't ROAR certified), so check on arrival; otherwise E-28 on the can. The plug where the motor leads leave the corner keeps one spare contact for an E-28 lead. Routed away from the phase leads |
 | Length | Corner to deck, `TBD` from the CAD layout; as short as the layout allows |
 
 ## Motor controller connections (on the deck)
@@ -74,7 +74,7 @@ Controlled braked stop, then a hardware torque cut (SYS-05, ADR-0012 as amended 
 1. Confirm the provisional circuit numbers above on the first unit (5 V at circuit 9, 3.3 V at circuit 10).
 2. ESTOP logic level (3.3 or 5 V; the PPM pin takes either) and driver: the power board sources it; the current per controller.
 3. Whether the Aux power input is fed from an always-on rail (telemetry and logging survive the motor-bus cut).
-4. Compliant built-in-temperature motor choice, sensor type/curve, Hall/temp pinout and the corner connectors; lengths from the CAD layout (ADR-0046).
+4. The connector at the corner boundary for the phase leads and the Hall cable, with a spare contact for an E-28 lead; lengths from the CAD layout.
 5. Grounding review under proposed ADR-0042: rated return branches / collection point, no accidental parallel motor return through communication wiring, UART reference currents/logic margins and measured CAN common-mode margins. See [grounding proposal](../adr/0042-grounding-and-isolation.md); acceptance remains pending.
 6. Brake ramp, target deceleration and delay T (ADR-0012).
 7. Four operating UARTs: actual PB10/PB11 contacts, H723 pin/DMA assignment, source-clock alignment, 3.3 V ground/reference margins and power-off behavior remain unqualified. See [UART readiness](../reviews/a50s-uart-readiness.md).

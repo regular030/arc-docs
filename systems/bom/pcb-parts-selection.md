@@ -13,7 +13,7 @@ This is the main-component selection list for schematic capture. It supplements 
 
 **Controller baseline:** four A50S V2.3c on the deck plus two spares under ADR-0034, with **four independent 2 Mbit/s UARTs**, full ≥1 kHz status per controller, with classic CAN commands kept separate. The moteus steering FD link remains separate. Controllers are bought from Triforce (ADR-0034); landed quote TBD.
 
-**Latest main reconciled, 2026-10-12:** upstream `5a59c53` selects custom corners (ADR-0040), **100 mm wheels / 18:1 gearing / TBC 4–5 kg**. Review **TBC 36–43 A pack peak, 16–20 A phase current per corner, and 160–200 J / 185–230 W regen** in [ADR-0048](../adr/0048-ee-sizing-after-custom-corners.md). Dump-resistor sizing remains open. One power/sync motherboard, separate carrier and compatible built-in motor temperature remain required.
+**Latest main reconciled, 2026-10-12:** upstream `5a59c53` selects custom corners (ADR-0040), **100 mm wheels / 18:1 gearing / TBC 4–5 kg**. Review **TBC 36–43 A pack peak, 16–20 A phase current per corner, and 160–200 J / 185–230 W regen** in [ADR-0048](../adr/0048-ee-sizing-after-custom-corners.md). Dump-resistor sizing remains open. One power/sync motherboard and a separate carrier remain the plan.
 
 **UART readiness:** calculated status-stream load is **29.5% per 2 Mbit/s link at 1 kHz**. Both firmware endpoints are still stubs; clock alignment, DMA ownership, fault handling, forwarding and loaded ground/reference margins need qualification. PB10/PB11 are the A50S's USART3 TX/RX. See [UART ICD](../icd/controller-telemetry.md), [source review](../reviews/a50s-uart-readiness.md) and [arrival checks](../tests/a50s-arrival.md).
 
@@ -39,7 +39,7 @@ Green selection markers below mean existing or recommended choices; alternatives
 | **Jetson carrier** | **1** | Module / M.2 / CSI sockets, SiC431 local power, AXC level translation, optional debug bridge, port protection | Orin NX module, NVMe, Wi-Fi, Ethernet switch, sync PPS / GPIO |
 | **Motherboard — sync section** | **1 shared PCB** | H723, LAN8742 PHY, steering MCP2518FD, 1 FD + 1 classic transceivers, 40 MHz crystal, TCA9548 mux, quiet sensor LDOs | Remote IMUs / angle / ToF sensors, power-board monitors, classic command CAN, steering FD, four A50S UARTs, Ethernet switch |
 | **Motherboard — power section** | **Same PCB** | LM5176 / LM5146 / TPS54360 rails, ORing, INA226 monitors / shunts, LTC6810 cell monitor, steering switch, protection | Battery / wall input, carrier / sensor / logic branches, steering, and e-stop interfaces TBD |
-| **Bought A50S controllers** | **4 installed + 2 spares** | Bought power stages, Hall/built-in-temperature inputs and USART3 | Motor phases / Hall / built-in temperature to deck; classic command trunk; four 2 Mbit/s UARTs to motherboard |
+| **Bought A50S controllers** | **4 installed + 2 spares** | Bought power stages, Hall and motor-temperature inputs and USART3 | Motor phases, Hall cable and any E-28 lead to deck; classic command trunk; four 2 Mbit/s UARTs to motherboard |
 | **Bus clamp** | **1 assembly** | Comparator, reference, gate driver, dump FET, autonomous local supply | Motor bus; external chassis-mounted dump resistors; **quantity TBD**. May share the power-board assembly |
 | **ARC angle-sensor PCBs** | **10 per car** | AS5047P and reviewed local support; assembled in house | Separate remote PCBs → motherboard SPI/individual CS; mounting and 2-layer layout TBC |
 | **ARC IMU PCBs** | **2 per car** | ISM330DHCXTR and local support, assembled in house, on [our reusable IMU PCB](../../hardware/sensor-boards/imu/README.md) | Body/CG and front → motherboard SPI + separate CS/DRDY; outline and stackup TBC |
@@ -79,7 +79,7 @@ Use this summary for the first schematic pass; detailed alternatives, sourcing a
 
 **Installed state-sensor chips: USD $69.7824 / CAD $99.59 per car**: `(10 × $4.231 AS5047P) + (2 × $5.7392 ISM330DHCXTR) + (5 × $3.1988 VL53L4CD)`, from loose LCSC purchasing at the actual 10+ / 1+ / 1+ tiers. Conversion uses 1.4271 CAD/USD dated 2026-10-09. These 17 fitted chips are included in the funding model; support parts, magnets, PCB fabrication, shared assembly consumables and shipping are separate.
 
-**Motor procurement — 🟢 owner requirement (ADR-0046):** buy all four drive motors with **built-in temperature sensors compatible with the A50S input**. No separate motor-can thermistor, temperature PCB or motherboard ADC channel is required. The exact motor, sensor type/curve, pinout and price remain **TBD**; Castle 1010 is not approved for purchase until its built-in sensing is established. See [the recorded decision](../adr/0046-built-in-motor-temperature.md).
+**Motor temperature:** the four Castle 1010s (E-51) go to their A50S's motor-temp input. Castle doesn't document a thermistor on the 1010's sensor cable, so four E-28 NTCs are bought with the motors as a fallback; no temperature PCB or motherboard ADC channel is needed.
 
 ## Colour key and price basis
 
@@ -227,7 +227,7 @@ The steering FD controller, crystal and transceiver are in the sync MCU section.
 
 Each A50S USART3 TX (PB10) goes to its assigned H723 RX; RX (PB11) receives from that H723 TX. The proposed harness is **five conductors per run / 20 across four runs, TBC**, including paired references and one spare per run. Do not parallel controller supply outputs or release the return wiring before the grounding review. See [wire schedule](motherboard-wiring.md), [UART ICD](../icd/controller-telemetry.md) and [readiness review](../reviews/a50s-uart-readiness.md).
 
-**E-stop:** a standard latching button (E-32) pulls ESTOP low on all four A50S; their firmware brakes on the ramp and the power section cuts the motor bus after T (SYS-05, ADR-0012, ADR-0034). Buy motors with compatible built-in temperature sensing under ADR-0046; verify their pinouts, conversion curves and A50S telemetry before release.
+**E-stop:** a standard latching button (E-32) pulls ESTOP low on all four A50S; their firmware brakes on the ramp and the power section cuts the motor bus after T (SYS-05, ADR-0012, ADR-0034). Motor temperature comes from the Castle's own sensor if it has one, otherwise from E-28 on the can; verify on arrival.
 
 ## Motor-bus clamp
 
@@ -258,7 +258,7 @@ Use [ICD-corner-connector Rev H](../icd/corner-connector.md) for corner-to-deck 
 | Power-side cut / steering timing | **TBD** | Final timing circuitry and quantities depend on the power sequence |
 | CSD18540 power-board / clamp candidates | **9** | 4 buck-boost + 2 main buck + 2 ORing + 1 clamp; excludes any further switch / parallel FETs |
 
-The selected **17 installed state-sensor ICs** cost **USD $69.7824 / CAD $99.59 per car**: ten loose AS5047P, two ISM330DHCXTR and five ToFs. All sensor boards are assembled in house (ADR-0052); no factory sensor assembly fees apply. Motor temperature remains built into the motors (ADR-0046). Magnets, support parts, bare fabrication and shared consumables are priced separately; no populated spare sensor set is included.
+The selected **17 installed state-sensor ICs** cost **USD $69.7824 / CAD $99.59 per car**: ten loose AS5047P, two ISM330DHCXTR and five ToFs. All sensor boards are assembled in house (ADR-0052); no factory sensor assembly fees apply. Magnets, support parts, bare fabrication and shared consumables are priced separately; no populated spare sensor set is included.
 
 ## External parts and remaining schematic work
 
@@ -272,7 +272,7 @@ Custom carrier / power / sync prices in the old cost budget are build allowances
 | Compute heatsink + fan | 1 | **$30–60**, existing team estimate |
 | ≥5-port unmanaged GbE switch | 1 | **$40–150**, existing team estimate; exact input rail depends on selected switch |
 | moteus-c1 steering controller | 1 | **$69**, project baseline in ADR-0019; confirm supplier quote |
-| Drive motors with built-in temperature sensors | 4 | **TBD** for the compliant motor. Historical Castle allowance $100–130 each is deprecated as a purchasing basis (ADR-0046) |
+| Castle 1010-4400kV drive motors (E-51) | 4 | $100–130 each allowance; confirm stock for four |
 
 These estimates come from [cost.csv](../budgets/cost.csv). They are context for the full car, not evidence of current JLC availability. The ground-speed lighting remains the LED modes plus a certified Class 1 module specified in [ADR-0014](../adr/0014-ground-speed-event-camera.md); select its exact module and driver once the optical test settles the load.
 
@@ -281,7 +281,7 @@ Before exporting an orderable assembly BOM, finish these specific items:
 1. **Carrier:** frozen Antmicro revision and full inherited BOM, module power mode / input path, GbE magnetics / RJ45, all local rail currents, EEPROM / sequencing / reset / fan parts, connectors and mounting heights. Confirm the four CSI connector pinouts even though camera procurement is out of scope.
 2. **Sync:** complete MCU pin map; HSE / PHY clock scheme; main MCU supply / decoupling; ToF pull-ups; sensor connectors / satellite PCBs; power-board bus and logic levels; CAN terminations / protection / optional chokes. Verify harnessed SPI before routing long runs.
 3. **Power:** branch-current peaks and steering regen path; exact converter FET suitability, inductors, diodes, compensation and capacitors; branch shunt values; branch fuses / switches; cell-tap protection / off-state isolation; internal power/sync connections and test access. A current-limit IC does not remove the physical-fuse requirement.
-4. **A50S / UART / e-stop:** retain the `a50s_v23c_12s` target and qualify bought-controller cooling / phase current; qualify four 2 Mbit/s UARTs, source timestamps/clock mapping, driver/DMA ownership and actual contacts, logic/reference/protection behavior. Preserve Hall / ESTOP / recovery. See the [readiness review](../reviews/a50s-uart-readiness.md) and [arrival checks](../tests/a50s-arrival.md). Define the fault-stop / re-arm sequence (ADR-0039). Confirm built-in motor temperature compatibility/curves and Aux-power behavior. Timer-only coasting fallback cannot pass the fab gate.
+4. **A50S / UART / e-stop:** retain the `a50s_v23c_12s` target and qualify bought-controller cooling / phase current; qualify four 2 Mbit/s UARTs, source timestamps/clock mapping, driver/DMA ownership and actual contacts, logic/reference/protection behavior. Preserve Hall / ESTOP / recovery. See the [readiness review](../reviews/a50s-uart-readiness.md) and [arrival checks](../tests/a50s-arrival.md). Define the fault-stop / re-arm sequence (ADR-0039). Confirm the motor-temperature source (Castle sensor or E-28) and Aux-power behavior. Timer-only coasting fallback cannot pass the fab gate.
 5. **Clamp / assembly:** independent startup supply and protection, final threshold, resistor pulse data and heatsink; exact power connectors, switch / loop key, wire gauges and harness crimps; sensor magnets; prototype spare quantities. Recheck price / stock through the JLC BOM tool using the final reference-designator BOM.
 
 Items in this list are required schematic / mechanical selections; their exact MPN, quantity and JLC cost remain **TBD**. A complete board total becomes meaningful once those are filled in; the tables above price the selected main components only.

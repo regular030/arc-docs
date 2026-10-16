@@ -115,7 +115,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
   - Use Triforce's supplied bulk capacitor on each XT30 cable; never tie the controllers' 5 V outputs together
   - Deck mounting and airflow: waits on the CAD model. The heatsink option is bought (decided 2026-10-07), giving 40 A continuous against the per-corner current in `budgets/power-scenarios.md`
   - Hall cable extensions and phase-lead routing across the suspension, away from command CAN, steering FD and UART pairs
-  - Motor temperature: buy motors with compatible built-in sensing (ADR-0046); no separate E-28 purchase. Exact motor/type/curve and Hall/temp pinout TBD; verify before buying and calibrate on arrival
+  - Motor temperature: Castle doesn't document a thermistor on the 1010's sensor cable, so E-28 is bought as a fallback; meter the sensor port when the motors arrive
   - No datasheet exists: ratings come from Triforce's product page, the electrical design from the upstream hardware config (`hwconf/teamtriforceuk/a50s_v23c/`)
 
 ### 4. Orin carrier (fork of Antmicro's baseboard)

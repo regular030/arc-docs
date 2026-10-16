@@ -31,7 +31,7 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0023](0023-no-orin-i210-nic.md) | No i210/i226 network card on the Orin carrier in v1; sync MCU stays on the switch | Proposed (recommendation) |
 | [0024](0024-telemetry-latency.md) | Telemetry stamped at sampling, forwarded within 0.25 ms; SYS-29 measured at the driver process, p99 | Accepted, amended by 0034 |
 | [0025](0025-orin-carrier-antmicro-fork.md) | Orin carrier is a fork of Antmicro's open Jetson baseboard | Accepted (backfilled) |
-| [0026](0026-staggered-transverse-motors.md) | One motor per wheel; transverse, inboard, staggered fore and aft | Superseded by 0046; layout carried forward |
+| [0026](0026-staggered-transverse-motors.md) | One motor per wheel; transverse, inboard, staggered fore and aft | Accepted (backfilled) |
 | [0027](0027-suspension-family.md) | Suspension, steering and wheel parts from a competition touring car (XRAY X4 family) | Superseded by 0040 (never accepted) |
 | [0028](0028-software-targets.md) | Every software component builds for simulation, development hardware and the car, from one source | Accepted, amended by 0034 |
 | [0029](0029-dev-environment.md) | One dev container for every toolchain; boards flashed from the host | Accepted |
@@ -49,6 +49,5 @@ The ADRs marked *backfilled* record decisions made before this process existed. 
 | [0042](0042-grounding-and-isolation.md) | Controlled return star / non-isolated review baseline; complete isolation alternative | Proposed (kunshpreet review) |
 | [0044](0044-combined-power-sync-motherboard.md) | Power and sync MCU share one motherboard PCB; Jetson carrier stays separate | Accepted (owner working packaging plan) |
 | [0045](0045-board-size-estimates.md) | Preliminary motherboard and Jetson PCB / installed-envelope size estimates | Proposed (TBC; placement and thermal review pending) |
-| [0046](0046-built-in-motor-temperature.md) | Buy motors with compatible built-in temperature sensors; remove separate can-mounted thermistors | Accepted (owner procurement requirement; exact motor TBD) |
 | [0048](0048-ee-sizing-after-custom-corners.md) | Align EE review with 100 mm wheels, 18:1 gearing and the revised current/regen estimates; resistor sizing reopened | Proposed (ratings and parts review pending) |
 | [0052](0052-vehicle-state-sensor-boards.md) | Vehicle-state sensors on our own small boards (AS5047P, ISM330DHCXTR, five ToF), assembled in house | Accepted |

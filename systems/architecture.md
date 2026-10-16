@@ -13,7 +13,7 @@ v1 is tightly integrated; modular hardware is a v2 goal. The car runs on an indo
 
 | Area | v1 | Decided in |
 | --- | --- | --- |
-| Drive | Four motors with compatible built-in temperature sensors (exact model TBD), one per wheel, two-stage gearbox, CVDs | ADR-0026, ADR-0046 |
+| Drive | 4× Castle 1010-4400kV, one per wheel, two-stage gearbox, CVDs | ADR-0026 |
 | Motor control | 4× A50S V2.3c (off the shelf, VESC firmware) on the lower deck | ADR-0034 |
 | Steering | Gimbal brushless motor + belt, driven by a moteus-c1 | ADR-0019 |
 | Compute | Jetson Orin NX 16GB on a fork of Antmicro's baseboard; JetPack 7.2.1, ROS 2 Jazzy | ADR-0010, ADR-0016, ADR-0025 |
@@ -27,7 +27,7 @@ v1 is tightly integrated; modular hardware is a v2 goal. The car runs on an indo
 
 **Corners.** Each corner is a motor and gearbox; we design its knuckle or upright, arms and mounts, and buy the shocks, CVDs and wheels (ADR-0040). Its motor controller sits on the lower deck (ADR-0034), and there's no corner module or corner sensor MCU (ADR-0006). The vehicle-state sensors sit on our own small boards with no MCU, assembled in house: ten AS5047P angle boards (four wheel, four suspension, two front knuckle), two ISM330DHCXTR IMU boards and five ToF boards (ADR-0052). They wire directly to the sync board (ADR-0008).
 
-**Motor:** buy motors with built-in temperature sensors compatible with the A50S input (ADR-0046). The exact compliant model is TBD; Castle 1010-4400kV remains a historical candidate pending documented sensing. Preserve the existing Hall, 2S–4S, speed and mechanical constraints; the gearing/envelope below are the inherited Castle baseline and must be rechecked for a replacement before purchase.
+**Motor:** [Castle 1010-4400kV](https://www.powerhobby.com/products/castle-creations-060-0098-00-4-pole-sensored-brushless-motor-1010-4400kv), sensored, 2S–4S.
 
 | Motor interface | Value |
 | --- | --- |
@@ -73,7 +73,7 @@ A gimbal-style brushless motor drives the steering through a ~4–6:1 belt (zero
 
 ## Power
 
-The [updated EE sizing review](adr/0048-ee-sizing-after-custom-corners.md) uses the current main scenario and reopens dump-resistor sizing. Motor-model, thermal and runtime qualification remain pending; the built-in-temperature motor has not yet been selected.
+The [updated EE sizing review](adr/0048-ee-sizing-after-custom-corners.md) uses the current main scenario and reopens dump-resistor sizing. Motor thermal and runtime qualification remain pending.
 
 4S LiPo hardcase, charged off the car at the team's charging station (a separate system; the pack is the interface, ICD-battery-pack).
 

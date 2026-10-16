@@ -14,7 +14,7 @@ Verify the active UART assignment under ADR-0034: PB10 is USART3 TX and PB11 RX.
 2. With power disconnected and capacitors discharged, establish connector mating face / latch orientation and GND contacts. Record the physical circuit map before connecting the UART harness; verify supplier evidence or continuity to the actual TX/RX pins.
 3. Check PB10 TX / PB11 RX contacts, reviewed reference returns, Hall inputs, ESTOP and SWD against the actual board. Mark unresolved access **TBD**; a firmware macro is not a pass.
 4. Check installed CAN termination and the approved removal method for intermediate nodes; inspect supplied XT30 bulk capacitors and their specified placement.
-5. Verify the selected motor's built-in temperature sensor against its manufacturer pinout and conversion curve (ADR-0046). Record type, ambient resistance/value and exact contacts; a resistance measurement alone does not establish the curve. No separate E-28 fallback is allowed. A motor without a verified compatible sensor is not released for purchase/use. Confirm phase / Hall wiring before operation; validate calibrated temperature and telemetry during powered bring-up.
+5. Meter each Castle 1010's sensor port for a thermistor (about 10 kΩ to GND at room temperature) and record its type and contacts; if there is none, fit the E-28 NTCs to the cans. Set the sensor type and curve in the VESC configuration. Confirm phase / Hall wiring before operation; validate calibrated temperature and telemetry during powered bring-up.
 
 ## Powered bring-up and recovery
 

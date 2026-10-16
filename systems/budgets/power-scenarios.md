@@ -40,7 +40,7 @@
 - E-stop circuit sources ESTOP to the four motor controllers (ADR-0012, ICD-corner-connector rev F), and after the delay T (TBC 2.4 s, after the ~1.9 s stop) switches off the motor bus to them (ADR-0034); the switched steering output goes off at T + ~1 s (ADR-0019).
 - Aero fan, when it exists, comes off the motor bus with its own controller and fuse (SYS-15).
 
-**EE reconciliation (ADR-0048):** these are scenario inputs, not released component ratings. ADR-0046 leaves the exact built-in-temperature motor TBD; recheck kV, pole count, current/gearing and runtime for that motor. The inherited resistor pair is not qualified for the revised upper regen estimate.
+**EE reconciliation (ADR-0048):** these are scenario inputs, not released component ratings. Recheck the Castle 1010's kV, pole count, current/gearing and runtime against them. The inherited resistor pair is not qualified for the revised upper regen estimate.
 
 ## Still needed from others
 

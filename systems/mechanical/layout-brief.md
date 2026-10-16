@@ -29,8 +29,6 @@ Model every component as a box first. TBD: needs a datasheet or drawing. TBC: fr
 
 **Sensor boards (ADR-0052):** ten angle (four wheel, four suspension, two front knuckle), two IMU and five ToF boards, all our own and assembled in house. Their assembled outlines, connectors and mounts remain TBD.
 
-**Motor procurement update (ADR-0046):** motors must have compatible built-in temperature sensors; the exact model remains TBD. The Castle row below is an inherited envelope/mass allowance, not an approved purchase. Recheck it, the mounts and gearing when the compliant motor is selected.
-
 | Component | Qty | Envelope (mm) | Mass (g) | Placement constraint |
 | --- | --- | --- | --- | --- |
 | 4S LiPo hardcase (~5,000 mAh; E-40 not chosen) | 1 | 138 × 47 × 40–50 (TBC, two makers' packs) | 495–589 (TBC) | **Placed first:** low, central, quick swap; bay sized for the 50 mm pack |

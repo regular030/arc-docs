@@ -5,7 +5,7 @@
 - **Last editor:** Kunshpreet Baweja
 - **Last edited:** 2026-10-12
 
-This accompanies the [parts decision list](pcb-parts-selection.md). Power and sync MCU share one motherboard; the Jetson carrier stays separate (ADR-0044). Motor temperature is built into each purchased motor and connects to its A50S (ADR-0046). The sensor inventory is ten angle (four wheel, four suspension, two front knuckle), two IMU and five ToF boards, all assembled in house (ADR-0052).
+This accompanies the [parts decision list](pcb-parts-selection.md). Power and sync MCU share one motherboard; the Jetson carrier stays separate (ADR-0044). Motor temperature reaches each A50S from the motor's sensor cable, or from an E-28 thermistor on the can. The sensor inventory is ten angle (four wheel, four suspension, two front knuckle), two IMU and five ToF boards, all assembled in house (ADR-0052).
 
 ## Board and harness diagram
 
@@ -39,7 +39,7 @@ flowchart TB
     SYNC <-->|Four independent 2 Mbit/s UARTs| DRIVE
     SYNC -->|1 Mbit/s classic CAN commands| DRIVE
     POWER -->|Hardware ESTOP distribution - interface TBC| DRIVE
-    DRIVE <-->|Phases, Hall and built-in temperature| MOTORS["Four drive motors"]
+    DRIVE <-->|Phases, Hall and motor temperature| MOTORS["Four drive motors"]
     SYNC <-->|Separate CAN-FD steering link: 5 Mbit/s data| STEER["moteus-c1 steering controller"]
     POWER -->|Steering power| STEER
     POWER -.->|Placement and interfaces TBD| CLAMP["Autonomous bus clamp / external dump load"]
@@ -116,7 +116,7 @@ Power/sync monitor buses and alerts are **internal PCB nets**, not an extra exte
 
 ## Motor wiring bypasses the motherboard sensor banks
 
-Each motor sends **three phase leads to its A50S**, plus its Hall/built-in-temperature connection. A shared-return Hall/temp implementation would use **six sensor conductors, TBC**: Hall A/B/C, Hall supply, GND and temperature. The actual motor may require a separate temperature pair or a different compatible interface; verify the supplier pinout and curve before freezing this count. Controller supply outputs must not be paralleled. Motor temperature adds **zero direct motherboard sensor runs**; it arrives in controller telemetry.
+Each motor sends **three phase leads to its A50S**, plus its 6-pin Hall sensor cable: Hall A/B/C, 5 V, GND and, if the Castle has one, its thermistor. If it doesn't, an E-28 thermistor on the can adds one lead sharing the cable's ground; meter the sensor port on arrival. Controller supply outputs must not be paralleled. Motor temperature adds **zero direct motherboard sensor runs**; it arrives in controller telemetry.
 
 
 ## Before schematic/harness release

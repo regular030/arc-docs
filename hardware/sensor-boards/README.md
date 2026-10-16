@@ -11,7 +11,7 @@
 | [Custom ARC ISM330DHCXTR PCB](imu/README.md) | **2**: body/CG + front axle | JLC bare PCB; loose components bought separately; **in-house assembly** | Pinout/rails, separate CS and DRDY, mounts, timestamps, bias/thermal/vibration and slip qualification |
 | [Height ToF board](tof/README.md) | **5**: one per corner + one beside the ground-speed camera | JLC bare PCB; loose components bought separately; **in-house assembly**; VL53L4CD remains preferred/TBC | Optical aperture/recess, window crosstalk, mux-channel/reset/pull-up design |
 
-The [wiring plan and diagram](../../systems/bom/motherboard-wiring.md) now budget **seventeen sensor runs / 111 minimum conductors TBC**: ten angle runs / 70 conductors, two IMU runs / 16 and five ToF runs / 25. A common PCB design is reused at different locations; it does not combine signals or remove dedicated chip selects. These boards add **no corner MCU or CAN node** (ADR-0006 / ADR-0008). Motor Hall and built-in temperature go to each A50S (ADR-0046).
+The [wiring plan and diagram](../../systems/bom/motherboard-wiring.md) now budget **seventeen sensor runs / 111 minimum conductors TBC**: ten angle runs / 70 conductors, two IMU runs / 16 and five ToF runs / 25. A common PCB design is reused at different locations; it does not combine signals or remove dedicated chip selects. These boards add **no corner MCU or CAN node** (ADR-0006 / ADR-0008). Motor Hall and temperature go to each A50S.
 
 The dedicated [IMU](imu/README.md) and [corner-height](tof/README.md) folders are the workspaces for schematic capture and layout. Wheel, suspension and knuckle sensor sites remain selected.
 
