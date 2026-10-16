@@ -18,6 +18,8 @@ v1 is tightly integrated; modular hardware is a v2 goal. The car runs on an indo
 | Power | 4S LiPo; power board with LV rails, monitoring and e-stop circuit; bus clamp | ADR-0012, `budgets/power-scenarios.md` |
 | Ground link | Team router (GL.iNet Flint 3, 6 GHz), laptop gateway, button hotspot, service port | ADR-0015 |
 
+**Builds (ADR-0046):** this overview describes the full design, v1.1. v1.0 is built first on the Orin Nano developer kit and a UST-20LX, with the stereo pair and a downward frame camera; see [builds](builds.md) for every difference.
+
 **PCB packaging (ADR-0042):** the power and sync functions below share one [motherboard PCB](../hardware/motherboard/README.md); the Jetson carrier remains separate. References to power/sync boards describe those functional sections. The power-sync contract now covers internal PCB signals, with a future two-board split subject to review.
 
 ## Drive
