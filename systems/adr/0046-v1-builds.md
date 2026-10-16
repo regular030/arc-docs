@@ -8,14 +8,14 @@
 
 ## Context
 
-Funding is approved per request (SYS-17). The full electrical design is about CAD $11,000–12,000 with tax, and about a third of that is the Orin NX, the custom carrier and a new LiDAR. The team's existing car already has an Orin Nano 8 GB developer kit and a Hokuyo UST-20LX. Classical autonomy, mission 1, doesn't need the NX's 16 GB; learned policies, mission 2, do. Hardware arrives with each funded order, so anything a later build needs has to be designed in from the start.
+Funding is approved per request (SYS-17). The full electrical design comes to about CAD $14,300 with tax, and more than half of the second build is the Orin NX, the custom carrier and a new LiDAR. The team's existing car already has an Orin Nano 8 GB developer kit and a Hokuyo UST-20LX. Classical autonomy, mission 1, doesn't need the NX's 16 GB; learned policies, mission 2, do. Hardware arrives with each funded order, so anything a later build needs has to be designed in from the start.
 
 ## Options
 
 | Option | Pros | Cons |
 | --- | --- | --- |
 | A. One order for the full design | No interim limits | The whole cost now |
-| **B. v1.0 now on borrowed compute and LiDAR with fewer cameras; v1.1 adds the rest** | Roughly half the cost now; nothing bought for v1.0 is wasted | Two orders; v1.0 has limits; the existing car goes without its dev kit and LiDAR until v1.1 |
+| **B. v1.0 now on borrowed compute and LiDAR with fewer cameras; v1.1 adds the rest** | About CAD $6,700 now instead of $14,300 ([total electrical cost](../bom/total-electrical-cost.md)); nothing bought for v1.0 is wasted | Two orders; v1.0 has limits; the existing car goes without its dev kit and LiDAR until v1.1 |
 | C. A permanently cut-down car | Cheapest | Gives up mission 2 and the sensor suite of mission 4 |
 
 ## Criteria

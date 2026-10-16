@@ -1,18 +1,18 @@
-# PCB component breakdown — one car
+# PCB component breakdown
 
 - **Status:** Draft. Complete extracted carrier reference; ARC component selections and missing schematic details recorded below
-- **Scope:** One separate Jetson carrier, one combined power/sync motherboard, three remote sensor designs and the optional separate bus-clamp design
+- **Scope:** One separate Jetson carrier (v1.1, ADR-0046), one combined power/sync motherboard, three remote sensor designs and the optional separate bus-clamp design
 - **Traces to:** E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-41, E-43, E-46; ADR-0025, ADR-0042, ADR-0034, ADR-0045
 
 This breaks down the parts for **each physical PCB design**, following [the main selection list](pcb-parts-selection.md). **Every carrier-reference part is listed**, including all passives, in the [complete 669-reference inventory](jetson-carrier-reference-parts.md). The motherboard and remote sensor boards have no captured/released schematics yet; their exact passive values, package suffixes, connector MPNs, designators and many quantities remain **TBD**. Their tables therefore list all currently named parts and the supporting component groups that still need capture; they are not falsely presented as a finished production BOM.
 
-Use these files together: [total electrical cost](total-electrical-cost.md) includes bought hardware such as the NX, cameras, LiDAR, controllers, motors and two 4S packs maximum; [the existing PCB estimate](jlc-pcba-cost-estimate.md) keeps fabrication, parts, assembly, consumables and shipping separate. Those existing PCB/selection documents remain unchanged.
+Use these files together: [total electrical cost](total-electrical-cost.md) includes bought hardware such as the NX, cameras, LiDAR, controllers, motors and packs; [the existing PCB estimate](jlc-pcba-cost-estimate.md) keeps fabrication, parts, assembly, consumables and shipping separate.
 
 ## Physical board and purchase quantities
 
 | PCB design | Installed | Bare fabrication scenario | JLC populated | In-house populated | Scope |
 | --- | --- | --- | --- | --- | --- |
-| Jetson carrier — E-02 | 1 | 5 | 2 | 0 | Separate carrier; NX is bought separately |
+| Jetson carrier — E-02 (v1.1) | 1 | 5 | 2 | 0 | Separate carrier; NX is bought separately |
 | Combined power/sync motherboard — E-30 / E-41 / E-46 | 1 | 5 | 2 | 0 | One PCB containing both functional sections |
 | AS5047P angle PCB — E-22 / E-23 / E-24 | 10 | 10 | 0 | 10 | 4 wheel + 4 suspension + 2 front-knuckle sites |
 | ISM330DHCXTR IMU PCB — E-20 / E-21 | 2 | 5 | 0 | 2 | Body/CG + front axle |

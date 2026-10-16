@@ -1,94 +1,77 @@
-# PCB funding estimate for KEFC — CAD
+# PCB funding estimate — CAD
 
 - **Status:** Draft (TBC planning estimate)
-- **Updated:** 2026-10-12
+- **Updated:** 2026-10-16
 - **Currency:** CAD funding figures; USD supplier evidence
-- **Traces to:** SYS-02, SYS-07, SYS-08, SYS-14, SYS-19, SYS-24, E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-41, E-43, E-46, ADR-0042, ADR-0043, ADR-0046, ADR-0047, ADR-0034, ADR-0045.
+- **Traces to:** SYS-02, SYS-07, SYS-08, SYS-14, SYS-17, SYS-19, SYS-24, E-02, E-20, E-21, E-22, E-23, E-24, E-26, E-30, E-41, E-43, E-46, ADR-0042, ADR-0043, ADR-0045, ADR-0046
 
-The scope is **one car: one installed Jetson carrier, one installed combined power/sync motherboard, ten angle boards, two IMU boards and four corner-height ToF boards** under ADR-0045. **All sixteen sensor boards are assembled in house** from bare PCBs and separately bought loose components. JLC factory assembly is retained for the carrier and motherboard. No populated spare sensor set or spare sensor ICs are funded. The owner requested **30% leeway** and CAD figures for KEFC.
+This prices our PCBs for each build (ADR-0046), with **30% contingency** on the PCB package. The [total electrical cost](total-electrical-cost.md) adds the bought hardware and tax.
 
-**KEFC working PCB estimate: CAD $3,000 before tax, including 30% contingency.** The working midpoint is **CAD $2,252.94 base + $675.88 contingency = $2,928.82**, rounded **up** to the next CAD $100. It includes the core designs' two-unit factory minimum costing scenarios, the optional separate clamp, loose sensor chips/support, one shared in-house consumables allowance and both shipping allowances. Complete-car equipment, magnets/mechanics and unresolved independent-brake hardware remain excluded.
+| Build | Boards | Working base, CAD | With 30%, CAD | Funding allowance, CAD |
+| --- | --- | --- | --- | --- |
+| **v1.0** | Combined power/sync motherboard, optional bus clamp, 10 angle + 2 IMU + 5 ToF sensor boards | **$1,500.22** | **$1,950.29** | **$2,000** |
+| **v1.1** | Jetson carrier (Antmicro fork) | **$924.26** | **$1,201.54** | **$1,300** |
 
-The planning range is **CAD $1,816.53–$2,689.35 base**, or **CAD $2,361.49–$3,496.15 with 30%**. The $3,000 figure is a working allowance, not a maximum or a complete supplier quote. Retaining minimum-run core costs leaves one surplus populated carrier and one surplus populated motherboard; those are supplier-minimum surplus, not a second installed car. Final Gerber/BOM/CPL and loose-component carts must be reconciled before ordering.
+The v1.0 planning range is **CAD $1,183.68–1,816.73 base**, or **$1,538.79–2,361.76 with 30%**; v1.1's is **$753.01–1,095.51**, or **$978.91–1,424.16**. Each allowance is the buffered midpoint rounded **up** to the next CAD $100: a working figure, not a maximum or a supplier quote.
+
+JLC factory-assembles the motherboard, the clamp and (in v1.1) the carrier, with its two-board minimum per design: one installed and one minimum-run surplus, not a second car. **All seventeen sensor boards are assembled in house** from bare PCBs and loose parts (ADR-0045). No populated spare sensor set or spare sensor ICs are funded. Final Gerber/BOM/CPL and loose-component carts must be reconciled before ordering.
 
 ## Exchange rate and calculation
 
-Use **USD 1 = CAD 1.4271**, the [Bank of Canada daily rate for 2026-10-09](https://www.bankofcanada.ca/rates/exchange/daily-exchange-rates/), latest published rate available when checked on 2026-10-12. This is an indicative budgeting conversion; actual card/distributor fees and payment-date rates can differ. Refresh before submission/payment.
+Use **USD 1 = CAD 1.4271**, the [Bank of Canada daily rate for 2026-10-09](https://www.bankofcanada.ca/rates/exchange/daily-exchange-rates/). This is an indicative budgeting conversion; card/distributor fees and payment-date rates can differ. Refresh before submission or payment.
 
-`Working USD base = (low USD base + high USD base) ÷ 2`; `CAD base = USD base × 1.4271`; `CAD with contingency = CAD base × 1.30`. Sum unrounded source amounts, apply the 30% once, then round to cents. Round the buffered midpoint up to the next CAD $100 for the funding headline. Source model: **USD $1,272.8836–1,884.4836 base**, with **USD $1,578.6836** as the working midpoint. Supplier evidence stays in USD below; funding figures are CAD.
+`Working USD base = (low + high) ÷ 2`; `CAD base = USD base × 1.4271`; `CAD with contingency = CAD base × 1.30`. Sum unrounded inputs, apply the 30% once, then round to cents; rounded rows can differ from the totals by a few cents. The [CSV model](../budgets/jlc-pcba-cost.csv) keeps the USD inputs, quantities, dated FX and a `build` column.
 
-## Scope and quantities
-
-- **Core boards:** one carrier and one combined power/sync motherboard installed. The retained JLC costing scenarios fabricate five bare boards and populate a minimum two boards for each design. One populated board per design is installed and one is minimum-run surplus; three further bare boards remain unused. These are not two complete installed PCB sets.
-- **AS5047P boards:** ten installed separate angle boards: four wheel, four suspension and two front knuckle. All are assembled **in house**. Fabricate ten bare boards and buy **ten loose AS5047P-ATSM chips**, without spare chips. One common 2-layer design remains a TBC fabrication assumption; mechanical variants and exact support BOM remain open.
-- **IMU boards:** two installed [custom ARC IMU PCBs](../../hardware/sensor-boards/imu/README.md), body/CG and front, both using **ISM330DHCXTR**. Fabricate five bare boards, buy two loose chips and populate two in house. Three bare boards remain unused; no bought breakout or JLC sensor assembly is charged.
-- **ToF boards:** four installed [custom ARC corner-height PCBs](../../hardware/sensor-boards/tof/README.md), one at each corner. Fabricate five bare boards, buy four loose chips and populate four in house. One bare board remains unused. **VL53L4CDV0DH/1 remains preferred/TBC**, with installed optical qualification pending. The fifth dedicated ground-camera scale board is removed under ADR-0045; deriving camera height from the four corners remains TBD.
-- **Remote sensors:** three reusable design families, **16 installed and in-house-populated sensor boards**, with **20 bare sensor PCBs** fabricated. No sensor factory setup, placement, fixtures or X-ray fees apply to this model. In-house assembly instructions, inspection and electrical/optical qualification remain required.
-- **Optional separate clamp:** one installed if needed; retained minimum two JLC-populated and five bare total costing scenario. Omit this row and reprice motherboard population if integrated. The clamp is separate from the E-34 independent brake.
-- Across the optional-clamp scenario: **19 installed boards**, **35 bare PCBs fabricated**, **6 factory-populated core/clamp boards** and **16 in-house-populated sensors**. The **22 populated boards** include three factory-minimum surplus units. Drive telemetry remains four UARTs (ADR-0034); steering's existing MCP2518FD/transceiver baseline remains included.
-
-## KEFC cost table
+## v1.0 boards
 
 | Assembly / allowance | Installed / bare / JLC populated / in-house populated | Base range, CAD | Working base, CAD | Working with 30%, CAD |
 | --- | --- | --- | --- | --- |
-| Jetson carrier | 1 / 5 / 2 / 0 | $638.84–$881.45 | $760.14 | $988.19 |
 | Combined power/sync motherboard | 1 / 5 / 2 / 0 | $773.27–$1,130.05 | $951.66 | $1,237.16 |
 | AS5047P angle boards | 10 / 10 / 0 / 10 | $89.49–$124.60 | $107.05 | $139.16 |
-| Custom ARC ISM330DHCXTR IMU boards | 2 / 5 / 0 / 2 | $26.66–$32.36 | $29.51 | $38.36 |
-| Custom ARC corner-height ToF boards | 4 / 5 / 0 / 4 | $31.39–$42.81 | $37.10 | $48.23 |
+| ISM330DHCXTR IMU boards | 2 / 5 / 0 / 2 | $26.66–$32.36 | $29.51 | $38.36 |
+| Ride-height ToF boards (4 corners + 1 at the ground-speed camera) | 5 / 5 / 0 / 5 | $37.38–$51.65 | $44.52 | $57.87 |
 | Shared in-house sensor assembly consumables | One shared allowance | $21.41–$42.81 | $32.11 | $41.74 |
 | Optional separate bus-clamp PCBs | 1 / 5 / 2 / 0 | $92.76–$164.12 | $128.44 | $166.97 |
-| JLC shipping allowance | One shipment allowance | $114.17–$214.07 | $164.12 | $213.35 |
-| Loose-component shipping allowance | One shipment allowance | $28.54–$57.08 | $42.81 | $55.66 |
-| **Total including optional clamp and both shipping allowances** | **19 installed / 35 bare / 6 JLC / 16 in-house** | **$1,816.53–$2,689.35** | **$2,252.94** | **$2,928.82** |
+| JLC shipping allowance | One shipment | $114.17–$214.06 | $164.12 | $213.35 |
+| Loose-component shipping allowance | One shipment | $28.54–$57.08 | $42.81 | $55.66 |
+| **Total** | **18 installed / 35 bare / 4 JLC / 17 in house** | **$1,183.68–$1,816.73** | **$1,500.22** | **$1,950.29** |
 
-**Carrier and motherboard only:** CAD $1,711.81 working base / $2,225.35 with 30%, excluding optional clamp, shipping and remote sensors. **All sixteen sensor boards, including shared consumables:** CAD $205.76 working base / $267.49 with 30%; base range CAD $168.95–$242.58. The table keeps the optional clamp and shipping separate.
-
-The total uses unrounded source inputs. Summing individually rounded rows can differ by a few cents. The [CSV model](../budgets/jlc-pcba-cost.csv) distinguishes `installed_qty`, `fabricated_qty`, `jlc_assembled_qty` and `in_house_assembled_qty`, and keeps USD inputs, dated FX, endpoints and working midpoints. Calculated CSV amounts are snapshots; recalculate from source input columns when quantities or allowances change.
-
-## Bare PCB, parts and assembly cost breakdown
-
-These are **working midpoint costs in CAD, before tax and contingency**, using the same purchased quantities and raw USD inputs as the table above. Purchased parts include sensing ICs and support-component allowances. JLC assembly covers factory setup and population for the carrier, motherboard and optional clamp; sensor boards have **$0 factory assembly** because ARC assembles them in house.
-
-| Board design / populated purchase quantity | Bare PCB fabrication, CAD | Purchased parts, CAD | JLC assembly, CAD | Design base subtotal, CAD |
-| --- | --- | --- | --- | --- |
-| Jetson carrier (2 factory populated) | $153.63 | $299.69 | $306.83 | $760.14 |
-| Combined power/sync motherboard (2 factory populated) | $116.81 | $528.03 | $306.83 | $951.66 |
-| 10 AS5047P angle boards | $18.12 | $88.92 | $0.00 | $107.05 |
-| 2 custom ARC IMU boards | $7.42 | $22.09 | $0.00 | $29.51 |
-| 4 custom ARC corner-height ToF boards | $7.42 | $29.68 | $0.00 | $37.10 |
-| Optional separate bus-clamp PCBs (2 factory populated) | $24.97 | $42.81 | $60.65 | $128.44 |
-
-The funding total includes the shared in-house consumables and shipping below. These are the **same costs regrouped by category**, so they are already included in the KEFC estimate.
+The same v1.0 base by cost category:
 
 | Cost category | Working base, CAD | Working with 30%, CAD |
 | --- | --- | --- |
-| Bare PCB fabrication — all 35 boards | $328.38 | $426.89 |
-| Purchased electronic parts — all populated boards | $1,011.22 | $1,314.59 |
-| JLC factory assembly — 6 core/clamp boards | $674.30 | $876.60 |
-| Shared in-house sensor consumables — charged once | $32.11 | $41.74 |
-| JLC shipping allowance | $164.12 | $213.35 |
-| Loose-component shipping allowance | $42.81 | $55.66 |
-| **Total** | **$2,252.94** | **$2,928.82** |
+| Bare PCB fabrication — 35 boards | $174.74 | $227.16 |
+| Purchased electronic parts — all populated boards | $718.95 | $934.64 |
+| JLC factory assembly — motherboard and clamp, 2 each | $367.48 | $477.72 |
+| Shared in-house sensor consumables | $32.11 | $41.74 |
+| JLC shipping | $164.12 | $213.35 |
+| Loose-component shipping | $42.81 | $55.66 |
+| **Total** | **$1,500.22** | **$1,950.29** |
 
-The exact buffered midpoint remains **CAD $2,928.82**, rounded up to the **CAD $3,000 funding allowance**. The fabrication, parts and service amounts retain their TBC quote status; independently rounded subtotals can differ by a few cents.
+## v1.1 boards
+
+| Assembly / allowance | Installed / bare / JLC populated | Base range, CAD | Working base, CAD | Working with 30%, CAD |
+| --- | --- | --- | --- | --- |
+| Jetson carrier (Antmicro fork) | 1 / 5 / 2 | $638.84–$881.45 | $760.14 | $988.19 |
+| JLC shipping allowance (second order) | One shipment | $114.17–$214.06 | $164.12 | $213.35 |
+| **Total** | | **$753.01–$1,095.51** | **$924.26** | **$1,201.54** |
+
+The carrier's base is $153.63 bare fabrication, $299.69 parts and $306.83 JLC assembly. Its parts allowance (USD $160–260 for two boards) is thin for a 669-reference design; requote it from the repaired CAD before v1.1 is funded.
 
 ## Loose sensor component purchase basis
 
-The following [LCSC](https://www.lcsc.com/) loose-component listings were checked on **2026-10-12**, in **USD**. They permit **minimum 1, multiple 1, sales unit piece**; their full-reel packaging information does not require purchasing a reel. Quantities match fitted boards exactly; no spare sensor ICs are included.
+The following [LCSC](https://www.lcsc.com/) loose-component listings were checked on **2026-10-12**, in **USD**. They permit **minimum 1, multiple 1, sales unit piece**. Quantities match fitted boards exactly; no spare sensor ICs are included.
 
-| Selected / preferred IC | Loose fitted quantity | Correct unit-price tier, USD | Chip purchase total, USD | Chip purchase total, CAD | Stock snapshot |
+| Selected / preferred IC | Loose fitted quantity | Unit-price tier, USD | Chip total, USD | Chip total, CAD | Stock snapshot |
 | --- | --- | --- | --- | --- | --- |
 | [AS5047P-ATSM, C962063](https://www.lcsc.com/product-detail/C962063.html) | 10 | $4.231 at 10+ | $42.3100 | $60.38 | 134 |
 | [ISM330DHCXTR, C2655101](https://www.lcsc.com/product-detail/C2655101.html) | 2 | $5.7392 at 1+ | $11.4784 | $16.38 | 657 |
-| [Preferred/TBC VL53L4CDV0DH/1, C3178291](https://www.lcsc.com/product-detail/C3178291.html) | 4 | $3.1988 at 1+ | $12.7952 | $18.26 | 11,040 |
-| **All sixteen fitted sensing ICs** | **16** | | **$66.5836** | **$95.02** | Not reserved |
+| [Preferred/TBC VL53L4CDV0DH/1, C3178291](https://www.lcsc.com/product-detail/C3178291.html) | 5 | $3.1988 at 1+ | $15.9940 | $22.83 | 11,040 |
+| **All seventeen fitted sensing ICs** | **17** | | **$69.7824** | **$99.59** | Not reserved |
 
-These are distributor prices for loose stock, not JLC PCBA-library prices. Recheck availability and price before buying. All ICs are already included in the sensor rows; **do not add them again**. Magnets, mounts and harness mating parts remain outside this PCB budget.
+These are distributor prices for loose stock, not JLC PCBA-library prices. Recheck availability and price before buying. The ICs are already included in the sensor rows; **do not add them again**. Magnets, mounts and harness mating parts are outside this PCB budget.
 
-Sensor support allowances are **USD $10–30 for ten angle boards, $2–6 for two IMU boards and $4–12 for four ToF boards**: **USD $16–48 total**, or $1–3 per populated sensor board TBC. They cover local decoupling, board connectors and reviewed straps/pull-ups/damping/protection where required. Exact MPNs, package sizes and quantities remain TBD in schematics. The [sensor purchase/assembly plan](../../hardware/sensor-boards/README.md#as5047p-in-house-purchase-and-assembly-plan) records circuit and assembly obligations; these allowances do not select resistor or protection values.
-
-One shared **USD $15–30** allowance covers solder/flux, cleaning and an optional stencil across all three sensor families. It is charged once, assumes existing workshop tools and volunteer labour, and does not fund new equipment. LGA/optical packages require reviewed footprints and an appropriate in-house reflow/inspection process. The separate **USD $20–40 loose-component shipping allowance** covers one consolidated chip/support order; it is TBC until a cart and shipping service are chosen.
+Sensor support allowances are **USD $10–30 for ten angle boards, $2–6 for two IMU boards and $5–15 for five ToF boards**: **USD $17–51 total**, or $1–3 per populated board TBC. They cover local decoupling, board connectors and reviewed straps, pull-ups, damping and protection where required. Exact MPNs, packages and quantities are TBD in schematics. One shared **USD $15–30** allowance covers solder, flux, cleaning and an optional stencil across all three families, assuming existing workshop tools and volunteer labour. The separate **USD $20–40 loose-component shipping allowance** covers one consolidated order.
 
 ## Fabrication evidence and design assumptions
 
@@ -108,14 +91,14 @@ No Gerbers/BOM/CPL were uploaded and no order placed; there is no final complete
 
 ## Core assembly and component allowance basis
 
-The carrier, motherboard and optional clamp retain the previous **two factory-populated units per design** cost scenario, with one installed and one minimum-run surplus under ADR-0045. Component and assembly ranges are planning allowances pending final schematics/BOM/CPL; reducing the installed car count does not remove those retained supplier-minimum charges.
+The carrier, motherboard and optional clamp retain the previous **two factory-populated units per design** cost scenario, with one installed and one minimum-run surplus. The carrier is a v1.1 item (ADR-0046). Component and assembly ranges are planning allowances pending final schematics/BOM/CPL; installing one board per design does not remove those supplier-minimum charges.
 
 The [JLC assembly fee schedule](https://jlcpcb.com/help/article/pcb-assembly-price), checked on 2026-10-12, gives single-side Standard setup/stencil **USD $33.77**, feeder loading **$1.53 per distinct part type**, placement **$0.0016 per joint**, and **$16.42 for two rigid-PCB fixtures** at prototype quantities. Core rows retain their double-sided **USD $180–250 assembly allowances**; optional clamp assembly retains **$35–50 TBC**. JLC's [assembly capabilities](https://jlcpcb.com/capabilities/pcb-assembly-capabilities) list a **70 × 70 mm minimum for Standard single-board assembly**; the carrier costing panel is 130 × 70 mm. These service rules relate to factory-assembled core/clamp designs, not sensor fabrication.
 
-The ICs' JLC Standard-only/X-ray catalog conditions no longer create sensor factory fees: we buy loose distributor chips and assemble all sixteen boards in house. Retained core component price references include STM32H723 USD $11.05, LTC6810 USD $10.73 estimated/preorder and TPS26630 USD $3.59 estimated/preorder with MOQ 3. Exact core reference-designator counts, passives, magnetics, connectors, protection, stock and attrition remain TBD/TBC in the final quote. No precision IMU or alternate selected sensor is added.
+The ICs' JLC Standard-only/X-ray catalog conditions no longer create sensor factory fees: we buy loose distributor chips and assemble all seventeen boards in house. Retained core component price references include STM32H723 USD $11.05, LTC6810 USD $10.73 estimated/preorder and TPS26630 USD $3.59 estimated/preorder with MOQ 3. Exact core reference-designator counts, passives, magnetics, connectors, protection, stock and attrition remain TBD/TBC in the final quote.
 
 ## Exclusions and quote gates
 
-Excluded: Jetson module, SSD, Wi-Fi/antennas, cooling, cameras/lenses, LiDAR, Ethernet switch, bought A50S/moteus, motors, batteries, wiring/mating crimps, sensor magnets/mechanics, external dump resistors/heatsinks, E-34 independent brake and its unselected drive-inhibit hardware, tax/import/brokerage, paid design/assembly labour, new workshop equipment and functional validation. This is a **PCB funding request**. Unselected safety hardware needs its own funding line once chosen. The 30% does not guarantee a respin or major scope change is covered.
+Excluded: compute, SSD, Wi-Fi, cooling, cameras, LiDAR, Ethernet switch, the bought A50S and moteus controllers, motors, batteries, wiring and mating crimps, sensor magnets and mechanics, external dump resistors and heatsinks, tax, import and brokerage, paid design or assembly labour, new workshop equipment and functional validation. The 30% does not guarantee a respin or major scope change is covered.
 
-Before ordering: finish schematics and connector/grounding/power decisions, repair and validate the [carrier Altium conversion](../../hardware/orin-carrier/README.md), freeze stackups/panels and installed/minimum-run populations, export Gerbers/BOM/CPL, obtain actual core PCB/PCBA and loose-parts carts, confirm stock/shipping and the in-house sensor assembly process, then apply the [fab gate](../reviews/fab-gate.md). Reconcile ground-camera scale under ADR-0045. Recalculate if quantities, source, FX or scope changes. No order has been placed.
+Before ordering: finish schematics and the connector, grounding and power decisions; freeze stackups, panels and populations; export Gerbers/BOM/CPL; get actual PCB/PCBA and loose-parts carts; confirm stock, shipping and the in-house assembly process; then apply the [fab gate](../reviews/fab-gate.md). For v1.1, repair and validate the [carrier Altium conversion](../../hardware/orin-carrier/README.md) first. Recalculate if quantities, source, FX or scope change. No order has been placed.

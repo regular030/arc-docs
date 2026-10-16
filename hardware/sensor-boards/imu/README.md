@@ -9,7 +9,7 @@
 | Timing | Retain ≥4 kHz output and hardware-timestamped data ready; configure and verify the selected part's bandwidth, filtering, FIFO and sample timing against SYS-06, SYS-07 and SYS-10 |
 | PCB stackup / outline | Common **2-layer design is TBC**; exact stackup, outline, mounting and mechanical variants remain TBC/TBD |
 | Connector / harness | **8-conductor minimum per board, TBC**: supply, GND, SCK, MOSI, MISO, CS, DRDY and spare; final connector contacts, extra returns, protection and pinout remain TBD |
-| Assembly / purchase plan | **In-house assembly**: buy bare boards and loose chips/support parts separately. One-car costing scenario: **5 fabricated / 2 populated boards**, with three unused bare boards. Buy **2 ISM330DHCXTR ICs**; retained LCSC 1+ price **USD $5.7392 each**. No JLC assembly/setup/X-ray charge or populated spare set |
+| Assembly / purchase plan | **In-house assembly**: buy bare boards and loose chips/support parts separately. Costing scenario: **5 fabricated / 2 populated boards**, with three unused bare boards. Buy **2 ISM330DHCXTR ICs**; retained LCSC 1+ price **USD $5.7392 each**. No JLC assembly/setup/X-ray charge or populated spare set |
 
 Before release, capture the exact supply/decoupling and interface circuit from the manufacturer guidance; review the land pattern, protection, mounting and connector assignment. Follow the LGA package's assembly/reflow and ESD/MSL instructions, inspect solder joints and test shorts/supply current before interface bring-up. Qualify power-up, installed SPI/DRDY timing, sustained acquisition, calibration, thermal drift, motor-on vibration and velocity-through-slip performance. A selected chip or board architecture does not establish achieved navigation performance.
 

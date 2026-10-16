@@ -10,7 +10,7 @@
 | PCB stackup / outline | Common **2-layer design is TBC**; exact stackup, outline, mounts, optical aperture and mechanical variants remain TBC/TBD |
 | Connector / harness | **5-conductor minimum per board, TBC**: supply, GND, SCL, SDA and spare; final connector contacts, extra returns, pinout and protection remain TBD |
 | Startup / reset | Per-channel pull-up placement and remote XSHUT/reset handling need review; extra reset or interrupt conductors are not included in the minimum harness budget |
-| Assembly / purchase plan | **In-house assembly**: buy bare boards and loose chips/support parts separately. One-car costing scenario: **5 fabricated / 5 populated boards**. Buy **5 sensing ICs**; retained LCSC 1+ VL53L4CD price **USD $3.1988 each**. No JLC assembly/setup/X-ray charge or populated spare set |
+| Assembly / purchase plan | **In-house assembly**: buy bare boards and loose chips/support parts separately. Costing scenario: **5 fabricated / 5 populated boards**. Buy **5 sensing ICs**; retained LCSC 1+ VL53L4CD price **USD $3.1988 each**. No JLC assembly/setup/X-ray charge or populated spare set |
 
 Before release, confirm the sensor choice and capture its local support circuit, land pattern, address/reset behavior and connector assignment. Follow the optical package's assembly/reflow, handling and cleanliness guidance; inspect and test the populated boards before installation. Qualify sensor-to-floor clearance through full bump and droop, glossy tile response, optical aperture/recess and any cover-window crosstalk. Review the real I²C harness, mux reset/startup sequence and fault recovery. Test ground-camera scale under SYS-10 and RSK-07; a minimum-range specification alone does not prove measurement accuracy.
 

@@ -20,7 +20,7 @@ The starting point for the electrical engineer. It collects, per board, what's d
 | System requirements | `requirements/system.md` |
 | Decisions (ADRs) | `adr/README.md` |
 | Coloured parts options + board map | [pcb-parts-selection.md](../bom/pcb-parts-selection.md) |
-| CAD funding budget with 30% contingency, including in-house assembly of all seventeen sensor boards | [One-car PCB estimate](../bom/jlc-pcba-cost-estimate.md), [cost model](../budgets/jlc-pcba-cost.csv); final BOM/process and shipment remain TBC (ADR-0045) |
+| CAD funding budget with 30% contingency, including in-house assembly of all seventeen sensor boards | [PCB estimate per build](../bom/jlc-pcba-cost-estimate.md), [cost model](../budgets/jlc-pcba-cost.csv); final BOM/process and shipment remain TBC (ADR-0045) |
 | A50S UART transport / operating rate | [controller-telemetry.md](../icd/controller-telemetry.md) |
 | UART firmware gaps / pin and ground review | [UART source review](../reviews/a50s-uart-readiness.md) |
 | Functional BOM + sync MCU I/O tally | `bom/electrical.md` |
